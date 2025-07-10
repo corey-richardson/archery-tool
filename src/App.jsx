@@ -14,7 +14,6 @@ function App() {
         <div className="routes">
           <Routes>
             <Route exact path="/" element={<Dashboard />} />
-            {/* <Route path="/login" element={<LoginForm />} /> */}
 
             <Route path="*" element={<NotFound />} />
           </Routes>

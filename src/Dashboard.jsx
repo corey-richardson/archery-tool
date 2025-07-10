@@ -23,7 +23,7 @@ const Dashboard = () => {
                     <a href="https://github.com/corey-richardson/learning-react/tree/main/records-officer" target="_blank">Open Source</a>
                     <a href="https://www.linktr.ee/coreyrichardson" target="_blank">LinkTree</a>
                     <a href="https://wakatime.com/@coreyrichardson/projects/fcdqybsfaa?start=2025-07-05&end=2025-07-10" target="_blank">WakaTime</a>
-                    <a href="https://buymeacoffee.com" target="_blank">Buy Me a Coffee</a>
+                    <a href="https://coff.ee/corey.richardson" target="_blank">Buy Me a Coffee</a>
                 </div>
                 <div className="links">
                     <a href="https://www.upsu.com/sports/clubs/archery/" target="_blank">Created for UPSU Archery</a>

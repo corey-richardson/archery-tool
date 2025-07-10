@@ -25,9 +25,6 @@ const LoginForm = () => {
                 { !isPending && <button>Login</button> }
                 { isPending && <button disabled>Logging in...</button>}
             </form>
-
-            <p>{ email }</p>
-            <p>{ password }</p>
         </>
     );
 }
