@@ -32,19 +32,21 @@ const ClubRegistrationForm = () => {
                 required
                 placeholder="Email:"
                 value={ email }
-                onChange={(event) => setEmail(event.target.value)}></input>
+                onChange={(event) => setEmail(event.target.value.replace(/\s/g, ''))}></input>
 
                 <input type="password"
                 required
                 placeholder="Password:"
+                minLength={8}
                 value={ password }
-                onChange={(event) => setPassword(event.target.value)}></input>
+                onChange={(event) => setPassword(event.target.value.replace(/\s/g, ''))}></input>
 
                 <input type="password"
                 required
                 placeholder="Confirm Password:"
+                minLength={8}
                 value={ confirmedPassword }
-                onChange={(event) => setConfirmedPassword(event.target.value)}></input>
+                onChange={(event) => setConfirmedPassword(event.target.value.replace(/\s/g, ''))}></input>
 
                 { !isPending && <button>Register as club</button> }
                 { isPending && <button disabled>Registering...</button>}
