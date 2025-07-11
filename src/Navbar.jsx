@@ -23,12 +23,12 @@ const Navbar = () => {
             <div className={`links${menuOpen ? " open" : ""}`}>
                 <Link to="/">Dashboard</Link>
 
-                {loggedIn && <Link to="/">My Details</Link>}
-                {loggedIn && <Link to="/">My Scores</Link>}
-                {loggedIn && <Link to="/">Submit a Score</Link>}
+                {loggedIn && <Link to="/my-details">My Details</Link>}
+                {loggedIn && <Link to="/my-scores">My Scores</Link>}
+                {loggedIn && <Link to="/submit">Submit a Score</Link>}
 
-                {loggedIn && admin && <Link to="/">Members Tools</Link>}
-                {loggedIn && admin && <Link to="/">Records Tools</Link>}
+                {loggedIn && admin && <Link to="/admin/members">Members Tools</Link>}
+                {loggedIn && admin && <Link to="/admin/records">Records Tools</Link>}
             </div>
         </nav>
      );
