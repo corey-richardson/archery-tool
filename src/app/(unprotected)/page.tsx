@@ -1,9 +1,9 @@
 import Banner from '@/app/ui/banner/Banner';
-import AuthForms from './ui/auth-forms';
+import AuthForms from '../ui/auth-forms';
 import Link from 'next/link';
 
 export default function Home() {
-  const loggedIn = false;
+  const loggedIn = true;
 
   return (
     <div className="content">
