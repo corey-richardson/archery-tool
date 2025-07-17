@@ -1,13 +1,12 @@
-import { Link } from "react-router-dom";
+import Banner from '@/app/ui/banner/Banner';
+import AuthForms from './ui/auth-forms';
+import Link from 'next/link';
 
-import Banner from "./Banner/Banner";
-import AuthForms from "./AuthForms/AuthForms";
+export default function Home() {
+  const loggedIn = false;
 
-const Dashboard = () => {
-    const loggedIn = false;
-
-    return ( 
-        <div className="content">
+  return (
+    <div className="content">
             <Banner />
 
             <div className="content centred">
@@ -18,11 +17,9 @@ const Dashboard = () => {
 
             {loggedIn && (
                 <div className="centred">
-                    <p>Go to <Link to="/details">My Details</Link>?</p>
+                    <p>Go to <Link href="/my-details">My Details</Link>?</p>
                 </div>
             )}
         </div>
-     );
+  );
 }
- 
-export default Dashboard;

@@ -1,7 +1,11 @@
+'use client';
+
+// FORM VALIDATION NEEDS TO BE MOVED TO SERVER SIDE
+
 import { useState } from "react";
-import LoginForm from "./Login";
-import ClubRegistrationForm from "./RegisterClub";
-import UserRegistrationForm from "./RegisterUser";
+import LoginForm from "@/app/ui/login-form";
+import ClubRegistrationForm from "@/app/ui/register-club";
+import UserRegistrationForm from "@/app/ui/register-user";
 
 const AuthForms = () => {
     const [ clubSelect, setClubSelect ] = useState("user");

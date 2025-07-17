@@ -1,8 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+'use client';
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const NotFound = () => {
 
-    const navigate = useNavigate();
+    const router = useRouter();
 
     const loggedIn = true;
     const admin = true;
@@ -27,11 +30,11 @@ const NotFound = () => {
                     <p>The page you're looking for doesn't exist or has been moved.</p>
                     
                     <div className="not-found-actions">
-                        <Link to="/" className="btn btn-primary">
+                        <Link href="/" className="btn btn-primary">
                             Back to Dashboard
                         </Link>
                         <button 
-                            onClick={() => navigate(-1)} 
+                            onClick={() => router.back()} 
                             className="btn btn-secondary"
                         >
                             ← Go Back

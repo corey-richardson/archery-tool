@@ -1,7 +1,7 @@
 import PersonalLinks from "./PersonalLinks";
 import ArcheryLinks from "./ArcheryLinks";
 
-import { APP_NAME } from "../Constants";
+import { APP_NAME } from "@/app/lib/constants";
 
 const Banner = () => {
     return ( 

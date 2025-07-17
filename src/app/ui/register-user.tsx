@@ -1,22 +1,36 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
-const ClubRegistrationForm = () => {
+const UserRegistrationForm = () => {
 
-    const [ clubName, setClubName ] = useState("");
+    const [ firstName, setFirstName ] = useState("");
+    const [ lastName, setLastName ] = useState("");
     const [ email, setEmail ] = useState("");
+    const [ username, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
     const [ confirmedPassword, setConfirmedPassword ] = useState("");
 
     const [ isPending, setIsPending ] = useState(false);
 
-    const navigate = useNavigate();
+    const router = useRouter();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        if (username.includes(' '))
+        {
+            alert("Username cannot contain spaces.");
+            return;
+        }
+
+        if (password != confirmedPassword)
+        {
+            alert("Passwords don't match!");
+            return;
+        }
+
         // POST
-        navigate("/");
+        router.push("/");
     }
 
     return ( 
@@ -24,15 +38,27 @@ const ClubRegistrationForm = () => {
             <form onSubmit={handleSubmit} className="registration-form">
                 <input type="text"
                 required
-                placeholder="Club Name:"
-                value={ clubName }
-                onChange={(event) => setClubName(event.target.value)}></input>
+                placeholder="First Name:"
+                value={ firstName }
+                onChange={(event) => setFirstName(event.target.value)}></input>
+
+                <input type="text"
+                required
+                placeholder="Last Name:"
+                value={ lastName }
+                onChange={(event) => setLastName(event.target.value)}></input>
 
                 <input type="email"
                 required
                 placeholder="Email:"
                 value={ email }
                 onChange={(event) => setEmail(event.target.value.replace(/\s/g, ''))}></input>
+
+                <input type="text"
+                required
+                placeholder="Username:"
+                value={ username }
+                onChange={(event) => setUsername(event.target.value.replace(/\s/g, ''))}></input>
 
                 <input type="password"
                 required
@@ -48,11 +74,11 @@ const ClubRegistrationForm = () => {
                 value={ confirmedPassword }
                 onChange={(event) => setConfirmedPassword(event.target.value.replace(/\s/g, ''))}></input>
 
-                { !isPending && <button>Register as club</button> }
+                { !isPending && <button>Register as user</button> }
                 { isPending && <button disabled>Registering...</button>}
             </form>
         </>
      );
 }
  
-export default ClubRegistrationForm;
+export default UserRegistrationForm;
