@@ -7,9 +7,6 @@ const NotFound = () => {
 
     const router = useRouter();
 
-    const loggedIn = true;
-    const admin = true;
-
     return (  
         <div className="content">
             <div className="not-found-container">
