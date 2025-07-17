@@ -76,9 +76,13 @@
   transition: all 0.3s ease;
 }
 
-.navbar a:hover {
+.navbar a:hover, .active {
   color: var(--primary-color);
   background-color: rgba(53, 109, 241, 0.1);
+}
+
+.active {
+  font-weight: bold;
 }
 
 /* ========================================

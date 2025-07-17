@@ -1,12 +1,24 @@
 'use client';
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
+import clsx from "clsx";
 
 import { APP_NAME } from "@/app/lib/constants";
 
+const navLinks = [
+    { href: "/my-details", label: "My Details", admin: false },
+    { href: "/my-scores", label: "My Scores", admin: false },
+    { href: "/submit-score", label: "Submit a Score", admin: false },
+    { href: "/admin/members", label: "Members Tools", admin: true },
+    { href: "/admin/records", label: "Records Tools", admin: true },
+    { href: "/sign-out", label: "Sign Out?", admin: false },
+];
+
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const pathname = usePathname();
     const loggedIn = true;
     const admin = true;
 
@@ -23,26 +35,20 @@ const Navbar = () => {
                 <span />
             </button>
             <div className={`links${menuOpen ? " open" : ""}`}>
-                <Link href="/my-details">My Details</Link>
-                <Link href="/my-scores">My Scores</Link>
-                <Link href="/submit-score">Submit a Score</Link>
-
-                {admin && <Link href="/admin/members">Members Tools</Link>}
-                {admin && <Link href="/admin/records">Records Tools</Link>}
-
-                <Link href="/sign-out">Sign Out?</Link>
+                {navLinks
+                    .filter(link => loggedIn && (!link.admin || admin))
+                    .map(link => (
+                        <Link
+                            key={link.href}
+                            href={link.href}
+                            className={clsx({ active: pathname === link.href })}
+                        >
+                            {link.label}
+                        </Link>
+                    ))}
             </div>
         </nav>
      );
 }
  
 export default Navbar;
-
-// import { signOut } from '@/auth';
-
-// <form
-//     action={async () => {
-//         'use server';
-//         await signOut({ redirectTo: '/' });
-//     }}
-// ></form> 
