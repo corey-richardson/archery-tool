@@ -23,16 +23,14 @@ const Navbar = () => {
                 <span />
             </button>
             <div className={`links${menuOpen ? " open" : ""}`}>
-                <Link href="/">Dashboard</Link>
+                <Link href="/my-details">My Details</Link>
+                <Link href="/my-scores">My Scores</Link>
+                <Link href="/submit-score">Submit a Score</Link>
 
-                {loggedIn && <Link href="/my-details">My Details</Link>}
-                {loggedIn && <Link href="/my-scores">My Scores</Link>}
-                {loggedIn && <Link href="/submit-score">Submit a Score</Link>}
+                {admin && <Link href="/admin/members">Members Tools</Link>}
+                {admin && <Link href="/admin/records">Records Tools</Link>}
 
-                {loggedIn && admin && <Link href="/admin/members">Members Tools</Link>}
-                {loggedIn && admin && <Link href="/admin/records">Records Tools</Link>}
-
-                {loggedIn && <Link href="/sign-out">Sign Out?</Link>}
+                <Link href="/sign-out">Sign Out?</Link>
             </div>
         </nav>
      );

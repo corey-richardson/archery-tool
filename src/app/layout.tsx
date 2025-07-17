@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
-import { APP_NAME } from "../lib/constants";
-import "../globals.css";
+import { APP_NAME } from "./lib/constants";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: `${ APP_NAME }`,
   description: "Archery Tool",
 };
 
-export default function Layout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      {children}
-    </>
+    <html lang="en">
+      <body>
+        {children}
+      </body>
+    </html>
   );
 }
