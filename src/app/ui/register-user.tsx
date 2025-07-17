@@ -1,12 +1,14 @@
+'use client';
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const UserRegistrationForm = () => {
 
     const [ firstName, setFirstName ] = useState("");
     const [ lastName, setLastName ] = useState("");
     const [ email, setEmail ] = useState("");
-    const [ username, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
     const [ confirmedPassword, setConfirmedPassword ] = useState("");
 
@@ -14,14 +16,8 @@ const UserRegistrationForm = () => {
 
     const router = useRouter();
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-
-        if (username.includes(' '))
-        {
-            alert("Username cannot contain spaces.");
-            return;
-        }
 
         if (password != confirmedPassword)
         {
@@ -29,8 +25,36 @@ const UserRegistrationForm = () => {
             return;
         }
 
-        // POST
-        router.push("/");
+        const name = firstName + " " + lastName;
+        const accountType = "USER";
+
+        const res = await fetch("/api/register", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password, accountType }),
+        });
+
+        if (res.ok) {
+            console.log("res.ok");
+            await signIn('credentials', {
+                email,
+                password,
+                callbackUrl: '/my-details',
+            });
+        } else {
+            let errorMessage = "Registration failed";
+
+            try {
+                const data = await res.json();
+                if (data?.message) {
+                errorMessage = data.message;
+                }
+            } catch (e) {
+                // No JSON body – ignore
+            }
+
+            console.error(errorMessage);
+        }
     }
 
     return ( 
@@ -53,12 +77,6 @@ const UserRegistrationForm = () => {
                 placeholder="Email:"
                 value={ email }
                 onChange={(event) => setEmail(event.target.value.replace(/\s/g, ''))}></input>
-
-                <input type="text"
-                required
-                placeholder="Username:"
-                value={ username }
-                onChange={(event) => setUsername(event.target.value.replace(/\s/g, ''))}></input>
 
                 <input type="password"
                 required

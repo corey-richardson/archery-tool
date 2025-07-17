@@ -1,5 +1,7 @@
 'use client';
 
+import { signOut, useSession } from "next-auth/react";
+
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -13,14 +15,18 @@ const navLinks = [
     { href: "/submit-score", label: "Submit a Score", admin: false },
     { href: "/admin/members", label: "Members Tools", admin: true },
     { href: "/admin/records", label: "Records Tools", admin: true },
-    { href: "/sign-out", label: "Sign Out?", admin: false },
 ];
 
 const Navbar = () => {
+
+    const { data: session, status } = useSession();
+
     const [menuOpen, setMenuOpen] = useState(false);
     const pathname = usePathname();
-    const loggedIn = true;
-    const admin = true;
+    
+    const loggedIn = !!session;
+    const admin = session?.user?.role === "ADMIN";
+    console.log(session?.user);
 
     return ( 
         <nav className="navbar blue">
@@ -46,6 +52,27 @@ const Navbar = () => {
                             {link.label}
                         </Link>
                     ))}
+
+                <form action={async () => {
+                        signOut({ callbackUrl: "/" });
+                    }}>
+                    <button
+                        type="submit"
+                        className={clsx("navbar-link-button", { active: pathname === "/logout" })}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          padding: "8px 12px",
+                          borderRadius: "var(--border-radius)",
+                          color: "var(--text-color)",
+                          cursor: "pointer",
+                          font: "inherit",
+                          transition: "all 0.3s ease"
+                        }}
+                    >
+                        Sign Out
+                    </button>
+                </form>
             </div>
         </nav>
      );
