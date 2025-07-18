@@ -9,8 +9,9 @@ export const metadata: Metadata = {
 
 async function Members() {
   const session = await getServerSession(authOptions);
+  const admin = session?.user?.memberships?.some((m: any) => m.roles.includes("ADMIN"));
 
-  if (!session || session.user.role !== "ADMIN") {
+  if (!session || !admin ) {
     redirect("/unauthorised");
   }
 
