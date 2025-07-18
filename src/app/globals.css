@@ -64,19 +64,26 @@
   border-bottom: 1px solid var(--light-gray);
 }
 
-.navbar .links {
+.navbar .links, .navbar-link-button {
   margin-left: auto;
 }
 
-.navbar a {
+.navbar a, .navbar-link-button {
   margin-left: 16px;
   text-decoration: none;
   padding: 8px 12px;
   border-radius: var(--border-radius);
   transition: all 0.3s ease;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
 }
 
-.navbar a:hover, .active {
+.navbar a:hover,
+.navbar-link-button:hover,
+.active {
   color: var(--primary-color);
   background-color: rgba(53, 109, 241, 0.1);
 }

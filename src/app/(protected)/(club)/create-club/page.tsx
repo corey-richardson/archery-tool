@@ -18,7 +18,7 @@ async function MyDetails() {
           <h2>Hello, <b className="blue">{ session?.user.name }</b>.</h2>
           <p>{ session?.user.id }</p>
 
-          <p>{ club.name }</p>
+          <p>{ club?.name }</p>
 
           
           {session?.user.memberships?.map((m: any) => (
