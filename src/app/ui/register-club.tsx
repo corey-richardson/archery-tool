@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const ClubRegistrationForm = () => {
 
@@ -12,11 +13,47 @@ const ClubRegistrationForm = () => {
 
     const router = useRouter();
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        // POST
-        router.push("/");
+        if (password != confirmedPassword)
+        {
+            alert("Passwords don't match!");
+            return;
+        }
+
+        const name = clubName;
+        const accountType = "CLUB";
+
+        const res = await fetch("/api/register", {
+
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password, accountType },)                    
+        });
+
+        if (res.ok) {
+            console.log("res.ok");
+            setIsPending(false);
+            await signIn('credentials', {
+                email,
+                password,
+                callbackUrl: '/admin/members',
+            });
+        } else {
+            let errorMessage = "Registration failed";
+
+            try {
+                const data = await res.json();
+                if (data?.message) {
+                errorMessage = data.message;
+                }
+            } catch (e) {
+                // No JSON body – ignore
+            }
+
+            console.error(errorMessage);
+        }
     }
 
     return ( 
