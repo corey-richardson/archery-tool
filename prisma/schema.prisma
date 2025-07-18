@@ -45,7 +45,7 @@ model ClubMembership {
   userId String
   clubId String
 
-  role     MembershipRole
+  roles     MembershipRole[]
   joinedAt DateTime       @default(now())
   endedAt  DateTime?
 
@@ -144,6 +144,7 @@ model Scores {
 
 enum MembershipRole {
   MEMBER
+  COACH
   ADMIN
 }
 

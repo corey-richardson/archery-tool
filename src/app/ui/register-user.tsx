@@ -26,12 +26,11 @@ const UserRegistrationForm = () => {
         }
 
         const name = firstName + " " + lastName;
-        const accountType = "USER";
 
         const res = await fetch("/api/register", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, password, accountType }),
+            body: JSON.stringify({ name, email, password }),
         });
 
         if (res.ok) {

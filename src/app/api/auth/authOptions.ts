@@ -39,8 +39,6 @@ export const authOptions: NextAuthOptions = {
                     id: user.id,
                     name: user.name,
                     email: user.email,
-                    role: user.role,
-                    accountType: user.accountType,
                 };
             }
         }),
@@ -58,8 +56,17 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user }: { token: JWT; user?: User }) {
             if (user) {
                 token.id = user.id;
-                token.role = user.role;
-                token.accountType = user.accountType;
+                const memberships = await prisma.clubMembership.findMany({
+                    where: {
+                        userId: user.id,
+                    },
+                    select: {
+                        clubId: true,
+                        roles: true,
+                    },
+                });
+
+                token.memberships = memberships;
             }
             return token;
         },
@@ -67,9 +74,9 @@ export const authOptions: NextAuthOptions = {
         async session({ session, token }: { session: Session; token: JWT }) {
             if (session.user) {
                 session.user.id = token.id as string;
-                session.user.role = token.role as string;
-                session.user.accountType = token.accountType as string;
+                session.user.memberships = token.memberships as Record<string, string[]>;
             }
+
             return session;
         },
     },
