@@ -106,12 +106,12 @@ model IceDetails {
 }
 
 model RecordsSummary {
-  id                    String          @id @default(cuid())
-  userId                String          @unique
-  indoorClassification  Classification?
-  outdoorClassification Classification?
-  indoorBadgeGiven      Classification?
-  outdoorBadgeGiven     Classification?
+  id                    String                  @id @default(cuid())
+  userId                String                  @unique
+  indoorClassification  IndoorClassification?
+  outdoorClassification OutdoorClassification?
+  indoorBadgeGiven      IndoorClassification?
+  outdoorBadgeGiven     OutdoorClassification?
   indoorHandicap        Int?
   outdoorHandicap       Int?
 
@@ -127,6 +127,7 @@ model Scores {
 
   dateShot         DateTime
   roundName        String
+  roundType        RoundType @default(INDOOR) // Indoor or Outdoor
   bowstyle         Bowstyle
   score            Int
   xs               Int?
@@ -136,8 +137,9 @@ model Scores {
   competitionLevel CompetitionLevel
   notes            String?
 
-  roundClassification Classification?
-  roundHandicap       Int?
+  roundIndoorClassification  IndoorClassification?
+  roundOutdoorClassification OutdoorClassification?
+  roundHandicap              Int?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -171,7 +173,12 @@ enum RelationshipType {
   OTHER
 }
 
-enum Classification {
+enum RoundType {
+  INDOOR
+  OUTDOOR
+}
+
+enum IndoorClassification {
   IA3
   IA2
   IA1
@@ -179,6 +186,9 @@ enum Classification {
   IB2
   IMB
   IGMB
+}
+
+enum OutdoorClassification {
   A3
   A2
   A1
@@ -201,3 +211,9 @@ enum CompetitionLevel {
 // npx prisma generate
 // npx prisma studio
 // npx prisma format
+
+/*
+if (score.roundType === 'INDOOR' && score.roundOutdoorClassification) {
+  throw new Error('Indoor rounds cannot have outdoor classifications');
+}
+*/
