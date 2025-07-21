@@ -16,7 +16,6 @@ const EmergencyContactsForm = ({user} : any) => {
     const [ contacts, setContacts ] = useState<Contact[]>([]);
 
     const [ isLoading, setIsLoading ] = useState(false);
-    const [ changesPending, setChangesPending ] = useState(false);
 
     const [ newContactName, setNewContactName ] = useState<string>("");
     const [ newContactPhone, setNewContactPhone ] = useState<string>("");
@@ -25,7 +24,7 @@ const EmergencyContactsForm = ({user} : any) => {
 
 
     async function fetchContacts() {
-        const res = await fetch(`/api/ice-details?userId=${user.id}`);
+        const res = await fetch(`/api/ice-details/${user.id}`);
         const data = await res.json();
         setContacts(data);
     }
