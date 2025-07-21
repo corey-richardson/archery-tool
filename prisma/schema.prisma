@@ -98,9 +98,9 @@ model IceDetails {
   id               String           @id @default(cuid())
   userId           String
   contactName      String
-  contactPhone     String?
+  contactPhone     String
   contactEmail     String?
-  relationshipType RelationshipType
+  relationshipType RelationshipType?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -22,60 +22,56 @@ const DetailsForm = ({user} : any) => {
         //     body: JSON.stringify({
         //         name,
         //         email,
-        //         sex,
-        //         gender,
-        //         yearOfBirth: parseInt(yearOfBirth),
-        //         defaultBowstyle,
+        //         sex: sex === "NOT_SET" ? null : sex,
+        //         gender: gender || null,
+        //         yearOfBirth: yearOfBirth ? parseInt(yearOfBirth) : null,
+        //         defaultBowstyle: defaultBowstyle === "NOT_SET" ? null : defaultBowstyle,
         //         updatedAt
         //     }),
         // });
+        //
+        // if (response.ok) {
+        //  ???
+        // }
     }
 
     return ( 
-        <div className="forms">
-            <div>
-                <h3>My Details.</h3>
+        <div>
+            <h3>My Details.</h3>
+            <p className="centred">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vitae facilis fuga voluptas autem, perspiciatis placeat, incidunt provident veniam eaque mollitia aliquam voluptate eos cumque officia illo consequuntur porro aperiam.</p>
 
-                <form onSubmit={handleSubmit}>
-                    <label>*Name:</label>
-                    <input value={name} onChange={e => setName(e.target.value)} required />
-                    
-                    <label>*Email:</label>
-                    <input value={email} onChange={e => setEmail(e.target.value)} type="email" required />
+            <form onSubmit={handleSubmit}>
+                <label>*Name:</label>
+                <input value={name} onChange={e => setName(e.target.value)} required />
+                
+                <label>*Email:</label>
+                <input value={email} onChange={e => setEmail(e.target.value)} type="email" required />
 
-                    <label>Sex (as per AGB):</label>
-                    <select value={sex || "NOT_SET"} onChange={e => setSex(e.target.value)}>
-                        <option value="NOT_SET" disabled>Please Select</option>
-                        <option value="MALE">Male</option>
-                        <option value="FEMALE">Female</option>
-                    </select>
+                <label>Sex (as per AGB):</label>
+                <select value={sex || "NOT_SET"} onChange={e => setSex(e.target.value)}>
+                    <option value="NOT_SET" disabled>Please Select</option>
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                </select>
 
-                    <label>Gender:</label>
-                    <input value={gender} onChange={e => setGender(e.target.value)} placeholder="Please Set"/>
+                <label>Gender:</label>
+                <input value={gender} onChange={e => setGender(e.target.value)} placeholder="Please Set"/>
 
-                    <label>Year of Birth:</label>
-                    <input value={yearOfBirth} onChange={e => setYearOfBirth(e.target.value)} type="number" step="1" min="1900" max={maxYear} placeholder="Please Set"/>
+                <label>Year of Birth:</label>
+                <input value={yearOfBirth} onChange={e => setYearOfBirth(e.target.value)} type="number" step="1" min="1900" max={maxYear} placeholder="Please Set"/>
 
-                    <label>Default Bowstyle:</label>
-                    <select value={defaultBowstyle || "NOT_SET"} onChange={e => setDefaultBowstyle(e.target.value)}>
-                        <option value="NOT_SET" disabled>Please Select</option>
-                        <option value="BAREBOW">Barebow</option>
-                        <option value="RECURVE">Recurve</option>
-                        <option value="COMPOUND">Compound</option>
-                        <option value="LONGBOW">Longbow</option>
-                        <option value="TRADITIONAL">Traditional</option>
-                    </select>
+                <label>Default Bowstyle:</label>
+                <select value={defaultBowstyle || "NOT_SET"} onChange={e => setDefaultBowstyle(e.target.value)}>
+                    <option value="NOT_SET" disabled>Please Select</option>
+                    <option value="BAREBOW">Barebow</option>
+                    <option value="RECURVE">Recurve</option>
+                    <option value="COMPOUND">Compound</option>
+                    <option value="LONGBOW">Longbow</option>
+                    <option value="TRADITIONAL">Traditional</option>
+                </select>
 
-                    <button type="submit">Save Changes?</button>
-                </form>
-            </div>
-
-            <div>
-                <h3>Emergency Contact Details.</h3>
-
-
-
-            </div>
+                <button type="submit">Save Changes?</button>
+            </form>
         </div>
      );
 }

@@ -214,6 +214,21 @@
   text-align: center;
 }
 
+.forms h4 {
+  font-size: 18px;
+  color: var(--primary-color);
+  margin: 18px 0;
+  text-align: center;
+}
+
+.forms p {
+  margin-bottom: 18px;
+}
+
+.forms hr {
+  margin: 18px 0;
+}
+
 .forms input,
 .forms select {
   width: 100%;
