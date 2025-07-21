@@ -11,6 +11,12 @@ async function MyDetails() {
     const session = await getServerSession(authOptions);
 
     const id = session?.user.memberships?.[0]?.clubId;
+    if (!id) {
+      return (
+        <h2>No club memberships exist for this user.</h2>
+      )
+    }
+
     const club = await prisma.club.findUnique({ where: { id }})
 
     return ( 

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from "react";
 import LoginForm from "@/app/ui/login-form";
 import UserRegistrationForm from "@/app/ui/register-user";
 import { useSession } from "next-auth/react";
@@ -12,7 +11,7 @@ const AuthForms = () => {
 
     return ( 
         <>
-            {!session && <div className="auth-forms">
+            {!session && <div className="forms">
                 <div>
                     <h3>Log in?</h3>
                     <p>Already a user? Log in <b className="blue">here</b>.</p>
