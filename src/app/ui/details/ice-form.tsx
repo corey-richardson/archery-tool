@@ -1,7 +1,6 @@
 "use client";
 
-import { RelationshipType } from "@prisma/client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 type Contact = {
     id: string;
@@ -23,11 +22,11 @@ const EmergencyContactsForm = ({user} : any) => {
     const [ newContactRelationship, setNewContactRelationship ] = useState<string>("NOT_SET");
 
 
-    async function fetchContacts() {
+    const fetchContacts = useCallback(async () => {
         const res = await fetch(`/api/ice-details/${user.id}`);
         const data = await res.json();
         setContacts(data);
-    }
+    }, [user.id]);
 
 
     const handleContactChange = (index: number, field: keyof Contact, value: string) => {
@@ -95,7 +94,7 @@ const EmergencyContactsForm = ({user} : any) => {
 
     useEffect(() => {
         fetchContacts();
-    }, [user.id]);
+    }, [fetchContacts]);
 
     return ( 
         <div>

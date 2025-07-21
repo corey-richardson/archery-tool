@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const AuthForms = () => {
 
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     return ( 
         <>

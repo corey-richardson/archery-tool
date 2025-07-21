@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 const UserRegistrationForm = () => {
@@ -13,8 +12,6 @@ const UserRegistrationForm = () => {
     const [ confirmedPassword, setConfirmedPassword ] = useState("");
 
     const [ isPending, setIsPending ] = useState(false);
-
-    const router = useRouter();
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -41,13 +38,9 @@ const UserRegistrationForm = () => {
                 callbackUrl: '/my-details',
             });
         } else {
-            let errorMessage = "Registration failed";
 
             try {
                 const data = await res.json();
-                if (data?.message) {
-                errorMessage = data.message;
-                }
             } catch (e) {
                 // No JSON body - ignore
             }

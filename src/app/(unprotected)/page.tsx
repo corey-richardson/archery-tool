@@ -1,6 +1,5 @@
 import Banner from '@/app/ui/banner/Banner';
 import AuthForms from '../ui/auth-forms';
-import Link from 'next/link';
 
 export default function Home() {
 
