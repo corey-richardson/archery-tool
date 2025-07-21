@@ -1,0 +1,28 @@
+import { NextResponse } from "next/server";
+import prisma from "@/app/lib/prisma";
+
+export async function PATCH(req: Request) {
+    const updatedAt = new Date();
+    const { id, name, email, sex, gender, yearOfBirth, defaultBowstyle  } = await req.json();
+
+    if (!id || !name || !email) {
+        return NextResponse.json({message: "Missing required fields."}, { status: 400});
+    }
+
+    const updatedUser = await prisma.user.update({
+        where: {
+            id,
+        },
+        data: {
+            name,
+            email,
+            sex,
+            gender,
+            yearOfBirth,
+            defaultBowstyle,
+            updatedAt,
+        }
+    });
+
+    return NextResponse.json({ message: "User updated successfully.", user: updatedUser }, { status: 200 });
+}

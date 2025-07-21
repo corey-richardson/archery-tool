@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
     const emergencyContacts = await prisma.iceDetails.findMany({
         where: { userId }
     });
-    console.log(emergencyContacts);
 
     return NextResponse.json(emergencyContacts);
 }
