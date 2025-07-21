@@ -6,6 +6,7 @@ const DetailsForm = ({userId} : any) => {
 
     const [ refreshFlag, setRefreshFlag] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
+    const [ changesPending, setChangesPending ] = useState(false);
 
     const [ name, setName ] = useState("");
     const [ email, setEmail ] = useState("");
@@ -57,6 +58,7 @@ const DetailsForm = ({userId} : any) => {
         if (response.ok) {
             setRefreshFlag(flag => !flag);
             setIsLoading(false);
+            setChangesPending(false);
         }
     }
 
@@ -68,26 +70,44 @@ const DetailsForm = ({userId} : any) => {
 
             <form onSubmit={handleSubmit}>
                 <label>*Name:</label>
-                <input value={name} onChange={e => setName(e.target.value)} required />
+                <input value={name} onChange={e => {
+                    setName(e.target.value)
+                    setChangesPending(true);
+                }} required />
                 
                 <label>*Email:</label>
-                <input value={email} onChange={e => setEmail(e.target.value)} type="email" required />
+                <input value={email} onChange={e => {
+                    setEmail(e.target.value)
+                    setChangesPending(true);
+                }} type="email" required />
 
                 <label>Sex (as per AGB):</label>
-                <select value={sex || "NOT_SET"} onChange={e => setSex(e.target.value)}>
+                <select value={sex || "NOT_SET"} onChange={e => {
+                    setSex(e.target.value)
+                    setChangesPending(true);
+                }}>
                     <option value="NOT_SET" disabled>Please Select</option>
                     <option value="MALE">Male</option>
                     <option value="FEMALE">Female</option>
                 </select>
 
                 <label>Gender:</label>
-                <input value={gender} onChange={e => setGender(e.target.value)} placeholder="Please Set"/>
+                <input value={gender} onChange={e => {
+                    setGender(e.target.value)
+                    setChangesPending(true);
+                }} placeholder="Please Set"/>
 
                 <label>Year of Birth:</label>
-                <input value={yearOfBirth} onChange={e => setYearOfBirth(e.target.value)} type="number" step="1" min="1900" max={maxYear} placeholder="Please Set"/>
+                <input value={yearOfBirth} onChange={e => {
+                    setYearOfBirth(e.target.value)
+                    setChangesPending(true);
+                }} type="number" step="1" min="1900" max={maxYear} placeholder="Please Set"/>
 
                 <label>Default Bowstyle:</label>
-                <select value={defaultBowstyle || "NOT_SET"} onChange={e => setDefaultBowstyle(e.target.value)}>
+                <select value={defaultBowstyle || "NOT_SET"} onChange={e => {
+                    setDefaultBowstyle(e.target.value)
+                    setChangesPending(true);
+                }}>
                     <option value="NOT_SET" disabled>Please Select</option>
                     <option value="BAREBOW">Barebow</option>
                     <option value="RECURVE">Recurve</option>
@@ -96,7 +116,8 @@ const DetailsForm = ({userId} : any) => {
                     <option value="TRADITIONAL">Traditional</option>
                 </select>
 
-                { !isLoading && <button type="submit">Save Details</button> }
+                { !isLoading && !changesPending && <button disabled>Save Details</button> }
+                { !isLoading && changesPending && <button type="submit">Save Details</button> }
                 { isLoading && <button disabled>Loading...</button> }
 
                 <p style={{"marginTop": "12px"}} className="small centred">Your details were last updated {

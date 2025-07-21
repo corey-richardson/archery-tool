@@ -273,8 +273,9 @@
   box-shadow: 0 4px 12px rgba(53, 109, 241, 0.3);
 }
 
-.forms button:active {
-  transform: translateY(0);
+.forms button:disabled {
+  background-color: var(--light-gray);
+  color: #c5c5c5;
 }
 
 .forms label {
