@@ -13,6 +13,7 @@ const DetailsForm = ({userId} : any) => {
     const [ sex, setSex] = useState("");
     const [ gender, setGender ] = useState("");
     const [ yearOfBirth, setYearOfBirth ] = useState("")
+    const [ ageCat, setAgeCat ] = useState("Senior");
     const [ defaultBowstyle, setDefaultBowstyle] = useState("");
     const [ lastUpdated, setLastUpdated ] = useState("NEVER");
 
@@ -32,7 +33,9 @@ const DetailsForm = ({userId} : any) => {
         fetchUser();
     }, [userId, refreshFlag])
 
-    const maxYear = new Date().getFullYear() - 18;
+    const maxYear = null;
+    const ageCatU18Year = new Date().getFullYear() - 18;
+    const ageCatU21Year = new Date().getFullYear() - 21;
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
@@ -99,9 +102,26 @@ const DetailsForm = ({userId} : any) => {
 
                 <label>Year of Birth:</label>
                 <input value={yearOfBirth} onChange={e => {
-                    setYearOfBirth(e.target.value)
+                    const newYear = e.target.value;
+                    setYearOfBirth(newYear)
+                    
+                    if (newYear) {
+                        const year = parseInt(newYear);
+                        if (year > ageCatU18Year) {
+                            setAgeCat("Under 18");
+                        } else if (year > ageCatU21Year) {
+                            setAgeCat("Under 21");
+                        } else {
+                            setAgeCat("Senior");
+                        }
+                    } else {
+                        setAgeCat("Senior");
+                    }
+                    
                     setChangesPending(true);
-                }} type="number" step="1" min="1900" max={maxYear} placeholder="Please Set"/>
+                }} type="number" step="1" min="1900" max={maxYear || ageCatU18Year} placeholder="Please Set"/>
+                <input disabled value={ageCat} />
+
 
                 <label>Default Bowstyle:</label>
                 <select value={defaultBowstyle || "NOT_SET"} onChange={e => {
