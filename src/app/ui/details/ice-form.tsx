@@ -1,5 +1,6 @@
 "use client";
 
+import { RelationshipType } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 
 type Contact = {
@@ -12,19 +13,21 @@ type Contact = {
 
 const EmergencyContactsForm = ({user} : any) => {
 
-    const [ isLoading, setIsLoading ] = useState(true);
     const [ contacts, setContacts ] = useState<Contact[]>([]);
+
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ changesPending, setChangesPending ] = useState(false);
 
     const [ newContactName, setNewContactName ] = useState<string>("");
     const [ newContactPhone, setNewContactPhone ] = useState<string>("");
     const [ newContactEmail, setNewContactEmail ] = useState<string>("");
     const [ newContactRelationship, setNewContactRelationship ] = useState<string>("NOT_SET");
 
+
     async function fetchContacts() {
         const res = await fetch(`/api/ice-details?userId=${user.id}`);
         const data = await res.json();
         setContacts(data);
-        setIsLoading(false);
     }
 
 
@@ -38,19 +41,56 @@ const EmergencyContactsForm = ({user} : any) => {
 
 
     const handleUpdateExistingContact = async (contact: Contact) => {
-        await fetch(`/api/ice-details/${contact.id}`, {
+        setIsLoading(true);
+        const response = await fetch(`/api/ice-details/${contact.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(contact),
         });
+
+        if (response.ok) {
+            setIsLoading(false);
+        }
     }
 
 
     const handleDeleteExistingContact = async (contactId: string) => {
-        await fetch(`/api/ice-details/${contactId}`, {
+        setIsLoading(true);
+        const response = await fetch(`/api/ice-details/${contactId}`, {
             method: "DELETE"
         });
-        fetchContacts();
+
+        if (response.ok) {
+            fetchContacts().then(e => setIsLoading(false));
+        } 
+    }
+
+
+    const handleCreateNewContact = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        const response = await fetch("/api/ice-details", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                userId: user.id,
+                contactName: newContactName,
+                contactPhone: newContactPhone,
+                contactEmail: newContactEmail,
+                relationshipType: newContactRelationship,
+            }),
+        });
+
+        if (response.ok) {
+            fetchContacts().then(e => {
+                setNewContactName("");
+                setNewContactPhone("");
+                setNewContactEmail("");
+                setNewContactRelationship("NOT_SET");
+                setIsLoading(false);
+            });
+        }
     }
 
 
@@ -65,7 +105,7 @@ const EmergencyContactsForm = ({user} : any) => {
 
             <hr />
             <h4>Add New Emergency Contact</h4>
-            <form>
+            <form onSubmit={handleCreateNewContact}>
                 <label>*Contact Name:</label>
                 <input value={newContactName} onChange={e => setNewContactName(e.target.value)} required />
 
@@ -73,20 +113,21 @@ const EmergencyContactsForm = ({user} : any) => {
                 <input value={newContactPhone} onChange={e => setNewContactPhone(e.target.value)} required />
 
                 <label>Contact Email:</label>
-                <input value={newContactEmail} onChange={e => setNewContactEmail(e.target.value)} type="email" required />
+                <input value={newContactEmail} onChange={e => setNewContactEmail(e.target.value)} type="email" />
 
                 <label>Relationship to Contact:</label>
                 <select value={newContactRelationship} onChange={e => setNewContactRelationship(e.target.value)}>
                     <option value="NOT_SET" disabled>Please Select</option>
                     <option value="PARENT">Parent</option>
                     <option value="GUARDIAN">Guardian</option>
-                    <option value="SPOUSE">Spouse</option>
+                    <option value="SPOUSE">Partner or Spouse</option>
                     <option value="SIBLING">Sibling</option>
                     <option value="FRIEND">Friend</option>
                     <option value="OTHER">Other</option>
                 </select>
 
-                <button type="submit">Add New Contact</button>
+                { !isLoading && <button type="submit">Add New Contact</button> }
+                { isLoading && <button disabled>Adding...</button>}
             </form>
             <hr />
 
