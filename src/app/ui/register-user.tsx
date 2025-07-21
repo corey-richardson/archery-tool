@@ -34,7 +34,6 @@ const UserRegistrationForm = () => {
         });
 
         if (res.ok) {
-            console.log("res.ok");
             setIsPending(false);
             await signIn('credentials', {
                 email,
@@ -50,10 +49,8 @@ const UserRegistrationForm = () => {
                 errorMessage = data.message;
                 }
             } catch (e) {
-                // No JSON body – ignore
+                // No JSON body - ignore
             }
-
-            console.error(errorMessage);
         }
     }
 

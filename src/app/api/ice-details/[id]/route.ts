@@ -21,7 +21,6 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const body = await request.json();
 
     if (!contactId) {
-        console.log("No contactId");
         return NextResponse.json({error: "Missing contactId"}, {status: 400});
     }
 
@@ -43,7 +42,6 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     const contactId = params.id;
 
     if (!contactId) {
-        console.log("No contactId");
         return NextResponse.json({error: "Missing contactId"}, {status: 400});
     }
 
