@@ -91,7 +91,7 @@ const DetailsForm = ({userId} : any) => {
                     <option value="FEMALE">Female</option>
                 </select>
 
-                <label>Gender:</label>
+                <label>Pronouns:</label>
                 <input value={gender} onChange={e => {
                     setGender(e.target.value)
                     setChangesPending(true);

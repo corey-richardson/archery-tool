@@ -20,16 +20,12 @@ const EmergencyContactsForm = ({user} : any) => {
     const [ newContactEmail, setNewContactEmail ] = useState<string>("");
     const [ newContactRelationship, setNewContactRelationship ] = useState<string>("NOT_SET");
 
-
-    useEffect(() => {
-        async function fetchContacts() {
-            const res = await fetch(`/api/ice-details?userId=${user.id}`);
-            const data = await res.json();
-            setContacts(data);
-            setIsLoading(false);
-        }
-        fetchContacts();
-    }, [user.id]);
+    async function fetchContacts() {
+        const res = await fetch(`/api/ice-details?userId=${user.id}`);
+        const data = await res.json();
+        setContacts(data);
+        setIsLoading(false);
+    }
 
 
     const handleContactChange = (index: number, field: keyof Contact, value: string) => {
@@ -39,6 +35,28 @@ const EmergencyContactsForm = ({user} : any) => {
             )
         );
     };
+
+
+    const handleUpdateExistingContact = async (contact: Contact) => {
+        await fetch(`/api/ice-details/${contact.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(contact),
+        });
+    }
+
+
+    const handleDeleteExistingContact = async (contactId: string) => {
+        await fetch(`/api/ice-details/${contactId}`, {
+            method: "DELETE"
+        });
+        fetchContacts();
+    }
+
+
+    useEffect(() => {
+        fetchContacts();
+    }, [user.id]);
 
     return ( 
         <div>
@@ -78,7 +96,10 @@ const EmergencyContactsForm = ({user} : any) => {
             { !isLoading && contacts.length > 0 && (
                 contacts.map((contact, idx) => (
                     <div key={contact.id}>
-                        <form >
+                        <form onSubmit={e =>{
+                            e.preventDefault();
+                            handleUpdateExistingContact(contact);
+                        }}>
                             <label>*Contact Name:</label>
                             <input
                                 value={contact.contactName}
@@ -119,7 +140,10 @@ const EmergencyContactsForm = ({user} : any) => {
 
                             <div style={{ display: "flex", alignContent: "center", gap: "1.5rem" }}>
                                 <button type="submit">Save Contact</button>
-                                <button className="btn-secondary" type="submit">Delete Contact</button>
+                                <button 
+                                    className="btn-secondary" 
+                                    onClick={() => handleDeleteExistingContact(contact.id)}
+                                >Delete Contact</button>
                             </div>
                         </form>
                         { idx < contacts.length - 1 && <hr /> }
