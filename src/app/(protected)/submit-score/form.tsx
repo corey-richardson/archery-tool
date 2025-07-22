@@ -76,13 +76,14 @@ const ScoreSubmissionForm = ({userId} : any) => {
                         type="date"
                         value={ dateShot.toISOString().slice(0, 10) }
                         onChange={e => setDateShot(new Date(e.target.value))}
+                        required
                     />
 
                     <label>Round Name:</label>
-                    <input value={roundName ?? ""} onChange={e => setRoundName(e.target.value)} />
+                    <input value={roundName ?? ""} onChange={e => setRoundName(e.target.value)} required/>
                
                     <label>Round Type:</label>
-                    <select value={roundType} onChange={e => setRoundType(e.target.value)}>
+                    <select value={roundType} onChange={e => setRoundType(e.target.value)} required>
                         <option value="INDOOR">Indoor</option>
                         <option value="OUTDOOR">Outdoor</option>
                     </select>
@@ -90,7 +91,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
 
                <div className="flex-form-row">
                     <label>Bowstyle:</label>
-                    <select value={bowstyle ?? ""} onChange={e => setBowstyle(e.target.value)}>
+                    <select value={bowstyle ?? ""} onChange={e => setBowstyle(e.target.value)} required>
                         <option disabled value="">Please Select</option>
                         <option value="BAREBOW">Barebow</option>
                         <option value="RECURVE">Recurve</option>
@@ -101,7 +102,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
                     </select>
 
                     <label>Competition Level:</label>
-                    <select value={competitionLevel} onChange={e => setCompetitionLevel(e.target.value)}>
+                    <select value={competitionLevel} onChange={e => setCompetitionLevel(e.target.value)} required>
                         <option value="PRACTICE">Club Practice</option>
                         <option value="CLUB_EVENT">Club Target Day / Club Event</option>
                         <option value="OPEN_COMPETITION">Open Competition</option>
@@ -111,7 +112,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
 
                <div className="flex-form-row">
                     <label>Score:</label>
-                    <input type="number" step="1" value={score} onChange={e => setScore(e.target.value)} />
+                    <input type="number" step="1" value={score} onChange={e => setScore(e.target.value)} required/>
 
                     <label>Xs:</label>
                     <input type="number" step="1" value={xs} onChange={e => setXs(e.target.value)} />
