@@ -16,10 +16,10 @@ export async function PATCH(req: Request) {
         data: {
             name,
             email,
-            sex,
-            gender,
-            yearOfBirth,
-            defaultBowstyle,
+            sex: sex ? sex : null,
+            gender: gender ? gender : null,
+            yearOfBirth: yearOfBirth ? yearOfBirth : null,
+            defaultBowstyle: defaultBowstyle ? defaultBowstyle : null,
             updatedAt,
         }
     });

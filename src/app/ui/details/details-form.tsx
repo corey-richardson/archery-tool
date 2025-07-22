@@ -1,11 +1,7 @@
 "use client";
 
+import calculateAgeCategory from "@/app/lib/calculateAgeCategory";
 import React, { useEffect, useState } from "react";
-
-// Constants
-const CURRENT_YEAR = new Date().getFullYear();
-const AGE_CAT_U18_YEAR = CURRENT_YEAR - 18;
-const AGE_CAT_U21_YEAR = CURRENT_YEAR - 21;
 
 // Component
 const DetailsForm = ({userId} : any) => {
@@ -20,7 +16,7 @@ const DetailsForm = ({userId} : any) => {
     const [ gender, setGender ] = useState("");
     const [ yearOfBirth, setYearOfBirth ] = useState("")
     const [ ageCat, setAgeCat ] = useState("");
-    const [ defaultBowstyle, setDefaultBowstyle] = useState("");
+    const [ defaultBowstyle, setDefaultBowstyle] = useState("NOT_SET");
     const [ lastUpdated, setLastUpdated ] = useState("NEVER");
 
     // Placeholder
@@ -31,13 +27,13 @@ const DetailsForm = ({userId} : any) => {
         async function fetchUser() {
             const res = await fetch(`/api/user?userId=${userId}`);
             const data = await res.json();
-            setName(data.name || "");
-            setEmail(data.email || "");
-            setSex(data.sex || "");
-            setGender(data.gender || "");
-            setYearOfBirth(data.yearOfBirth || "");
-            setDefaultBowstyle(data.defaultBowstyle || "");
-            setLastUpdated(data.updatedAt || "NEVER");
+            setName(data.name ?? "");
+            setEmail(data.email ?? "");
+            setSex(data.sex ?? "");
+            setGender(data.gender ?? "");
+            setYearOfBirth(data.yearOfBirth ? String(data.yearOfBirth) : "");
+            setDefaultBowstyle(data.defaultBowstyle ?? "NOT_SET");
+            setLastUpdated(data.updatedAt ?? "NEVER");
         }
         fetchUser();
         
@@ -45,9 +41,7 @@ const DetailsForm = ({userId} : any) => {
 
     useEffect(() => {
         const year = parseInt(yearOfBirth);
-        if (year > AGE_CAT_U18_YEAR) { setAgeCat("Under 18"); } 
-        if (year > AGE_CAT_U21_YEAR) { setAgeCat("Under 21"); } 
-        else { setAgeCat("Senior"); }
+        setAgeCat(calculateAgeCategory(year, true));
     }, [yearOfBirth]);
 
     // Handlers
@@ -90,34 +84,35 @@ const DetailsForm = ({userId} : any) => {
             <hr />
 
             <form onSubmit={handleSubmit}>
+
                 <label>*Name:</label>
-                <input value={name} onChange={ handleInputChange(setName) } required />
-                
+                <input value={name ?? ""} onChange={ handleInputChange(setName) } required />
+
                 <label>*Email:</label>
-                <input value={email} onChange={ handleInputChange(setEmail) } type="email" required />
+                <input value={email ?? ""} onChange={ handleInputChange(setEmail) } type="email" required />
 
                 <label>Sex (as per AGB):</label>
-                <select value={sex || "NOT_SET"} onChange={ handleInputChange(setSex) }>
+                <select value={sex ?? "NOT_SET"} onChange={ handleInputChange(setSex) }>
                     <option value="NOT_SET" disabled>Please Select</option>
                     <option value="MALE">Male</option>
                     <option value="FEMALE">Female</option>
                 </select>
 
                 <label>Pronouns:</label>
-                <input value={gender} onChange={ handleInputChange(setGender) } placeholder="Optional"/>
+                <input value={gender ?? ""} onChange={ handleInputChange(setGender) } placeholder="Optional"/>
 
                 <label>Year of Birth:</label>
                 <input 
-                    value={yearOfBirth} 
+                    value={yearOfBirth ?? ""} 
                     onChange={ handleInputChange(setYearOfBirth) } 
                     type="number" 
                     step="1" 
-                    min="1900" max={maxYear || AGE_CAT_U18_YEAR} 
+                    min="1900" max={new Date().getFullYear()} 
                     placeholder="Please Set"/>
-                <input disabled value={ageCat} />
+                <input disabled value={ageCat ?? ""} />
 
                 <label>Default Bowstyle:</label>
-                <select value={defaultBowstyle || "NOT_SET"} onChange={ handleInputChange(setDefaultBowstyle) }>
+                <select value={defaultBowstyle ?? "NOT_SET"} onChange={ handleInputChange(setDefaultBowstyle) }>
                     <option value="NOT_SET" disabled>Please Select</option>
                     <option value="BAREBOW">Barebow</option>
                     <option value="RECURVE">Recurve</option>

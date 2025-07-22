@@ -135,6 +135,7 @@ model Scores {
   nines            Int?
   hits             Int?
   competitionLevel CompetitionLevel
+  ageCategory      AgeCategories @default(SENIOR)
   notes            String?
 
   roundIndoorClassification  IndoorClassification?
@@ -162,6 +163,17 @@ enum Bowstyle {
 enum Sex {
   MALE
   FEMALE
+}
+
+enum AgeCategories {
+  UNDER_12
+  UNDER_14
+  UNDER_15
+  UNDER_16
+  UNDER_18
+  UNDER_21
+  SENIOR
+  OVER_FIFTY
 }
 
 enum RelationshipType {
