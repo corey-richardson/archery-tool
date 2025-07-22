@@ -51,6 +51,34 @@
   padding: 20px;
 }
 
+.wider {
+  max-width: calc(1 * var(--max-content-width)) !important;
+  margin: 20px 2rem !important;
+}
+
+.flex-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 100%;
+}
+
+.flex-form-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (max-width: 1166px) {
+  .flex-form-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+}
+
 /* ========================================
    NAVIGATION
    ======================================== */
@@ -230,7 +258,8 @@
 }
 
 .forms input,
-.forms select {
+.forms select,
+.forms textarea {
   width: 100%;
   padding: 12px 16px;
   margin: 12px 0;
