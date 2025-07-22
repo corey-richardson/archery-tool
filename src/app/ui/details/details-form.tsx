@@ -2,8 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 
-const DetailsForm = ({userId} : any) => {
+// Constants
+const CURRENT_YEAR = new Date().getFullYear();
+const AGE_CAT_U18_YEAR = CURRENT_YEAR - 18;
+const AGE_CAT_U21_YEAR = CURRENT_YEAR - 21;
 
+// Component
+const DetailsForm = ({userId} : any) => {
+    // State
     const [ refreshFlag, setRefreshFlag] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ changesPending, setChangesPending ] = useState(false);
@@ -13,15 +19,18 @@ const DetailsForm = ({userId} : any) => {
     const [ sex, setSex] = useState("");
     const [ gender, setGender ] = useState("");
     const [ yearOfBirth, setYearOfBirth ] = useState("")
-    const [ ageCat, setAgeCat ] = useState("Senior");
+    const [ ageCat, setAgeCat ] = useState("");
     const [ defaultBowstyle, setDefaultBowstyle] = useState("");
     const [ lastUpdated, setLastUpdated ] = useState("NEVER");
 
+    // Placeholder
+    const maxYear = null;
+
+    // Effects
     useEffect(() => {
         async function fetchUser() {
             const res = await fetch(`/api/user?userId=${userId}`);
             const data = await res.json();
-            
             setName(data.name || "");
             setEmail(data.email || "");
             setSex(data.sex || "");
@@ -31,18 +40,27 @@ const DetailsForm = ({userId} : any) => {
             setLastUpdated(data.updatedAt || "NEVER");
         }
         fetchUser();
-    }, [userId, refreshFlag])
+        
+    }, [userId, refreshFlag]);
 
-    const maxYear = null;
-    const ageCatU18Year = new Date().getFullYear() - 18;
-    const ageCatU21Year = new Date().getFullYear() - 21;
+    useEffect(() => {
+        const year = parseInt(yearOfBirth);
+        if (year > AGE_CAT_U18_YEAR) { setAgeCat("Under 18"); } 
+        if (year > AGE_CAT_U21_YEAR) { setAgeCat("Under 21"); } 
+        else { setAgeCat("Senior"); }
+    }, [yearOfBirth]);
+
+    // Handlers
+    const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => 
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setter(e.target.value);
+        setChangesPending(true);
+    };
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-
         const updatedAt = new Date();
-        
         const response = await fetch('/api/user/update', {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
@@ -57,7 +75,6 @@ const DetailsForm = ({userId} : any) => {
                 updatedAt
             }),
         });
-        
         if (response.ok) {
             setRefreshFlag(flag => !flag);
             setIsLoading(false);
@@ -65,6 +82,7 @@ const DetailsForm = ({userId} : any) => {
         }
     }
 
+    // Render
     return ( 
         <div>
             <h3>My Details.</h3>
@@ -73,61 +91,33 @@ const DetailsForm = ({userId} : any) => {
 
             <form onSubmit={handleSubmit}>
                 <label>*Name:</label>
-                <input value={name} onChange={e => {
-                    setName(e.target.value)
-                    setChangesPending(true);
-                }} required />
+                <input value={name} onChange={ handleInputChange(setName) } required />
                 
                 <label>*Email:</label>
-                <input value={email} onChange={e => {
-                    setEmail(e.target.value)
-                    setChangesPending(true);
-                }} type="email" required />
+                <input value={email} onChange={ handleInputChange(setEmail) } type="email" required />
 
                 <label>Sex (as per AGB):</label>
-                <select value={sex || "NOT_SET"} onChange={e => {
-                    setSex(e.target.value)
-                    setChangesPending(true);
-                }}>
+                <select value={sex || "NOT_SET"} onChange={ handleInputChange(setSex) }>
                     <option value="NOT_SET" disabled>Please Select</option>
                     <option value="MALE">Male</option>
                     <option value="FEMALE">Female</option>
                 </select>
 
                 <label>Pronouns:</label>
-                <input value={gender} onChange={e => {
-                    setGender(e.target.value)
-                    setChangesPending(true);
-                }} placeholder="Please Set"/>
+                <input value={gender} onChange={ handleInputChange(setGender) } placeholder="Optional"/>
 
                 <label>Year of Birth:</label>
-                <input value={yearOfBirth} onChange={e => {
-                    const newYear = e.target.value;
-                    setYearOfBirth(newYear)
-                    
-                    if (newYear) {
-                        const year = parseInt(newYear);
-                        if (year > ageCatU18Year) {
-                            setAgeCat("Under 18");
-                        } else if (year > ageCatU21Year) {
-                            setAgeCat("Under 21");
-                        } else {
-                            setAgeCat("Senior");
-                        }
-                    } else {
-                        setAgeCat("Senior");
-                    }
-                    
-                    setChangesPending(true);
-                }} type="number" step="1" min="1900" max={maxYear || ageCatU18Year} placeholder="Please Set"/>
+                <input 
+                    value={yearOfBirth} 
+                    onChange={ handleInputChange(setYearOfBirth) } 
+                    type="number" 
+                    step="1" 
+                    min="1900" max={maxYear || AGE_CAT_U18_YEAR} 
+                    placeholder="Please Set"/>
                 <input disabled value={ageCat} />
 
-
                 <label>Default Bowstyle:</label>
-                <select value={defaultBowstyle || "NOT_SET"} onChange={e => {
-                    setDefaultBowstyle(e.target.value)
-                    setChangesPending(true);
-                }}>
+                <select value={defaultBowstyle || "NOT_SET"} onChange={ handleInputChange(setDefaultBowstyle) }>
                     <option value="NOT_SET" disabled>Please Select</option>
                     <option value="BAREBOW">Barebow</option>
                     <option value="RECURVE">Recurve</option>
@@ -140,11 +130,13 @@ const DetailsForm = ({userId} : any) => {
                 { !isLoading && changesPending && <button type="submit">Save Details</button> }
                 { isLoading && <button disabled>Loading...</button> }
 
-                <p style={{"marginTop": "12px"}} className="small centred">Your details were last updated {
+                <p style={{"marginTop": "12px"}} className="small centred">
+                    Your details were last updated {
                     lastUpdated !== "NEVER"
                     ? "at " + new Date(lastUpdated).toLocaleString()
                     : "NEVER"
-                }.</p>
+                    }.
+                </p>
             </form>
         </div>
      );
