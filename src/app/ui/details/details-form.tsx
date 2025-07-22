@@ -1,7 +1,7 @@
 "use client";
 
 import calculateAgeCategory from "@/app/lib/calculateAgeCategory";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 // Component
 const DetailsForm = ({userId} : any) => {
@@ -45,11 +45,14 @@ const DetailsForm = ({userId} : any) => {
     }, [yearOfBirth]);
 
     // Handlers
-    const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => 
-    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setter(e.target.value);
-        setChangesPending(true);
-    };
+    const handleInputChange = useCallback(
+        (setter: React.Dispatch<React.SetStateAction<string>>) => 
+            (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+                setter(e.target.value);
+                setChangesPending(true);
+            }, 
+        []
+    );
 
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();

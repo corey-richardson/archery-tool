@@ -20,6 +20,8 @@ const EmergencyContactsForm = ({user} : any) => {
     const [ newContactPhone, setNewContactPhone ] = useState<string>("");
     const [ newContactEmail, setNewContactEmail ] = useState<string>("");
     const [ newContactRelationship, setNewContactRelationship ] = useState<string>("NOT_SET");
+    const [ changesPending, setChangesPending ] = useState(false);
+    const [ pendingChanges, setPendingChanges] = useState<string[]>([]);
 
 
     const fetchContacts = useCallback(async () => {
@@ -35,6 +37,8 @@ const EmergencyContactsForm = ({user} : any) => {
                 i === index ? { ...contact, [field]: value } : contact
             )
         );
+        const contactId = contacts[index].id;
+        setPendingChanges(prev => prev.includes(contactId) ? prev : [...prev, contactId]);
     };
 
 
@@ -48,6 +52,7 @@ const EmergencyContactsForm = ({user} : any) => {
 
         if (response.ok) {
             setIsLoading(false);
+            setPendingChanges(prev => prev.filter(id => id !== contact.id));
         }
     }
 
@@ -76,7 +81,7 @@ const EmergencyContactsForm = ({user} : any) => {
                 contactName: newContactName,
                 contactPhone: newContactPhone,
                 contactEmail: newContactEmail,
-                relationshipType: newContactRelationship,
+                relationshipType: newContactRelationship != "NOT_SET" ? newContactRelationship : null,
             }),
         });
 
@@ -165,10 +170,10 @@ const EmergencyContactsForm = ({user} : any) => {
 
                             <label>Relationship to Contact:</label>
                             <select
-                                value={contact.relationshipType}
+                                value={contact.relationshipType || "NOT_SET"}
                                 onChange={e => handleContactChange(idx, "relationshipType", e.target.value)}
                             >
-                                <option disabled value="">Select Relationship</option>
+                                <option disabled value="NOT_SET">Select Relationship</option>
                                 <option value="PARENT">Parent</option>
                                 <option value="GUARDIAN">Guardian</option>
                                 <option value="SPOUSE">Spouse or Partner</option>
@@ -178,7 +183,9 @@ const EmergencyContactsForm = ({user} : any) => {
                             </select>
 
                             <div style={{ display: "flex", alignContent: "center", gap: "1.5rem" }}>
-                                <button type="submit">Save Contact</button>
+                                { !isLoading && pendingChanges.includes(contact.id) && <button type="submit">Update Contact</button> }
+                                { !isLoading && !pendingChanges.includes(contact.id) && <button disabled>Update Contact</button> }
+                                { isLoading && <button disabled>Updating...</button> }
                                 <button 
                                     className="btn-secondary" 
                                     onClick={() => handleDeleteExistingContact(contact.id)}
