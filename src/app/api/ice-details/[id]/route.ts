@@ -33,6 +33,7 @@ export async function PATCH(request: NextRequest, context: any) {
             contactPhone: body.contactPhone,
             contactEmail: body.contactEmail,
             relationshipType: body.relationshipType,
+            updatedAt: new Date(),
         }
     });
 

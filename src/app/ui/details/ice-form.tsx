@@ -8,6 +8,7 @@ type Contact = {
     contactPhone: string;
     contactEmail?: string;
     relationshipType : string;
+    updatedAt: string;
 };
 
 const EmergencyContactsForm = ({user} : any) => {
@@ -20,14 +21,13 @@ const EmergencyContactsForm = ({user} : any) => {
     const [ newContactPhone, setNewContactPhone ] = useState<string>("");
     const [ newContactEmail, setNewContactEmail ] = useState<string>("");
     const [ newContactRelationship, setNewContactRelationship ] = useState<string>("NOT_SET");
-    const [ changesPending, setChangesPending ] = useState(false);
     const [ pendingChanges, setPendingChanges] = useState<string[]>([]);
-
 
     const fetchContacts = useCallback(async () => {
         const res = await fetch(`/api/ice-details/${user.id}`);
         const data = await res.json();
         setContacts(data);
+        console.log(data);
     }, [user.id]);
 
 
@@ -191,6 +191,10 @@ const EmergencyContactsForm = ({user} : any) => {
                                     onClick={() => handleDeleteExistingContact(contact.id)}
                                 >Delete Contact</button>
                             </div>
+
+                            <p style={{"marginTop": "12px"}} className="small centred">
+                                These details were last updated at { new Date(contact.updatedAt).toLocaleString() }. Are they still in date?
+                            </p>
                         </form>
                         { idx < contacts.length - 1 && <hr /> }
                     </div>

@@ -101,6 +101,7 @@ model IceDetails {
   contactPhone     String
   contactEmail     String?
   relationshipType RelationshipType?
+  updatedAt        DateTime         @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

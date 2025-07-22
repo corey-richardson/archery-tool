@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 
 export async function PATCH(req: Request) {
-    const updatedAt = new Date();
     const { id, name, email, sex, gender, yearOfBirth, defaultBowstyle  } = await req.json();
 
     if (!id || !name || !email) {
@@ -20,7 +19,7 @@ export async function PATCH(req: Request) {
             gender: gender ? gender : null,
             yearOfBirth: yearOfBirth ? yearOfBirth : null,
             defaultBowstyle: defaultBowstyle ? defaultBowstyle : null,
-            updatedAt,
+            updatedAt: new Date(),
         }
     });
 
