@@ -2,7 +2,7 @@
 
 import ScoreCard from './card';
 import { Score } from './Score';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 type ScorecardsProps = {
     userId: string;
@@ -13,19 +13,45 @@ export default function Scorecards({ userId, onDeletion }: ScorecardsProps) {
     const [scores, setScores] = useState<Score[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
-    const pageSize = 24;
+    const pageSize = 12;
     const [hasMore, setHasMore] = useState(false);
     const [totalPages, setTotalPages] = useState(1);
 
+    const cacheRef = useRef<{ [page: number]: { scores: Score[]; hasMore: boolean; totalPages: number } }>({});
+
     const fetchUsersScores = async () => {
         setIsLoading(true);
+        if (cacheRef.current[page]) {
+            const cachedPage = cacheRef.current[page];
+            setScores(cachedPage.scores);
+            setHasMore(cachedPage.hasMore);
+            setTotalPages(cachedPage.totalPages);
+            setIsLoading(false);
+            return;
+        }
+
         const res = await fetch(`/api/scores/user/${userId}?page=${page}&pageSize=${pageSize}`);
         const data = await res.json();
-
-        setScores(data.scores || data);
-        setHasMore(data.hasMore !== undefined ? data.hasMore : (data.length === pageSize));
-        setTotalPages(data.totalPages || 1);
+        const scoresData = data.scores || data;
+        const hasMoreData = data.hasMore !== undefined ? data.hasMore : (scoresData.length === pageSize);
+        const totalPagesData = data.totalPages || 1;
+        cacheRef.current[page] = {
+            scores: scoresData,
+            hasMore: hasMoreData,
+            totalPages: totalPagesData
+        };
+        setScores(scoresData);
+        setHasMore(hasMoreData);
+        setTotalPages(totalPagesData);
         setIsLoading(false);
+    };
+
+    const handleDelete = async () => {
+        if (onDeletion) {
+            await onDeletion();
+        }
+        cacheRef.current = {};
+        await fetchUsersScores();
     };
 
     useEffect(() => {
@@ -57,7 +83,7 @@ export default function Scorecards({ userId, onDeletion }: ScorecardsProps) {
                 <>
                     <div className="scorecard-list">
                         {scores.map((score: Score) => (
-                            <ScoreCard key={score.id} score={score} onDeletion={fetchUsersScores} />
+                            <ScoreCard key={score.id} score={score} onDeletion={handleDelete} />
                         ))}
                     </div>
 
