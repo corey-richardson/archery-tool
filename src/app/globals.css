@@ -506,7 +506,6 @@
 }
 
 .btn-navigation:hover {
-  background-color: var(--light-gray) !important;
   border-color: var(--primary-color) !important;
   color: var(--primary-color) !important;
   border-radius: 0.75rem;

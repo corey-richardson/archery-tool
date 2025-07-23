@@ -74,7 +74,7 @@ const ScoreCard = ({ score, onDeletion } : { score: Score; onDeletion?: () => vo
 
             <div>
                 <br />
-                { !isDeleting && <button className="btn-navigation"  style={{"textDecoration": "underline"}} onClick={() => handleDeleteScore(score.id)}>Delete</button> }
+                { !isDeleting && <button className="btn-navigation"  style={{"textDecoration": "underline", "padding": "0"}} onClick={() => handleDeleteScore(score.id)}>Delete</button> }
                 { isDeleting && <button className="btn-navigation" disabled>Deleting...</button> }
             </div>
 
