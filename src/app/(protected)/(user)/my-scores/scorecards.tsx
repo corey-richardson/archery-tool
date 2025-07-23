@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react';
 
 type ScorecardsProps = {
     userId: string;
+    onDeletion?: () => Promise<void>;
 };
 
-export default function Scorecards({ userId }: ScorecardsProps) {
+export default function Scorecards({ userId, onDeletion }: ScorecardsProps) {
     const [scores, setScores] = useState<Score[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [page, setPage] = useState(1);
@@ -16,17 +17,18 @@ export default function Scorecards({ userId }: ScorecardsProps) {
     const [hasMore, setHasMore] = useState(false);
     const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
-        async function fetchUsersScores() {
-            setIsLoading(true);
-            const res = await fetch(`/api/scores/user/${userId}?page=${page}&pageSize=${pageSize}`);
-            const data = await res.json();
+    const fetchUsersScores = async () => {
+        setIsLoading(true);
+        const res = await fetch(`/api/scores/user/${userId}?page=${page}&pageSize=${pageSize}`);
+        const data = await res.json();
 
-            setScores(data.scores || data);
-            setHasMore(data.hasMore !== undefined ? data.hasMore : (data.length === pageSize));
-            setTotalPages(data.totalPages || 1);
-            setIsLoading(false);
-        }
+        setScores(data.scores || data);
+        setHasMore(data.hasMore !== undefined ? data.hasMore : (data.length === pageSize));
+        setTotalPages(data.totalPages || 1);
+        setIsLoading(false);
+    };
+
+    useEffect(() => {
         fetchUsersScores();
     }, [userId, page]);
 
@@ -45,11 +47,13 @@ export default function Scorecards({ userId }: ScorecardsProps) {
                 </div>
             )}
 
-            <div className="scorecard-list">
-                {scores.map((score: Score) => (
-                    <ScoreCard key={score.id} score={score} />
-                ))}
-            </div>
+            { !isLoading && (
+                <div className="scorecard-list">
+                    {scores.map((score: Score) => (
+                        <ScoreCard key={score.id} score={score} onDeletion={fetchUsersScores} />
+                    ))}
+                </div>
+            )}
 
             { !isLoading && (
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', margin: '2rem 0', alignItems: 'center' }}>

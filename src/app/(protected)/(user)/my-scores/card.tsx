@@ -3,8 +3,23 @@
 import React from "react";
 import { Score } from './Score';
 import { EnumMappings } from "@/app/lib/enumMappings";
+import { useState } from "react";
 
-const ScoreCard = ({ score } : { score: Score }) => {
+const ScoreCard = ({ score, onDeletion } : { score: Score; onDeletion?: () => void }) => {
+    const [ isDeleting, setIsDeleting ] = useState(false);
+
+    const handleDeleteScore = async (scoreId: string) => {
+        setIsDeleting(true);
+        const response = await fetch(`/api/scores/score/${scoreId}`, {
+            method: "DELETE",
+        });
+
+        if (response.ok) {
+            setIsDeleting(false);
+            if (onDeletion) { onDeletion(); }
+        }
+    }
+
     return (  
         <div className="wider scorecard scorecard-flex">
           <div>
@@ -55,6 +70,12 @@ const ScoreCard = ({ score } : { score: Score }) => {
             <div>
                 <p className="small">Submitted at: {score.submittedAt ? new Date(score.submittedAt).toLocaleString("en-GB") : "-"}</p>
                 <p className="small">{score.processedAt ? "Processed at: " + new Date(score.processedAt).toLocaleString("en-GB") : "Waiting for Records Officer to process"}</p>
+            </div>
+
+            <div>
+                <br />
+                { !isDeleting && <button className="btn-navigation"  style={{"textDecoration": "underline"}} onClick={() => handleDeleteScore(score.id)}>Delete</button> }
+                { isDeleting && <button className="btn-navigation" disabled>Deleting...</button> }
             </div>
 
           </div>

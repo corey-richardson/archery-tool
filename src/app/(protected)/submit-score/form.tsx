@@ -3,6 +3,7 @@
 import calculateAgeCategory from "@/app/lib/calculateAgeCategory";
 import React, { useEffect, useState } from "react";
 import { EnumMappings } from "@/app/lib/enumMappings";
+import { redirect } from "next/navigation";
 
 // Constants
 const TODAY = new Date();
@@ -62,6 +63,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
             setNotes("");
 
             setIsLoading(false);
+            redirect("/my-scores");
         }
     }
 
