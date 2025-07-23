@@ -28,7 +28,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
     // Effects
     useEffect(() => {
         async function fetchUser() {
-            const res = await fetch(`/api/user?userId=${userId}`);
+            const res = await fetch(`/api/user/${userId}`);
             const data = await res.json();
             setBowstyle(data.defaultBowstyle);
             setAgeCategory(calculateAgeCategory(data.yearOfBirth));
