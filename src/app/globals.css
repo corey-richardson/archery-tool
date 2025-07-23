@@ -56,6 +56,17 @@
   margin: 20px 2rem !important;
 }
 
+.scorecard-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2em;
+}
+
+.scorecard-flex > div {
+  flex: 1;
+}
+
 .flex-form {
   display: flex;
   flex-direction: column;
@@ -282,7 +293,7 @@
   cursor: pointer;
 }
 
-.forms button {
+.forms button, .link-button {
   width: 100%;
   background-color: var(--primary-color);
   color: var(--white);
@@ -296,7 +307,7 @@
   transition: all 0.3s ease;
 }
 
-.forms button:hover {
+.forms button:hover, .link-button:hover {
   background-color: #2554d6;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(53, 109, 241, 0.3);
@@ -310,6 +321,26 @@
 .forms label {
   color: var(--primary-color);
   font-weight: bold;
+}
+
+.link-button {
+  text-decoration: none;
+  color: white;
+  text-align: center;
+}
+
+.scores-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+@media (max-width: 1166px) {
+  .scores-links {
+    flex-direction: column;
+    gap: 0;
+  }
+
 }
 
 /* ========================================
@@ -546,8 +577,16 @@
   }
 }
 
-/* Mobile */
-@media (max-width: 768px) {
+@media (max-width: 1166px) {
+  .scorecard-flex {
+    flex-direction: column;
+    gap: 1.5em;
+  }
+
+  .scorecard-flex > div {
+    width: 100%;
+    max-width: 100%;
+  }
   .content {
     margin: 20px auto;
     padding: 15px;

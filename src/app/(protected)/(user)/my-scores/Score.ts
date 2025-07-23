@@ -13,5 +13,8 @@ export type Score = {
     ageCategory: string;
     notes?: string;
     submittedAt?: string;
-    processedAt?:string;
+    processedAt?: string;
+    roundIndoorClassification?: string;
+    roundOutdoorClassification?: string;
+    roundHandicap?: string;
 }

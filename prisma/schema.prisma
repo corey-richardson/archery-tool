@@ -197,6 +197,7 @@ enum IndoorClassification {
   IA1
   IB3
   IB2
+  IB1
   IMB
   IGMB
 }

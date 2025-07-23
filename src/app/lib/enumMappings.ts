@@ -33,9 +33,24 @@ export const EnumMappings: Record<string, string> = {
     INDOOR: "Indoor",
     OUTDOOR: "Outdoor",
     // Indoor Classification
-
+    IA3: "Indoor Archer 3rd Class",
+    IA2: "Indoor Archer 2nd Class",
+    IA1: "Indoor Archer 1st Class",
+    IB3: "Indoor Bowman 3rd Class",
+    IB2: "Indoor Bowman 2nd Class",
+    IB1: "Indoor Bowman 1st Class",
+    IMB: "Indoor Master Bowman",
+    IGMB: "Indoor Grand Master Bowman",
     // Outdoor Classification
-
+    A3: "Archer 3rd Class",
+    A2: "Archer 2nd Class",
+    A1: "Archer 1st Class",
+    B3: "Bowman 3rd Class",
+    B2: "Bowman 2nd Class",
+    B1: "Bowman 1st Class",
+    MB: "Master Bowman",
+    GMB: "Grand Master Bowman ",
+    EMB: "Elite Master Bowman ",
     // Competition Level
     PRACTICE: "Club Practice",
     CLUB_EVENT: "Club Event",
