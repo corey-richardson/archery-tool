@@ -125,12 +125,12 @@
 .navbar a:hover,
 .navbar-link-button:hover,
 .active {
-  color: var(--primary-color);
-  background-color: rgba(53, 109, 241, 0.1);
+  color: var(--primary-color) !important;
+  background-color: rgba(53, 109, 241, 0.1) !important;
 }
 
 .active {
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 /* ========================================
