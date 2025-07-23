@@ -47,6 +47,65 @@ async function main() {
     },
   });
 
+  // Create a RecordsSummary for the user
+  await prisma.recordsSummary.upsert({
+    where: { userId: user.id },
+    update: {},
+    create: {
+      userId: user.id,
+      indoorClassification: 'UNCLASSIFIED',
+      outdoorClassification: 'B1',
+      outdoorBadgeGiven: 'B2',
+      indoorHandicap: 50,
+      outdoorHandicap: 60,
+      // Add other fields as needed
+    },
+  });
+
+  // Create a sample Score for the user
+  await prisma.scores.create({
+    data: {
+      userId: user.id,
+      dateShot: new Date('2025-07-19T10:00:00Z'),
+      roundName: 'Portsmouth',
+      roundType: 'INDOOR',
+      bowstyle: 'RECURVE',
+      score: 540,
+      xs: 10,
+      tens: 20,
+      nines: 30,
+      hits: 60,
+      competitionLevel: 'PRACTICE',
+      ageCategory: 'SENIOR',
+      notes: 'Seeded score',
+      roundIndoorClassification: 'UNCLASSIFIED',
+      roundOutdoorClassification: null,
+      roundHandicap: 50,
+      submittedAt: new Date('2025-07-21T10:00:00Z'),
+      processedAt: new Date(),
+    },
+  });
+
+    await prisma.scores.create({
+    data: {
+      userId: user.id,
+      dateShot: new Date('2025-07-23T10:00:00Z'),
+      roundName: 'WA 18m',
+      roundType: 'INDOOR',
+      bowstyle: 'RECURVE',
+      score: 523,
+      xs: 10,
+      tens: 20,
+      nines: 30,
+      hits: 60,
+      competitionLevel: 'PRACTICE',
+      ageCategory: 'SENIOR',
+      notes: 'Seeded score',
+      submittedAt: new Date(),
+      processedAt: null,
+    },
+  });
+
   console.log('Seed completed.');
 }
 

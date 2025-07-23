@@ -109,8 +109,8 @@ model IceDetails {
 model RecordsSummary {
   id                    String                  @id @default(cuid())
   userId                String                  @unique
-  indoorClassification  IndoorClassification?
-  outdoorClassification OutdoorClassification?
+  indoorClassification  IndoorClassification    @default(UNCLASSIFIED)
+  outdoorClassification OutdoorClassification   @default(UNCLASSIFIED)
   indoorBadgeGiven      IndoorClassification?
   outdoorBadgeGiven     OutdoorClassification?
   indoorHandicap        Int?
@@ -200,6 +200,7 @@ enum IndoorClassification {
   IB1
   IMB
   IGMB
+  UNCLASSIFIED
 }
 
 enum OutdoorClassification {
@@ -212,6 +213,7 @@ enum OutdoorClassification {
   MB
   GMB
   EMB
+  UNCLASSIFIED
 }
 
 enum CompetitionLevel {
