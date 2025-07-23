@@ -3,7 +3,6 @@
 import LoginForm from "@/app/ui/login-form";
 import UserRegistrationForm from "@/app/ui/register-user";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 
 const AuthForms = () => {
 
@@ -24,9 +23,7 @@ const AuthForms = () => {
                 </div>
             </div>}
 
-            {!!session && <div className="centred">
-                <p>Go to <Link href="/my-details">My Details</Link>?</p>
-            </div>}
+            
 
         </>
      );
