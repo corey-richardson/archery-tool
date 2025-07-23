@@ -18,7 +18,8 @@ const DetailsForm = ({userId} : any) => {
     const [ yearOfBirth, setYearOfBirth ] = useState("")
     const [ ageCat, setAgeCat ] = useState("");
     const [ defaultBowstyle, setDefaultBowstyle] = useState("NOT_SET");
-    const [ lastUpdated, setLastUpdated ] = useState("NEVER");
+    const [ lastUpdated, setLastUpdated ] = useState("");
+    const [ createdAt, setCreatedAt ] = useState("");
 
     // Placeholder
     const maxYear = null;
@@ -35,6 +36,7 @@ const DetailsForm = ({userId} : any) => {
             setYearOfBirth(data.yearOfBirth ? String(data.yearOfBirth) : "");
             setDefaultBowstyle(data.defaultBowstyle ?? "NOT_SET");
             setLastUpdated(data.updatedAt ?? "NEVER");
+            setCreatedAt(data.createdAt ?? "NEVER");
         }
         fetchUser();
         
@@ -129,12 +131,12 @@ const DetailsForm = ({userId} : any) => {
                 { !isLoading && !changesPending && <button disabled>Save Details</button> }
                 { !isLoading && changesPending && <button type="submit">Save Details</button> }
                 { isLoading && <button disabled>Loading...</button> }
-
+                
                 <p style={{"marginTop": "12px"}} className="small centred">
-                    Your details were last updated {
+                    Your details were last updated at {
                     lastUpdated !== "NEVER"
-                    ? "at " + new Date(lastUpdated).toLocaleString()
-                    : "NEVER"
+                    ? new Date(lastUpdated).toLocaleString()
+                    : new Date(createdAt).toLocaleString()
                     }.
                 </p>
             </form>
