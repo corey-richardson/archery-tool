@@ -52,8 +52,9 @@
 }
 
 .wider {
-  max-width: calc(1 * var(--max-content-width)) !important;
-  margin: 20px 2rem !important;
+  max-width: min(var(--max-content-width), 90vw) !important;
+  width: 100%;
+  margin: 20px auto !important;
 }
 
 .scorecard-flex {
