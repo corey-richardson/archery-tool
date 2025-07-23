@@ -27,7 +27,6 @@ const EmergencyContactsForm = ({user} : any) => {
         const res = await fetch(`/api/ice-details/${user.id}`);
         const data = await res.json();
         setContacts(data);
-        console.log(data);
     }, [user.id]);
 
 

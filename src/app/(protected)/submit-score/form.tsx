@@ -67,8 +67,6 @@ const ScoreSubmissionForm = ({userId} : any) => {
     // Render
     return ( 
         <div className="wider content">
-            <h3>Submit a Score to the Records Officer</h3>
-            <p className="centred">Lorem ipsum dolor sit amet consectetur adipisicing elit. In quidem et molestiae, ea libero, fugiat dolore veniam provident hic vel veritatis eum quia, perspiciatis at doloribus! Soluta eius sequi illo!</p>
             <form className="flex-form" onSubmit={handleSubmit}>
                <div className="flex-form-row">
                     <label>Date Shot:</label>

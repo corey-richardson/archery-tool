@@ -223,7 +223,7 @@
   padding: 0 20px;
 }
 
-.forms > div {
+.forms > div, .scorecard {
   min-width: 400px;
   flex: 1 1 450px;
   max-width: 500px;
@@ -234,7 +234,7 @@
   border: 1px solid var(--border-color);
 }
 
-.forms h3 {
+.forms h3, .content h3 {
   font-size: 24px;
   font-weight: 600;
   color: var(--primary-color);
