@@ -72,11 +72,13 @@ const ScoreCard = ({ score, onDeletion } : { score: Score; onDeletion?: () => vo
                 <p className="small">{score.processedAt ? "Processed at: " + new Date(score.processedAt).toLocaleString("en-GB") : "Waiting for Records Officer to process"}</p>
             </div>
 
-            <div>
-                <br />
-                { !isDeleting && <button className="btn-navigation"  style={{"textDecoration": "underline", "padding": "0"}} onClick={() => handleDeleteScore(score.id)}>Delete</button> }
-                { isDeleting && <button className="btn-navigation" disabled>Deleting...</button> }
-            </div>
+            { onDeletion && (
+              <div>
+                  <br />
+                  { !isDeleting && <button className="btn-navigation"  style={{"textDecoration": "underline", "padding": "0"}} onClick={() => handleDeleteScore(score.id)}>Delete</button> }
+                  { isDeleting && <button className="btn-navigation" disabled>Deleting...</button> }
+              </div>
+            )}
 
           </div>
         </div>
