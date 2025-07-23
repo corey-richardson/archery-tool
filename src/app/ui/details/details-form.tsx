@@ -27,6 +27,7 @@ const DetailsForm = ({userId} : any) => {
     // Effects
     useEffect(() => {
         async function fetchUser() {
+            setIsLoading(true);
             const res = await fetch(`/api/user?userId=${userId}`);
             const data = await res.json();
             setName(data.name ?? "");
@@ -35,9 +36,11 @@ const DetailsForm = ({userId} : any) => {
             setGender(data.gender ?? "");
             setYearOfBirth(data.yearOfBirth ? String(data.yearOfBirth) : "");
             setDefaultBowstyle(data.defaultBowstyle ?? "NOT_SET");
-            setLastUpdated(data.updatedAt ?? "NEVER");
-            setCreatedAt(data.createdAt ?? "NEVER");
+            setLastUpdated(data.updatedAt ?? "...");
+            setCreatedAt(data.createdAt ?? "...");
+            setIsLoading(false);
         }
+
         fetchUser();
         
     }, [userId, refreshFlag]);
@@ -132,13 +135,15 @@ const DetailsForm = ({userId} : any) => {
                 { !isLoading && changesPending && <button type="submit">Save Details</button> }
                 { isLoading && <button disabled>Loading...</button> }
                 
-                <p style={{"marginTop": "12px"}} className="small centred">
-                    Your details were last updated at {
-                    lastUpdated !== "NEVER"
-                    ? new Date(lastUpdated).toLocaleString()
-                    : new Date(createdAt).toLocaleString()
-                    }.
-                </p>
+                { !isLoading && (
+                    <p style={{"marginTop": "12px"}} className="small centred">
+                        Your details were last updated at {
+                        lastUpdated !== "..."
+                        ? new Date(lastUpdated).toLocaleString()
+                        : new Date(createdAt).toLocaleString()
+                        }.
+                    </p>
+                )}
             </form>
         </div>
      );
