@@ -464,7 +464,8 @@
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
   align-items: center;
   gap: 8px;
 }
@@ -491,7 +492,6 @@
   border-color: var(--primary-color) !important;
   color: var(--primary-color) !important;
 }
-
 
 .btn-navigation {
   background: none;
