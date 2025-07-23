@@ -51,6 +51,8 @@ export const EnumMappings: Record<string, string> = {
     MB: "Master Bowman",
     GMB: "Grand Master Bowman ",
     EMB: "Elite Master Bowman ",
+    // Either Classification
+    UNCLASSIFIED: "Unclassified",
     // Competition Level
     PRACTICE: "Club Practice",
     CLUB_EVENT: "Club Event",

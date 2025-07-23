@@ -62,6 +62,7 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 2em;
+  padding-bottom: 1rem;
 }
 
 .scorecard-flex > div {
@@ -587,6 +588,7 @@
     width: 100%;
     max-width: 100%;
   }
+
   .content {
     margin: 20px auto;
     padding: 15px;
