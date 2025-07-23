@@ -28,7 +28,7 @@ const DetailsForm = ({userId} : any) => {
     useEffect(() => {
         async function fetchUser() {
             setIsLoading(true);
-            const res = await fetch(`/api/user?userId=${userId}`);
+            const res = await fetch(`/api/user/${userId}`);
             const data = await res.json();
             setName(data.name ?? "");
             setEmail(data.email ?? "");
@@ -122,7 +122,7 @@ const DetailsForm = ({userId} : any) => {
 
                 <label>Default Bowstyle:</label>
                 <select value={defaultBowstyle ?? "NOT_SET"} onChange={ handleInputChange(setDefaultBowstyle) }>
-                    <option disabled value="">Please Select</option>
+                    <option disabled value="NOT_SET">Please Select</option>
                     <option value="BAREBOW">{ EnumMappings["BAREBOW"] }</option>
                     <option value="RECURVE">{ EnumMappings["RECURVE"] }</option>
                     <option value="COMPOUND">{ EnumMappings["COMPOUND"] }</option>

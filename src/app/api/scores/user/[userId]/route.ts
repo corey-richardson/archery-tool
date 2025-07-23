@@ -28,5 +28,5 @@ export async function GET(request: NextRequest, context: any) {
     const hasMore = skip + scores.length < total;
     const totalPages = Math.ceil(total / pageSize);
 
-    return NextResponse.json({ scores, hasMore, totalPages });
+    return NextResponse.json({ scores, hasMore, totalPages }, { status: 200 });
 }
