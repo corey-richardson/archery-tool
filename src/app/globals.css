@@ -459,6 +459,33 @@
   color: var(--primary-color) !important;
 }
 
+
+.btn-navigation {
+  background: none;
+  border: none;
+  padding: 6px;
+}
+
+.btn-navigation:disabled {
+  background: none !important;
+  color: #c5c5c5 !important;
+  border: none !important;
+  cursor: not-allowed !important;
+}
+
+.btn-navigation:hover {
+  background-color: var(--light-gray) !important;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
+  border-radius: 0.75rem;
+}
+
+.btn-navigation:disabled:hover {
+  background: none !important;
+  color: #c5c5c5 !important;
+  border: none !important;
+}
+
 .quick-links {
   display: flex;
   gap: 20px;
