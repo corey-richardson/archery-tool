@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import { EnumMappings } from "@/app/lib/enumMappings";
 
 type Contact = {
     id: string;
@@ -120,12 +121,12 @@ const EmergencyContactsForm = ({user} : any) => {
                 <label>Relationship to Contact:</label>
                 <select value={newContactRelationship} onChange={e => setNewContactRelationship(e.target.value)}>
                     <option value="NOT_SET" disabled>Please Select</option>
-                    <option value="PARENT">Parent</option>
-                    <option value="GUARDIAN">Guardian</option>
-                    <option value="SPOUSE">Partner or Spouse</option>
-                    <option value="SIBLING">Sibling</option>
-                    <option value="FRIEND">Friend</option>
-                    <option value="OTHER">Other</option>
+                    <option value="PARENT">{ EnumMappings["PARENT"] }</option>
+                    <option value="GUARDIAN">{ EnumMappings["GUARDIAN"] }</option>
+                    <option value="SPOUSE">{ EnumMappings["SPOUSE"] }</option>
+                    <option value="SIBLING">{ EnumMappings["SIBLING"] }</option>
+                    <option value="FRIEND">{ EnumMappings["FRIEND"] }</option>
+                    <option value="OTHER">{ EnumMappings["OTHER"] }</option>
                 </select>
 
                 { !isLoading && <button type="submit">Add New Contact</button> }

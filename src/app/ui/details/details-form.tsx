@@ -2,6 +2,7 @@
 
 import calculateAgeCategory from "@/app/lib/calculateAgeCategory";
 import React, { useCallback, useEffect, useState } from "react";
+import { EnumMappings } from "@/app/lib/enumMappings";
 
 // Component
 const DetailsForm = ({userId} : any) => {
@@ -97,8 +98,8 @@ const DetailsForm = ({userId} : any) => {
                 <label>Sex (as per AGB):</label>
                 <select value={sex ?? "NOT_SET"} onChange={ handleInputChange(setSex) }>
                     <option value="NOT_SET" disabled>Please Select</option>
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
+                    <option value="MALE">{ EnumMappings["MALE"] }</option>
+                    <option value="FEMALE">{ EnumMappings["FEMALE"] }</option>
                 </select>
 
                 <label>Pronouns:</label>
@@ -116,12 +117,13 @@ const DetailsForm = ({userId} : any) => {
 
                 <label>Default Bowstyle:</label>
                 <select value={defaultBowstyle ?? "NOT_SET"} onChange={ handleInputChange(setDefaultBowstyle) }>
-                    <option value="NOT_SET" disabled>Please Select</option>
-                    <option value="BAREBOW">Barebow</option>
-                    <option value="RECURVE">Recurve</option>
-                    <option value="COMPOUND">Compound</option>
-                    <option value="LONGBOW">Longbow</option>
-                    <option value="TRADITIONAL">Traditional</option>
+                    <option disabled value="">Please Select</option>
+                    <option value="BAREBOW">{ EnumMappings["BAREBOW"] }</option>
+                    <option value="RECURVE">{ EnumMappings["RECURVE"] }</option>
+                    <option value="COMPOUND">{ EnumMappings["COMPOUND"] }</option>
+                    <option value="LONGBOW">{ EnumMappings["LONGBOW"] }</option>
+                    <option value="TRADITIONAL">{ EnumMappings["TRADITIONAL"] }</option>
+                    <option value="OTHER">{ EnumMappings["OTHER"] }</option>
                 </select>
 
                 { !isLoading && !changesPending && <button disabled>Save Details</button> }

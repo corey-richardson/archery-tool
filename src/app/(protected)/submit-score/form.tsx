@@ -2,6 +2,7 @@
 
 import calculateAgeCategory from "@/app/lib/calculateAgeCategory";
 import React, { useEffect, useState } from "react";
+import { EnumMappings } from "@/app/lib/enumMappings";
 
 // Constants
 const TODAY = new Date();
@@ -82,8 +83,8 @@ const ScoreSubmissionForm = ({userId} : any) => {
                
                     <label>Round Type:</label>
                     <select value={roundType} onChange={e => setRoundType(e.target.value)} required>
-                        <option value="INDOOR">Indoor</option>
-                        <option value="OUTDOOR">Outdoor</option>
+                        <option value="INDOOR">{ EnumMappings["INDOOR"] }</option>
+                        <option value="OUTDOOR">{ EnumMappings["OUTDOOR"] }</option>
                     </select>
                </div>
 
@@ -91,20 +92,20 @@ const ScoreSubmissionForm = ({userId} : any) => {
                     <label>Bowstyle:</label>
                     <select value={bowstyle ?? ""} onChange={e => setBowstyle(e.target.value)} required>
                         <option disabled value="">Please Select</option>
-                        <option value="BAREBOW">Barebow</option>
-                        <option value="RECURVE">Recurve</option>
-                        <option value="COMPOUND">Compound</option>
-                        <option value="LONGBOW">Longbow</option>
-                        <option value="TRADITIONAL">Traditional</option>
-                        <option value="OTHER">Other</option>
+                        <option value="BAREBOW">{ EnumMappings["BAREBOW"] }</option>
+                        <option value="RECURVE">{ EnumMappings["RECURVE"] }</option>
+                        <option value="COMPOUND">{ EnumMappings["COMPOUND"] }</option>
+                        <option value="LONGBOW">{ EnumMappings["LONGBOW"] }</option>
+                        <option value="TRADITIONAL">{ EnumMappings["TRADITIONAL"] }</option>
+                        <option value="OTHER">{ EnumMappings["OTHER"] }</option>
                     </select>
 
                     <label>Competition Level:</label>
                     <select value={competitionLevel} onChange={e => setCompetitionLevel(e.target.value)} required>
-                        <option value="PRACTICE">Club Practice</option>
-                        <option value="CLUB_EVENT">Club Target Day / Club Event</option>
-                        <option value="OPEN_COMPETITION">Open Competition</option>
-                        <option value="RECORDSTATUS_COMPETITION">Record Status Competition</option>
+                        <option value="PRACTICE">{ EnumMappings["PRACTICE"] }</option>
+                        <option value="CLUB_EVENT">{ EnumMappings["CLUB_EVENT"] }</option>
+                        <option value="OPEN_COMPETITION">{ EnumMappings["OPEN_COMPETITION"] }</option>
+                        <option value="RECORDSTATUS_COMPETITION">{ EnumMappings["RECORDSTATUS_COMPETITION"] }</option>
                     </select>
                </div>
 
