@@ -47,20 +47,26 @@ export default function Scorecards({ userId, onDeletion }: ScorecardsProps) {
                 </div>
             )}
 
-            { !isLoading && (
-                <div className="scorecard-list">
-                    {scores.map((score: Score) => (
-                        <ScoreCard key={score.id} score={score} onDeletion={fetchUsersScores} />
-                    ))}
+            { !isLoading && scores.length == 0 && (
+                <div className="content">
+                    <h4 className="centred">You don't have any scores yet!</h4>
                 </div>
             )}
 
-            { !isLoading && (
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', margin: '2rem 0', alignItems: 'center' }}>
-                    <button className="btn-navigation" onClick={handlePrev} disabled={page === 1 || isLoading}>&lt; Previous</button>
-                    <p className="small">Page {page} of {totalPages}</p>
-                    <button className="btn-navigation" onClick={handleNext} disabled={!hasMore || isLoading}>Next &gt;</button>
-                </div>
+            { !isLoading && scores.length > 0 && (
+                <>
+                    <div className="scorecard-list">
+                        {scores.map((score: Score) => (
+                            <ScoreCard key={score.id} score={score} onDeletion={fetchUsersScores} />
+                        ))}
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', margin: '2rem 0', alignItems: 'center' }}>
+                        <button className="btn-navigation" onClick={handlePrev} disabled={page === 1 || isLoading}>&lt; Previous</button>
+                        <p className="small">Page {page} of {totalPages}</p>
+                        <button className="btn-navigation" onClick={handleNext} disabled={!hasMore || isLoading}>Next &gt;</button>
+                    </div>
+                </>
             )}
         </>
     );
