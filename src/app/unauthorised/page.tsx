@@ -2,16 +2,15 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-const Unauthorised = () => {
-
-    const router = useRouter();
+function UnauthorisedContent() {
+const router = useRouter();
     const searchParams = useSearchParams();
     const reason = searchParams.get("reason");
 
-    let signedIn = false;
+    let signedIn = true;
     switch (reason) {
-        case ("not-an-admin"): signedIn = true; break;
         case ("not-logged-in"): signedIn = false; break;
         default: break;
     }
@@ -49,12 +48,21 @@ const Unauthorised = () => {
                         >
                             ← Go Back
                         </button>
+
                     </div>
             
                 </div>
             </div>
         </div>
-    );
+    )
+}
+
+const Unauthorised = () => {
+    return (
+        <Suspense fallback={ <p>Loading...</p> }>
+            <UnauthorisedContent />
+        </Suspense>
+    )
 }
  
 export default Unauthorised;
