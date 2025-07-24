@@ -13,7 +13,7 @@ async function Records() {
   const admin = session?.user?.memberships?.some((m: any) => m.roles.includes("ADMIN"));
 
   if (!session || !admin ) {
-    redirect("/unauthorised");
+    redirect("/unauthorised?reason=not-an-admin");
   }
 
   return ( 

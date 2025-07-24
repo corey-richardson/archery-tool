@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { APP_NAME } from "../lib/constants";
 import "../globals.css";
 import Navbar from "../ui/navbar/Navbar";
-import Unauthenticated from '@/app/Unauthenticated';
+
+import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from '@/app/api/auth/authOptions';
 
@@ -22,7 +23,7 @@ export default async function Layout({
 
   const session = await getServerSession(authOptions);
       if (!session) {
-        return ( <Unauthenticated /> )
+        redirect("/unauthorised?reason=not-logged-in");
       }
 
   return (
