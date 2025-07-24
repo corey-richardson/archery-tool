@@ -4,15 +4,13 @@ import { authOptions } from '@/app/api/auth/authOptions';
 import DetailsForm from '@/app/ui/details/details-form';
 import EmergencyContactsForm from '@/app/ui/details/ice-form';
 
+
 export const metadata: Metadata = {
   title: 'My Details',
 };
 
 async function MyDetails() {
     const session = await getServerSession(authOptions);
-    if (!session) {
-      // ???
-    }
 
     return ( 
         <div className="forms">   
