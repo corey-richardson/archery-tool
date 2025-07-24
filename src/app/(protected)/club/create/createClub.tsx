@@ -41,7 +41,7 @@ function CreateClub() {
     }
 
     if (session === null) {
-        return <h4 style={{"color": "black"}}>Loading session...</h4>;
+        return <h4 style={{"color": "black"}}>Loading...</h4>;
     }
     if (!session) {
         return <h4 style={{"color": "black"}}>No session found.</h4>;
