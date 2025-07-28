@@ -17,6 +17,7 @@ const EmergencyContactsForm = ({user} : any) => {
     const [ contacts, setContacts ] = useState<Contact[]>([]);
 
     const [ isLoading, setIsLoading ] = useState(false);
+    const [ changesPending, setChangesPending ] = useState(false);
 
     const [ newContactName, setNewContactName ] = useState<string>("");
     const [ newContactPhone, setNewContactPhone ] = useState<string>("");
@@ -109,16 +110,28 @@ const EmergencyContactsForm = ({user} : any) => {
             <h4>Add New Emergency Contact</h4>
             <form onSubmit={handleCreateNewContact}>
                 <label>*Contact Name:</label>
-                <input value={newContactName} onChange={e => setNewContactName(e.target.value)} required />
+                <input value={newContactName} onChange={e => {
+                    setNewContactName(e.target.value);
+                    setChangesPending(true);
+                }} required />
 
                 <label>*Contact Phone Number:</label>
-                <input value={newContactPhone} onChange={e => setNewContactPhone(e.target.value)} required />
+                <input value={newContactPhone} onChange={e => {
+                    setNewContactPhone(e.target.value);
+                    setChangesPending(true);
+                }} required />
 
                 <label>Contact Email:</label>
-                <input value={newContactEmail} onChange={e => setNewContactEmail(e.target.value)} type="email" />
+                <input value={newContactEmail} onChange={e => {
+                    setNewContactEmail(e.target.value);
+                    setChangesPending(true);
+                }} type="email" />
 
                 <label>Relationship to Contact:</label>
-                <select value={newContactRelationship} onChange={e => setNewContactRelationship(e.target.value)}>
+                <select value={newContactRelationship} onChange={e => {
+                    setNewContactRelationship(e.target.value);
+                    setChangesPending(true);
+                }}>
                     <option value="NOT_SET" disabled>Please Select</option>
                     <option value="PARENT">{ EnumMappings["PARENT"] }</option>
                     <option value="GUARDIAN">{ EnumMappings["GUARDIAN"] }</option>
@@ -127,8 +140,9 @@ const EmergencyContactsForm = ({user} : any) => {
                     <option value="FRIEND">{ EnumMappings["FRIEND"] }</option>
                     <option value="OTHER">{ EnumMappings["OTHER"] }</option>
                 </select>
-
-                { !isLoading && <button type="submit">Add New Contact</button> }
+                
+                { !changesPending && <button disabled>Add New Contact</button> }
+                { !isLoading && changesPending && <button type="submit">Add New Contact</button> }
                 { isLoading && <button disabled>Adding...</button>}
             </form>
             <hr />
