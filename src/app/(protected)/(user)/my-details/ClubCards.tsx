@@ -26,15 +26,18 @@ export default function ClubCards( { userId } : ClubcardProps ) {
 
     return (
         <>
+            <h3>My Clubs.</h3>
+            <p className="centred">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vitae facilis fuga voluptas autem, perspiciatis placeat, incidunt provident veniam eaque mollitia aliquam voluptate eos cumque officia illo consequuntur porro aperiam.</p>
+
             { isLoading && (
                 <div className="content">
-                    <h4 className="centred">Loading...</h4>
+                    <p className="centred">Loading...</p>
                 </div>
             )}
 
             { !isLoading && clubs.length == 0 && (
                 <div className="content">
-                    <h4 className="centred">You're not part of any clubs yet!</h4>
+                    <p className="centred">You're not part of any clubs yet!</p>
                 </div>
             )}
 

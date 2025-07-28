@@ -226,20 +226,32 @@
    ======================================== */
 
 .forms {
-  display: flex;
+  display: grid;
   gap: 4rem;
   justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
   max-width: var(--max-content-width);
   margin: 40px auto;
   padding: 0 20px;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.details-grid {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+}
+
+.club-cards-full-width {
+  grid-column: 1 / -1;
+  min-width: 400px;
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 40px;
+  border: 1px solid var(--border-color);
 }
 
 .forms > div, .scorecard {
   min-width: 400px;
-  flex: 1 1 450px;
-  max-width: 500px;
   background: var(--white);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
@@ -547,6 +559,9 @@
    MEDIA QUERIES
    ======================================== */
 
+
+
+
 /* Tablet and below */
 @media (max-width: 1166px) {
   .navbar {
@@ -576,9 +591,7 @@
     display: flex;
     margin-left: auto;
   }
-}
 
-@media (max-width: 1166px) {
   .scorecard-flex {
     flex-direction: column;
     gap: 1.5em;
@@ -627,6 +640,16 @@
 
   .auth-forms form > *:last-child {
     margin-bottom: 0;
+  }
+
+  /* Responsive layout for my-details page */
+  .my-details-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
+  }
+
+  .club-cards-full-width {
+    grid-column: 1;
   }
 
   /* 404 page mobile styles */

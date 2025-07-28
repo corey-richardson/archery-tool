@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from '@/app/api/auth/authOptions';
 import DetailsForm from '@/app/ui/details/details-form';
 import EmergencyContactsForm from '@/app/ui/details/ice-form';
+import ClubCards from './ClubCards';
+import OverviewCard from '../my-scores/overview/card';
 
 
 export const metadata: Metadata = {
@@ -11,12 +13,19 @@ export const metadata: Metadata = {
 
 async function MyDetails() {
     const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
 
     return ( 
-        <div className="forms">   
-          <DetailsForm userId={session?.user.id} />
-          <EmergencyContactsForm user={session?.user} />
-        </div>
+        <>
+          <div className="forms details-grid">   
+            <DetailsForm userId={session?.user.id} />
+            <EmergencyContactsForm user={session?.user} />
+
+            <div className="club-cards-full-width">
+              <ClubCards userId={userId} />
+            </div>
+          </div>
+        </>
      );
 }
  

@@ -90,7 +90,6 @@ const DetailsForm = ({userId} : any) => {
         <div>
             <h3>My Details.</h3>
             <p className="centred">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vitae facilis fuga voluptas autem, perspiciatis placeat, incidunt provident veniam eaque mollitia aliquam voluptate eos cumque officia illo consequuntur porro aperiam.</p>
-            <hr />
 
             <form onSubmit={handleSubmit}>
 

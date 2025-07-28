@@ -106,7 +106,6 @@ const EmergencyContactsForm = ({user} : any) => {
             <h3>Emergency Contact Details.</h3>
             <p className="centred">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo adipisci aliquam, enim voluptate corrupti doloremque possimus, voluptatibus aliquid perspiciatis in maxime corporis voluptatem temporibus illo optio, maiores minus quaerat voluptates.</p>
 
-            <hr />
             <h4>Add New Emergency Contact</h4>
             <form onSubmit={handleCreateNewContact}>
                 <label>*Contact Name:</label>
