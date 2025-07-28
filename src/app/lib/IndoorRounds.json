@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Bray I",
+    "codename": "bray_i",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bray I Compound",
+    "codename": "bray_i_compound",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bray I Triple",
+    "codename": "bray_i_triple",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bray I Compound Triple",
+    "codename": "bray_i_compound_triple",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bray II",
+    "codename": "bray_ii",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bray II Compound",
+    "codename": "bray_ii_compound",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bray II Triple",
+    "codename": "bray_ii_triple",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bray II Compound Triple",
+    "codename": "bray_ii_compound_triple",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Stafford",
+    "codename": "stafford",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Stafford Compound",
+    "codename": "stafford_compound",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Portsmouth",
+    "codename": "portsmouth",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Portsmouth Compound",
+    "codename": "portsmouth_compound",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Portsmouth Triple",
+    "codename": "portsmouth_triple",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Portsmouth Compound Triple",
+    "codename": "portsmouth_compound_triple",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Worcester",
+    "codename": "worcester",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Worcester 5-Spot",
+    "codename": "worcester_5_centre",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Vegas",
+    "codename": "vegas",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Vegas Compound",
+    "codename": "vegas_compound",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Vegas 300",
+    "codename": "vegas_300",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Vegas 300 Triple",
+    "codename": "vegas_300_triple",
+    "location": "indoor",
+    "body": "AGB"
+  },
+  {
+    "name": "WA 18m",
+    "codename": "wa18",
+    "location": "indoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 18m Compound",
+    "codename": "wa18_compound",
+    "location": "indoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 18m Triple",
+    "codename": "wa18_triple",
+    "location": "indoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 18m Compound Triple",
+    "codename": "wa18_compound_triple",
+    "location": "indoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 25m",
+    "codename": "wa25",
+    "location": "indoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 25m Compound",
+    "codename": "wa25_compound",
+    "location": "indoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 25m Triple",
+    "codename": "wa25_triple",
+    "location": "indoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 25m Compound Triple",
+    "codename": "wa25_compound_triple",
+    "location": "indoor",
+    "body": "WA"
+  },
+  {
+    "name": "Lancaster",
+    "codename": "lancaster",
+    "location": "indoor",
+    "body": "custom"
+  },
+  {
+    "name": "Lancaster Triple",
+    "codename": "lancaster_triple",
+    "location": "indoor",
+    "body": "custom"
+  }
+]

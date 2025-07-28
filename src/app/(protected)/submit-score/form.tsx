@@ -1,7 +1,7 @@
 "use client";
 
 import calculateAgeCategory from "@/app/lib/calculateAgeCategory";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import { EnumMappings } from "@/app/lib/enumMappings";
 import { redirect } from "next/navigation";
 
@@ -11,6 +11,9 @@ const TODAY = new Date();
 const ScoreSubmissionForm = ({userId} : any) => {
     // State
     const [ isLoading, setIsLoading ] = useState(false);
+    const [ availableRounds, setAvailableRounds ] = useState<{name: string, body: string}[]>([]);
+    const [ loadingRounds, setLoadingRounds ] = useState(false);
+    const [ roundsLoadError, setRoundsLoadError ] = useState(false);
 
     const [ dateShot, setDateShot ] = useState(TODAY);
     const [ roundName, setRoundName ] = useState("");
@@ -25,17 +28,106 @@ const ScoreSubmissionForm = ({userId} : any) => {
     const [ notes, setNotes ] = useState("");
     const [ ageCategory, setAgeCategory] = useState("SENIOR");
 
+    // Refs for caching
+    const roundsCache = useRef<{[key: string]: {name: string, body: string}[]}>({});
+    const userDataRef = useRef<{defaultBowstyle: string, ageCategory: string} | null>(null);
+    const fetchingRounds = useRef<string | null>(null);
+
     // Effects
     useEffect(() => {
         async function fetchUser() {
+
+            if (userDataRef.current) {
+                setBowstyle(userDataRef.current.defaultBowstyle);
+                setAgeCategory(userDataRef.current.ageCategory);
+                return;
+            }
+
             const res = await fetch(`/api/user/${userId}`);
             const data = await res.json();
+            const ageCategory = calculateAgeCategory(data.yearOfBirth);
+            
+            userDataRef.current = {
+                defaultBowstyle: data.defaultBowstyle,
+                ageCategory: ageCategory
+            };
+            
             setBowstyle(data.defaultBowstyle);
-            setAgeCategory(calculateAgeCategory(data.yearOfBirth));
+            setAgeCategory(ageCategory);
         }
         fetchUser();
         
     }, [userId]);
+
+    // Fetch rounds when round type changes
+    const fetchRounds = useCallback(async (type: string) => {
+
+        if (roundsCache.current[type]) {
+            setAvailableRounds(roundsCache.current[type]);
+            setLoadingRounds(false);
+            setRoundsLoadError(false);
+            return;
+        }
+
+        if (fetchingRounds.current === type) {
+            return;
+        }
+
+        fetchingRounds.current = type;
+        setLoadingRounds(true);
+        setRoundsLoadError(false);
+        
+        try {
+            const res = await fetch(`/api/rounds?type=${type}`);
+            const data = await res.json();
+            if (res.ok) {
+                // Cache the results
+                roundsCache.current[type] = data.rounds;
+                setAvailableRounds(data.rounds);
+                setRoundsLoadError(false);
+            } else {
+                console.error('Error fetching rounds:', data.error);
+                setAvailableRounds([]);
+                setRoundsLoadError(true);
+            }
+
+        } catch (error) {
+            console.error('Error fetching rounds:', error);
+            setAvailableRounds([]);
+            setRoundsLoadError(true);
+        } finally {
+            setLoadingRounds(false);
+            fetchingRounds.current = null;
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!roundType) return;
+        
+        fetchRounds(roundType);
+        setRoundName("");
+    }, [roundType, fetchRounds]);
+
+    const bowstyleOptions = useMemo(() => [
+        { value: "BAREBOW", label: EnumMappings["BAREBOW"] },
+        { value: "RECURVE", label: EnumMappings["RECURVE"] },
+        { value: "COMPOUND", label: EnumMappings["COMPOUND"] },
+        { value: "LONGBOW", label: EnumMappings["LONGBOW"] },
+        { value: "TRADITIONAL", label: EnumMappings["TRADITIONAL"] },
+        { value: "OTHER", label: EnumMappings["OTHER"] }
+    ], []);
+
+    const competitionLevelOptions = useMemo(() => [
+        { value: "PRACTICE", label: EnumMappings["PRACTICE"] },
+        { value: "CLUB_EVENT", label: EnumMappings["CLUB_EVENT"] },
+        { value: "OPEN_COMPETITION", label: EnumMappings["OPEN_COMPETITION"] },
+        { value: "RECORDSTATUS_COMPETITION", label: EnumMappings["RECORDSTATUS_COMPETITION"] }
+    ], []);
+
+    const roundTypeOptions = useMemo(() => [
+        { value: "INDOOR", label: EnumMappings["INDOOR"] },
+        { value: "OUTDOOR", label: EnumMappings["OUTDOOR"] }
+    ], []);
 
     // Handlers
     const handleSubmit = async(e: React.FormEvent) => {
@@ -80,34 +172,57 @@ const ScoreSubmissionForm = ({userId} : any) => {
                         required
                     />
 
-                    <label>Round Name:</label>
-                    <input value={roundName ?? ""} onChange={e => setRoundName(e.target.value)} required/>
-               
                     <label>Round Type:</label>
                     <select value={roundType} onChange={e => setRoundType(e.target.value)} required>
-                        <option value="INDOOR">{ EnumMappings["INDOOR"] }</option>
-                        <option value="OUTDOOR">{ EnumMappings["OUTDOOR"] }</option>
+                        {roundTypeOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
                     </select>
+
+                    <label>Round Name:</label>
+                    {!roundsLoadError && !loadingRounds && availableRounds.length > 0 ? (
+                        <select value={roundName} onChange={e => setRoundName(e.target.value)} required disabled={loadingRounds}>
+                            <option disabled value="">
+                                {loadingRounds ? "Loading rounds..." : "Please select a round"}
+                            </option>
+                            {availableRounds.map((round) => (
+                                <option key={round.name} value={round.name}>
+                                    {round.name}
+                                </option>
+                            ))}
+                        </select>
+                    ) : (
+                        <input 
+                            type="text" 
+                            value={roundName} 
+                            onChange={e => setRoundName(e.target.value)}
+                            placeholder={loadingRounds ? "Loading rounds..." : "Enter Round Name"}
+                            disabled={loadingRounds}
+                            required
+                        />
+                    )}
                </div>
 
                <div className="flex-form-row">
                     <label>Bowstyle:</label>
                     <select value={bowstyle ?? ""} onChange={e => setBowstyle(e.target.value)} required>
                         <option disabled value="">Please Select</option>
-                        <option value="BAREBOW">{ EnumMappings["BAREBOW"] }</option>
-                        <option value="RECURVE">{ EnumMappings["RECURVE"] }</option>
-                        <option value="COMPOUND">{ EnumMappings["COMPOUND"] }</option>
-                        <option value="LONGBOW">{ EnumMappings["LONGBOW"] }</option>
-                        <option value="TRADITIONAL">{ EnumMappings["TRADITIONAL"] }</option>
-                        <option value="OTHER">{ EnumMappings["OTHER"] }</option>
+                        {bowstyleOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
                     </select>
 
                     <label>Competition Level:</label>
                     <select value={competitionLevel} onChange={e => setCompetitionLevel(e.target.value)} required>
-                        <option value="PRACTICE">{ EnumMappings["PRACTICE"] }</option>
-                        <option value="CLUB_EVENT">{ EnumMappings["CLUB_EVENT"] }</option>
-                        <option value="OPEN_COMPETITION">{ EnumMappings["OPEN_COMPETITION"] }</option>
-                        <option value="RECORDSTATUS_COMPETITION">{ EnumMappings["RECORDSTATUS_COMPETITION"] }</option>
+                        {competitionLevelOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
                     </select>
                </div>
 

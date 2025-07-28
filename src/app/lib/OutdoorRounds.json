@@ -1,0 +1,584 @@
+[
+  {
+    "name": "York",
+    "codename": "york",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Hereford",
+    "codename": "hereford",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bristol I",
+    "codename": "bristol_i",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bristol II",
+    "codename": "bristol_ii",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bristol III",
+    "codename": "bristol_iii",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bristol IV",
+    "codename": "bristol_iv",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Bristol V",
+    "codename": "bristol_v",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "St. George",
+    "codename": "st_george",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Albion",
+    "codename": "albion",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Windsor",
+    "codename": "windsor",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Windsor 50",
+    "codename": "windsor_50",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Windsor 40",
+    "codename": "windsor_40",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Windsor 30",
+    "codename": "windsor_30",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "New Western",
+    "codename": "new_western",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Long Western",
+    "codename": "long_western",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Western",
+    "codename": "western",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Western 50",
+    "codename": "western_50",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Western 40",
+    "codename": "western_40",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Western 30",
+    "codename": "western_30",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "American",
+    "codename": "american",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "St Nicholas",
+    "codename": "st_nicholas",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "New National",
+    "codename": "new_national",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Long National",
+    "codename": "long_national",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "National",
+    "codename": "national",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "National 50",
+    "codename": "national_50",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "National 40",
+    "codename": "national_40",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "National 30",
+    "codename": "national_30",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "New Warwick",
+    "codename": "new_warwick",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Long Warwick",
+    "codename": "long_warwick",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Warwick",
+    "codename": "warwick",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Warwick 50",
+    "codename": "warwick_50",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Warwick 40",
+    "codename": "warwick_40",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Warwick 30",
+    "codename": "warwick_30",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Metric I",
+    "codename": "metric_i",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Metric II",
+    "codename": "metric_ii",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Metric III",
+    "codename": "metric_iii",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Metric IV",
+    "codename": "metric_iv",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Metric V",
+    "codename": "metric_v",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Long Metric Gents",
+    "codename": "long_metric_gents",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Long Metric Ladies",
+    "codename": "long_metric_ladies",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Long Metric I",
+    "codename": "long_metric_i",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Long Metric II",
+    "codename": "long_metric_ii",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Long Metric III",
+    "codename": "long_metric_iii",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Long Metric IV",
+    "codename": "long_metric_iv",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Long Metric V",
+    "codename": "long_metric_v",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Short Metric",
+    "codename": "short_metric",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Short Metric I",
+    "codename": "short_metric_i",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Short Metric II",
+    "codename": "short_metric_ii",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Short Metric III",
+    "codename": "short_metric_iii",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Short Metric IV",
+    "codename": "short_metric_iv",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Short Metric V",
+    "codename": "short_metric_v",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Metric 122-50",
+    "codename": "metric_122_50",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Metric 122-40",
+    "codename": "metric_122_40",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Metric 122-30",
+    "codename": "metric_122_30",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Metric 80-50",
+    "codename": "metric_80_50",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Metric 80-40",
+    "codename": "metric_80_40",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "Metric 80-30",
+    "codename": "metric_80_30",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "AGB 900 70",
+    "codename": "agb900_70",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "AGB 900 60",
+    "codename": "agb900_60",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "AGB 900 50",
+    "codename": "agb900_50",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "AGB 900 40",
+    "codename": "agb900_40",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "AGB 900 30",
+    "codename": "agb900_30",
+    "location": "outdoor",
+    "body": "AGB"
+  },
+  {
+    "name": "WA 1440 (90m)",
+    "codename": "wa1440_90",
+    "location": "outdoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 1440 (70m)",
+    "codename": "wa1440_70",
+    "location": "outdoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 1440 (60m)",
+    "codename": "wa1440_60",
+    "location": "outdoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 1440 (90m) 6-zone",
+    "codename": "wa1440_90_small",
+    "location": "outdoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 1440 (70m) 6-zone",
+    "codename": "wa1440_70_small",
+    "location": "outdoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 1440 (60m) 6-zone",
+    "codename": "wa1440_60_small",
+    "location": "outdoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 70m",
+    "codename": "wa720_70",
+    "location": "outdoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 60m",
+    "codename": "wa720_60",
+    "location": "outdoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 50m Compound",
+    "codename": "wa720_50_c",
+    "location": "outdoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 50m Barebow",
+    "codename": "wa720_50_b",
+    "location": "outdoor",
+    "body": "WA"
+  },
+  {
+    "name": "WA 900",
+    "codename": "wa900",
+    "location": "outdoor",
+    "body": "WA"
+  },
+  {
+    "name": "Frostbite",
+    "codename": "frostbite",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "252 100y",
+    "codename": "misc_252_100",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "252 80y",
+    "codename": "misc_252_80",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "252 60y",
+    "codename": "misc_252_60",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "252 50y",
+    "codename": "misc_252_50",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "252 40y",
+    "codename": "misc_252_40",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "252 30y",
+    "codename": "misc_252_30",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "252 20y",
+    "codename": "misc_252_20",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "3 Doz @ 90m (122cm)",
+    "codename": "misc_3_doz_90m_122cm",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "3 Doz @ 70m (122cm)",
+    "codename": "misc_3_doz_70m_122cm",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "3 Doz @ 60m (122cm)",
+    "codename": "misc_3_doz_60m_122cm",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "3 Doz @ 50m (122cm)",
+    "codename": "misc_3_doz_50m_122cm",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "3 Doz @ 40m (122cm)",
+    "codename": "misc_3_doz_40m_122cm",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "3 Doz @ 30m (122cm)",
+    "codename": "misc_3_doz_30m_122cm",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "3 Doz @ 20m (122cm)",
+    "codename": "misc_3_doz_20m_122cm",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "3 Doz @ 50m (80cm)",
+    "codename": "misc_3_doz_50m_80cm",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "3 Doz @ 40m (80cm)",
+    "codename": "misc_3_doz_40m_80cm",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "3 Doz @ 30m (80cm)",
+    "codename": "misc_3_doz_30m_80cm",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "3 Doz @ 20m (80cm)",
+    "codename": "misc_3_doz_20m_80cm",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
+    "name": "WA 660 (70m)",
+    "codename": "wa660_70",
+    "location": "outdoor",
+    "body": "Experimental"
+  },
+  {
+    "name": "WA 660 (60m)",
+    "codename": "wa660_60",
+    "location": "outdoor",
+    "body": "Experimental"
+  },
+  {
+    "name": "WA 660 (50m) Compound",
+    "codename": "wa660_50_c",
+    "location": "outdoor",
+    "body": "Experimental"
+  },
+  {
+    "name": "WA 660 (50m) Compound 6-zone",
+    "codename": "wa660_50_c_small",
+    "location": "outdoor",
+    "body": "Experimental"
+  },
+  {
+    "name": "WA 660 (50m) Barebow",
+    "codename": "wa660_50_b",
+    "location": "outdoor",
+    "body": "Experimental"
+  }
+]
