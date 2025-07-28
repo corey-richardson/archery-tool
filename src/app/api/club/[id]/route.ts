@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 
 export async function GET(request: NextRequest, context: any) {
-    const params = context.params;
+    const params = await context.params;
     const clubId = params.id;
 
     if (!clubId) {
