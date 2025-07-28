@@ -12,6 +12,7 @@ type ScorecardsProps = {
 export default function Scorecards({ userId, onDeletion }: ScorecardsProps) {
     const [scores, setScores] = useState<Score[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    
     const [page, setPage] = useState(1);
     const pageSize = 12;
     const [hasMore, setHasMore] = useState(false);

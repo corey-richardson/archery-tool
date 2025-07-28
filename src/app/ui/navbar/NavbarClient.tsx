@@ -9,6 +9,7 @@ import clsx from "clsx";
 import { APP_NAME } from "@/app/lib/constants";
 
 const navLinks = [
+  { href: "/club", label: "Clubs", admin: false },
   { href: "/my-details", label: "My Details", admin: false },
   { href: "/my-scores", label: "My Scores", admin: false },
   { href: "/submit-score", label: "Submit a Score", admin: false },
