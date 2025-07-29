@@ -264,8 +264,6 @@
   min-width: 400px;
   background: var(--white);
   border-radius: var(--border-radius);
-  box-shadow: none !important;
-  border: none !important;
 }
 
 .forms > div, .scorecard {

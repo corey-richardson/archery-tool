@@ -1,8 +1,7 @@
 "use client";
 
-import { getSession } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 function CreateClub() {
     // State
@@ -11,16 +10,26 @@ function CreateClub() {
     const [ clubName, setClubName ] = useState("");
     const [ changesPending, setChangesPending ] = useState(false);
     const [ isPending, setIsPending] = useState(false);
-    const router = useRouter();
+
+
+    // Session refresh function
+    const refreshSessionData = async () => {
+        try {
+            const freshSession = await getSession();
+            setSession(freshSession);
+            if (freshSession) {
+                setCreatorId(freshSession.user.id);
+            }
+            console.log('Session refreshed:', freshSession);
+        } catch (error) {
+            console.error('Failed to refresh session:', error);
+        }
+    };
+    
 
     // Fetch session on mount
     useEffect(() => {
-        getSession().then(session => {
-            setSession(session);
-            if (session) {
-                setCreatorId(session.user.id);
-            }
-        });
+        refreshSessionData();
     }, []);
 
     
@@ -55,7 +64,9 @@ function CreateClub() {
                 setClubName("");
                 setChangesPending(false);
 
-                router.push(`./${clubId}`);
+                // Update session (hopefully) and goto club page
+                await refreshSessionData();
+                window.location.href = `../club/${clubId}`;
             } else {
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
@@ -82,10 +93,11 @@ function CreateClub() {
                     setChangesPending(true);
                 }} />
 
-                { changesPending && !isPending && <button>Create Club</button> }
                 { !changesPending && <button disabled>Create Club</button> }
+                { changesPending && !isPending && <button>Create Club</button> }
                 { isPending && <button disabled>Creating Club...</button> }
             </form>
+            <p className="small centred">Note that after creating a club, you may need to sign in again to reload the session data and get access to the Club Management Tools.</p>
         </div>
      );
 }
