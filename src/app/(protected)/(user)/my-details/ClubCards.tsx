@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import Club from './Club';
+import Link from "next/link";
 
 type ClubcardProps = {
     userId: string;
@@ -27,7 +28,6 @@ export default function ClubCards( { userId } : ClubcardProps ) {
     return (
         <>
             <h3>My Clubs.</h3>
-            <p className="centred">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vitae facilis fuga voluptas autem, perspiciatis placeat, incidunt provident veniam eaque mollitia aliquam voluptate eos cumque officia illo consequuntur porro aperiam.</p>
 
             { isLoading && (
                 <div className="content">
@@ -37,17 +37,20 @@ export default function ClubCards( { userId } : ClubcardProps ) {
 
             { !isLoading && clubs.length == 0 && (
                 <div className="content">
-                    <p className="centred">You're not part of any clubs yet!</p>
+                    <p className="centred bold">You're not part of any clubs yet!</p>
+                    <p className="centred">Ask one of your Club's Admins to send you an <Link className="blue bold" href="./club/invites">invite</Link> now. If you are a Committee member of a Club, you can <Link className="blue bold" href="./club/create">Create a New Club</Link> instead.</p>
                 </div>
             )}
 
             { !isLoading && clubs.length > 0 && (
                 <>
-                    <div className="scorecard-list">
+                    <div className="clubcard-list">
                         {clubs.map((club: any) => (
                             <Club key={club.id} club={club} />
                         ))}
                     </div>
+
+                    <p className="centred">If you are a Committee member of a Club, you can <Link className="blue bold" href="./club/create">Create a New Club</Link>.</p>
                 </>
             )}
         </>

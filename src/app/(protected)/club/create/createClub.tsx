@@ -2,6 +2,7 @@
 
 import { getSession } from "next-auth/react";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 function CreateClub() {
     // State
@@ -10,6 +11,7 @@ function CreateClub() {
     const [ clubName, setClubName ] = useState("");
     const [ changesPending, setChangesPending ] = useState(false);
     const [ isPending, setIsPending] = useState(false);
+    const router = useRouter();
 
     // Fetch session on mount
     useEffect(() => {
@@ -22,21 +24,45 @@ function CreateClub() {
     }, []);
 
     
-
     // Handlers
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         setIsPending(true);
 
-        const res = await fetch("/api/club", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ clubName, creatorId, }),
-        })
+        try {
+            const res = await fetch("/api/club", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ clubName, creatorId, }),
+            })
 
-        if (res.ok) {
+            console.log(res);
+
+            if (res.status === 409) {
+                const errorData = await res.json();
+                alert(errorData.message || 'A club with that name already exists');
+                setClubName("");
+                setIsPending(false);
+                return;
+            }
+
+            if (res.ok) {
+                const data = await res.json();
+                const clubId = data.createdClub.id;
+                
+                console.log('Club created with ID:', clubId);
+                setIsPending(false);
+                setClubName("");
+                setChangesPending(false);
+
+                router.push(`./${clubId}`);
+            } else {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+        } catch (error) {
+            console.error('Error creating club:', error);
+            alert('An error occurred while creating the club');
             setIsPending(false);
-            setClubName("");
         }
     }
 
