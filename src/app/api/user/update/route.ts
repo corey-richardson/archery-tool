@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 
 export async function PATCH(req: Request) {
-    const { id, name, email, sex, gender, yearOfBirth, defaultBowstyle  } = await req.json();
+    const { id, name, email, archeryGBNumber, sex, gender, yearOfBirth, defaultBowstyle  } = await req.json();
 
     if (!id || !name || !email) {
         return NextResponse.json({message: "Missing required fields."}, { status: 400});
@@ -15,6 +15,7 @@ export async function PATCH(req: Request) {
         data: {
             name,
             email,
+            archeryGBNumber,
             sex: sex ? sex : null,
             gender: gender ? gender : null,
             yearOfBirth: yearOfBirth ? yearOfBirth : null,

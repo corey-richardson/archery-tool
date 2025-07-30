@@ -15,6 +15,8 @@ model User {
   image          String?
   hashedPassword String?
 
+  archeryGBNumber String? @unique
+
   defaultBowstyle Bowstyle?
   sex             Sex?
   gender          String?
@@ -31,6 +33,31 @@ model User {
   iceDetails     IceDetails[]
   RecordsSummary RecordsSummary?
   Scores         Scores[]
+  invitesSent    Invite[] @relation("InvitesSent")
+  invitesReceived Invite[] @relation("InvitesReceived")
+}
+
+model Invite {
+  id         String   @id @default(cuid())
+  clubId     String
+  userId     String? // If user already exists
+  archeryGBNumber String? // If inviting by number
+  invitedBy  String // User ID of inviter
+  status     InviteStatus @default(PENDING)
+  createdAt  DateTime @default(now())
+  acceptedAt DateTime?
+  declinedAt DateTime?
+
+  club   Club   @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  user   User?  @relation("InvitesReceived", fields: [userId], references: [id])
+  inviter User  @relation("InvitesSent", fields: [invitedBy], references: [id])
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
 }
 
 model Club {
@@ -40,6 +67,7 @@ model Club {
   createdAt DateTime @default(now())
 
   memberships ClubMembership[]
+  invites     Invite[]
 }
 
 model ClubMembership {

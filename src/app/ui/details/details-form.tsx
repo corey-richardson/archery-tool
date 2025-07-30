@@ -13,7 +13,8 @@ const DetailsForm = ({userId} : any) => {
 
     const [ name, setName ] = useState("");
     const [ email, setEmail ] = useState("");
-    const [ sex, setSex] = useState("");
+    const [ archeryGBNumber, setArcheryGBNumber ] = useState("");
+    const [ sex, setSex] = useState("NOT_SET");
     const [ gender, setGender ] = useState("");
     const [ yearOfBirth, setYearOfBirth ] = useState("")
     const [ ageCat, setAgeCat ] = useState("");
@@ -32,7 +33,8 @@ const DetailsForm = ({userId} : any) => {
             const data = await res.json();
             setName(data.name ?? "");
             setEmail(data.email ?? "");
-            setSex(data.sex ?? "");
+            setArcheryGBNumber(data.archeryGBNumber ?? "");
+            setSex(data.sex ?? "NOT_SET");
             setGender(data.gender ?? "");
             setYearOfBirth(data.yearOfBirth ? String(data.yearOfBirth) : "");
             setDefaultBowstyle(data.defaultBowstyle ?? "NOT_SET");
@@ -71,6 +73,7 @@ const DetailsForm = ({userId} : any) => {
                 id: userId,
                 name,
                 email,
+                archeryGBNumber,
                 sex: sex === "NOT_SET" ? null : sex,
                 gender: gender || null,
                 yearOfBirth: yearOfBirth ? parseInt(yearOfBirth) : null,
@@ -98,6 +101,9 @@ const DetailsForm = ({userId} : any) => {
 
                 <label>*Email:</label>
                 <input value={email ?? ""} onChange={ handleInputChange(setEmail) } type="email" required />
+
+                <label>Archery GB Number:</label>
+                <input value={archeryGBNumber ?? ""} onChange={ handleInputChange(setArcheryGBNumber) } placeholder="1234567" />
 
                 <label>Sex (as per AGB):</label>
                 <select value={sex ?? "NOT_SET"} onChange={ handleInputChange(setSex) }>

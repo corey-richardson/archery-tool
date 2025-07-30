@@ -2,15 +2,21 @@ import { ClubType } from "./ClubType";
 import Link from "next/link";
 
 const Club = ({ club }: { club: ClubType }) => {
+
+    const rolePriority = ["ADMIN", "RECORDS", "COACH", "MEMBER"];
+    const userRole = rolePriority.find(role => club.membershipDetails.roles.includes(role));
+    const isLink = ["ADMIN", "RECORDS"].some(role => club.membershipDetails.roles.includes(role));
+
     return ( 
         <div className="clubcard">
-            <Link href={`../club/${club.id}`}><h3 className="left">{ club.name }</h3></Link>
-            { 
-                club.membershipDetails.roles.includes("ADMIN") && <p className="small">ADMIN</p> || 
-                club.membershipDetails.roles.includes("RECORDS") && <p className="small">RECORDS</p> || 
-                club.membershipDetails.roles.includes("COACH") && <p className="small">COACH</p> || 
-                club.membershipDetails.roles.includes("MEMBER") && <p className="small">MEMBER</p>
-            }
+            
+            {isLink ? (
+                <Link href={`../admin/members/${club.id}`}><h3 className="left">{club.name}</h3></Link>
+            ) : (
+                <h3 className="left">{club.name}</h3>
+            )}
+
+            {userRole && <p className="small">{userRole}</p>}
         </div>
      );
 }

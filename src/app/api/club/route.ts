@@ -17,6 +17,7 @@ export async function GET(request: Request) {
             },
             include: {
                 club: true,
+                user: true,
             },
         });
 

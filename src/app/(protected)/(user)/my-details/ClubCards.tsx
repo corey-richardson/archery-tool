@@ -38,7 +38,6 @@ export default function ClubCards( { userId } : ClubcardProps ) {
             { !isLoading && clubs.length == 0 && (
                 <div className="content">
                     <p className="centred bold">You're not part of any clubs yet!</p>
-                    <p className="centred">Ask one of your Club's Admins to send you an <Link className="blue bold" href="./club/invites">invite</Link> now. If you are a Committee member of a Club, you can <Link className="blue bold" href="./club/create">Create a New Club</Link> instead.</p>
                 </div>
             )}
 
@@ -50,9 +49,10 @@ export default function ClubCards( { userId } : ClubcardProps ) {
                         ))}
                     </div>
 
-                    <p className="centred">If you are a Committee member of a Club, you can <Link className="blue bold" href="./club/create">Create a New Club</Link>.</p>
                 </>
             )}
+
+            <p className="centred">To join a club, ask one of your Club's Admins to send you an <Link className="blue bold" href="./club/invites">invite</Link> now. If you are a Committee member of a Club, you can <Link className="blue bold" href="./club/create">Create a New Club</Link> instead.</p>
         </>
     )
 }

@@ -66,7 +66,7 @@ function CreateClub() {
 
                 // Update session (hopefully) and goto club page
                 await refreshSessionData();
-                window.location.href = `../club/${clubId}`;
+                window.location.href = `../admin/members/${clubId}`;
             } else {
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
