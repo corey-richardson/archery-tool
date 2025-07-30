@@ -5,8 +5,6 @@ export async function GET(req: NextRequest, context: any) {
     const params = await context.params;
     const userId = params.userId;
 
-    console.log(userId || "nope");
-
     if (!userId) {
         return NextResponse.json({ error: "Missing userId"}, { status: 400 });
     }

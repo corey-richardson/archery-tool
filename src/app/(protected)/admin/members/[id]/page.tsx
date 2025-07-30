@@ -1,17 +1,19 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from '@/app/api/auth/authOptions';
 import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import MemberManagementClient from '../../components/MemberManagementClient';
 
-interface Props {
-  params: { id: string };
-}
-
-export default async function MemberManagementPage({ params }: Props) {
+const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
+  const clubId = params.id;
   const session = await getServerSession(authOptions);
-  if (!session) return notFound();
+  const admin = session?.user?.memberships?.some((m: any) => m.roles.includes("ADMIN"));
+  
+  if (!session || !admin ) {
+    redirect("/unauthorised?reason=not-an-admin");
+  }
 
-  const res = await fetch(`${process.env.NEXTAUTH_URL || ''}/api/club/${params.id}`, {
+  const res = await fetch(`${process.env.NEXTAUTH_URL || ''}/api/club/${clubId}`, {
     headers: { 'Content-Type': 'application/json' },
     cache: 'no-store',
   });
@@ -22,8 +24,6 @@ export default async function MemberManagementPage({ params }: Props) {
 
   if (!club) return notFound();
 
-  console.log(club.members);
-
   return (
     <div className="wider" style={{ margin: '0 auto', padding: '2rem 1rem' }}>
       <h2 style={{ marginBottom: '2rem' }}>Manage Members for {club.club.name}.</h2>
@@ -31,3 +31,5 @@ export default async function MemberManagementPage({ params }: Props) {
     </div>
   );
 }
+
+export default MemberManagementPage;

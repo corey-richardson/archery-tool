@@ -17,7 +17,7 @@ export default function ClubCards( { userId } : ClubcardProps ) {
         const res = await fetch(`/api/club?userId=${userId}`);
         const data = await res.json();
         setClubs(data.clubs);
-        console.log(data.clubs);
+
         setIsLoading(false);
     }
 

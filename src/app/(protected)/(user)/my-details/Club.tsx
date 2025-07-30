@@ -22,4 +22,3 @@ const Club = ({ club }: { club: ClubType }) => {
 }
  
 export default Club;
-

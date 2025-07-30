@@ -25,7 +25,6 @@ const OverviewCard = ({ userId }: { userId: string }) => {
 
     useEffect(() => {
         fetchUserOverview();
-        console.log(overview);
     }, [userId]);
 
     if (isLoading) return (
