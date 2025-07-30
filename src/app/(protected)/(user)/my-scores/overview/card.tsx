@@ -48,13 +48,13 @@ const OverviewCard = ({ userId }: { userId: string }) => {
 
             <div className="scorecard-flex">
                 <div>
-                    <p><b>Indoor Classification:</b> { overview.indoorClassification && EnumMappings[overview.indoorClassification] || overview.indoorClassification }</p>
+                    <p><b>Indoor Classification:</b> { overview.indoorClassification ? EnumMappings[overview.indoorClassification] : EnumMappings["UNCLASSIFIED"] }</p>
                     { overview.indoorBadgeGiven && <p><b>Indoor Badge Received:</b> { EnumMappings[overview.indoorBadgeGiven] || overview.indoorBadgeGiven }</p> }
                     { overview.indoorHandicap && <p><b>Indoor Handicap:</b> { overview.indoorHandicap }</p> }
                 </div>
 
                 <div>
-                    <p><b>Outdoor Classification:</b> { overview.outdoorClassification && EnumMappings[overview.outdoorClassification] || overview.outdoorClassification }</p>
+                    <p><b>Outdoor Classification:</b> { overview.outdoorClassification ? EnumMappings[overview.outdoorClassification] : EnumMappings["UNCLASSIFIED"] }</p>
                     { overview.outdoorBadgeGiven && <p><b>Indoor Badge Received:</b> { EnumMappings[overview.outdoorBadgeGiven] || overview.outdoorBadgeGiven }</p> }
                     { overview.outdoorHandicap && <p><b>Indoor Handicap:</b> { overview.outdoorHandicap }</p> }
                 </div>
