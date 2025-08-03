@@ -182,32 +182,27 @@ const ScoreSubmissionForm = ({userId} : any) => {
                     </select>
 
                     <label>Round Name:</label>
-                    {!roundsLoadError && !loadingRounds && availableRounds.length > 0 ? (
-                        <select value={roundName} onChange={e => setRoundName(e.target.value)} required disabled={loadingRounds}>
-                            <option disabled value="">
-                                {loadingRounds ? "Loading rounds..." : "Please select a round"}
-                            </option>
+                    <input 
+                        type="text" 
+                        value={roundName} 
+                        onChange={e => setRoundName(e.target.value)}
+                        placeholder={loadingRounds ? "Loading rounds..." : "Enter Round Name"}
+                        disabled={loadingRounds}
+                        required
+                        list="rounds-datalist"
+                    />
+                    {!roundsLoadError && !loadingRounds && availableRounds.length > 0 && (
+                        <datalist id="rounds-datalist">
                             {availableRounds.map((round) => (
-                                <option key={round.name} value={round.name}>
-                                    {round.name}
-                                </option>
+                                <option key={round.name} value={round.name} />
                             ))}
-                        </select>
-                    ) : (
-                        <input 
-                            type="text" 
-                            value={roundName} 
-                            onChange={e => setRoundName(e.target.value)}
-                            placeholder={loadingRounds ? "Loading rounds..." : "Enter Round Name"}
-                            disabled={loadingRounds}
-                            required
-                        />
+                        </datalist>
                     )}
                </div>
 
                <div className="flex-form-row">
                     <label>Bowstyle:</label>
-                    <select value={bowstyle ?? ""} onChange={e => setBowstyle(e.target.value)} required>
+                    <select value={bowstyle ?? ""} onChange={e => setBowstyle(e.target.value)} autoComplete="on" required>
                         <option disabled value="">Please Select</option>
                         {bowstyleOptions.map((option) => (
                             <option key={option.value} value={option.value}>
@@ -233,7 +228,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
                     <label>Xs:</label>
                     <input type="number" step="1" value={xs} onChange={e => setXs(e.target.value)} />
 
-                    <label>Tens:</label>
+                    <label>Xs + Tens:</label>
                     <input type="number" step="1" value={tens} onChange={e => setTens(e.target.value)} />
 
                     <label>Nines:</label>
