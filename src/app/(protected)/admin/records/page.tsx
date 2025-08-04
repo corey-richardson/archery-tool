@@ -3,25 +3,17 @@ import { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import prisma from '@/app/lib/prisma';
+import { Score } from '../components/Score';
+
+import RecordsManagement from '../components/RecordsManagement';
 
 export const metadata: Metadata = {
     title: 'Records',
 };
 
-type Score = {
-  id: string;
-  user: {
-    name: string;
-    email: string;
-    archeryGBNumber: string | null;
-  };
-  dateShot: string;
-  roundName: string;
-  score: number;
-  bowstyle: string;
-  roundType: string;
-  competitionLevel: string;
-};
+interface RecordsManagementProps {
+  scores: Score[];
+}
 
 async function Records() {
     const session = await getServerSession(authOptions);
@@ -66,7 +58,7 @@ async function Records() {
     const scores = await prisma.scores.findMany({
         where: {
             userId: { in: memberIds, },
-            processedAt: null,
+            // processedAt: null,
         },
         include: {
             user: {
@@ -82,30 +74,32 @@ async function Records() {
     })
 
     return (
-        <main className="p-4 space-y-4">
-            <h1 className="text-2xl font-semibold">Submitted Scores</h1>
+        <div style={{ margin: '0 auto', padding: '2rem 3rem' }}>
+            <h2 style={{ marginBottom: '2rem' }}>Submitted Scores.</h2>
 
             {scores.length === 0 ? (
                 <p>No scores found.</p>
             ) : (
-                <ul className="space-y-2">
-                    {scores.map(score => (
-                        <div key={score.id}>
-                            <li className="border p-4 rounded shadow-sm">
-                                <p><strong>Archer:</strong> {score.user.name} ({score.user.email})</p>
-                                <p><strong>Date Shot:</strong> {new Date(score.dateShot).toLocaleDateString()}</p>
-                                <p><strong>Round:</strong> {score.roundName}</p>
-                                <p><strong>Score:</strong> {score.score}</p>
-                                <p><strong>Bowstyle:</strong> {score.bowstyle}</p>
-                                <p><strong>Round Type:</strong> {score.roundType}</p>
-                                <p><strong>Competition Level:</strong> {score.competitionLevel}</p>
-                            </li>
-                            <hr />
-                        </div>
-                    ))}
-                </ul>
+                <RecordsManagement scores={scores.map(score => ({
+                    ...score,
+                    dateShot: score.dateShot instanceof Date ? score.dateShot.toISOString() : score.dateShot,
+                    xs: score.xs === null ? undefined : score.xs,
+                    tens: score.tens === null ? undefined : score.tens,
+                    nines: score.nines === null ? undefined : score.nines,
+                    hits: score.hits === null ? undefined : score.hits,
+                    roundIndoorClassification: score.roundIndoorClassification === null ? undefined : score.roundIndoorClassification,
+                    roundOutdoorClassification: score.roundOutdoorClassification === null ? undefined : score.roundOutdoorClassification,
+                    roundHandicap: score.roundHandicap === null ? undefined : score.roundHandicap,
+                    notes: score.notes === null ? undefined : score.notes,
+
+                    processedAt: score.processedAt === null
+                        ? undefined
+                        : (score.processedAt instanceof Date
+                            ? score.processedAt.toISOString()
+                            : score.processedAt),
+                }))} />
             )}
-        </main>
+        </div>
     );
 }
 

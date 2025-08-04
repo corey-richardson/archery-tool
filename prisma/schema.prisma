@@ -166,6 +166,7 @@ model Scores {
   nines            Int?
   hits             Int?
   competitionLevel CompetitionLevel
+  sex              Sex
   ageCategory      AgeCategories @default(SENIOR)
   notes            String?
 
