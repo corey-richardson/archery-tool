@@ -116,6 +116,7 @@ function InviteForm({ clubId }: { clubId: string }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ margin: "2rem 0", display: "flex", gap: 8, alignItems: "center" }}>
+      <h3>Invite Member:</h3>
       <input
         ref={inputRef}
         type="text"

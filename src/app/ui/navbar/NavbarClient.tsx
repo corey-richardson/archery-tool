@@ -12,7 +12,7 @@ const navLinks = [
   { href: "/my-details", label: "My Details", admin: false },
   { href: "/my-scores", label: "My Scores", admin: false },
   { href: "/submit-score", label: "Submit a Score", admin: false },
-  { href: "/admin/members", label: "Members Tools", admin: true },
+  // { href: "/admin/members", label: "Members Tools", admin: true },
   { href: "/admin/records", label: "Records Tools", admin: true },
 ];
 
