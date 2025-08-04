@@ -6,7 +6,7 @@ import prisma from '@/app/lib/prisma';
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
     try {
         const session = await getServerSession(authOptions);
-        
+
         if (!session) {
             return NextResponse.json({ error: 'Unauthorised' }, { status: 401 });
         }
@@ -21,7 +21,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         }
 
         const { processedAt } = await request.json();
-        
+
         if (!processedAt) {
             return NextResponse.json({ error: 'processedAt is required' }, { status: 400 });
         }
