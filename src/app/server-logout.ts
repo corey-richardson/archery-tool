@@ -3,5 +3,5 @@
 import { signOut } from "next-auth/react";
 
 export async function serverLogout() {
-  await signOut({ callbackUrl: "/" });
+    await signOut({ callbackUrl: "/" });
 }

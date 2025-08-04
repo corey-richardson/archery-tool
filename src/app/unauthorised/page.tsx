@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
 function UnauthorisedContent() {
-const router = useRouter();
+    const router = useRouter();
     const searchParams = useSearchParams();
     const reason = searchParams.get("reason");
 
@@ -15,7 +15,7 @@ const router = useRouter();
         default: break;
     }
 
-    return (  
+    return (
         <div className="content">
             <div className="not-found-container">
                 <div className="not-found-content">
@@ -30,9 +30,9 @@ const router = useRouter();
                             <span className="miss-text">NO!</span>
                         </div>
                     </div>
-                    
+
                     <h2>You're not allowed to access this page!</h2>
-                    
+
                     <div className="not-found-actions">
                         {signedIn && <Link href="/my-details" className="btn btn-primary">
                             Back to My Details
@@ -42,15 +42,15 @@ const router = useRouter();
                             Back to Dashboard
                         </Link>}
 
-                        <button 
-                            onClick={() => router.back()} 
+                        <button
+                            onClick={() => router.back()}
                             className="btn btn-secondary"
                         >
                             ← Go Back
                         </button>
 
                     </div>
-            
+
                 </div>
             </div>
         </div>
@@ -64,5 +64,5 @@ const Unauthorised = () => {
         </Suspense>
     )
 }
- 
+
 export default Unauthorised;

@@ -34,7 +34,7 @@ export const authOptions: NextAuthOptions = {
                 if (!user || !user.hashedPassword || !(await compare(credentials.password, user.hashedPassword))) {
                     return null;
                 }
-                
+
                 return {
                     id: user.id,
                     name: user.name,

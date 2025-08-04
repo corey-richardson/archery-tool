@@ -29,112 +29,112 @@ interface Club {
 const ALL_ROLES = ['ADMIN', 'RECORDS', 'COACH', 'MEMBER'];
 
 export default function MemberManagement({ club }: { club: Club }) {
-  const columns: GridColDef[] = [
-    { field: 'name', headerName: 'Name', flex: 1, sortable: true },
-    { field: 'email', headerName: 'Email', flex: 1, sortable: true },
-    { field: 'archeryGBNumber', headerName: 'ArcheryGB Number', flex: 1, sortable: true },
-    { field: 'sex', headerName: 'Sex', flex: 0.5, sortable: true },
-    { field: 'yearOfBirth', headerName: 'Year of Birth', flex: 0.7, sortable: true },
-    { field: 'ageCategory', headerName: 'Age Category', flex: 0.8, sortable: true },
-    
-    {
-      field: 'roles',
-      headerName: 'Roles (Ctrl+Click to add)',
-      flex: 1,
-      sortable: false,
-      renderCell: (params) => {
-        const currentRoles: string[] = params.value || [];
+    const columns: GridColDef[] = [
+        { field: 'name', headerName: 'Name', flex: 1, sortable: true },
+        { field: 'email', headerName: 'Email', flex: 1, sortable: true },
+        { field: 'archeryGBNumber', headerName: 'ArcheryGB Number', flex: 1, sortable: true },
+        { field: 'sex', headerName: 'Sex', flex: 0.5, sortable: true },
+        { field: 'yearOfBirth', headerName: 'Year of Birth', flex: 0.7, sortable: true },
+        { field: 'ageCategory', headerName: 'Age Category', flex: 0.8, sortable: true },
 
-        const handleChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
-          const selectedRoles = Array.from(event.target.selectedOptions).map(opt => opt.value);
-          event.target.disabled = true;
+        {
+            field: 'roles',
+            headerName: 'Roles (Ctrl+Click to add)',
+            flex: 1,
+            sortable: false,
+            renderCell: (params) => {
+                const currentRoles: string[] = params.value || [];
 
-          try {
-            const response = await fetch(`/api/user/${params.row.userId}/${club.club.id}/roles`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ roles: selectedRoles }),
-            });
+                const handleChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+                    const selectedRoles = Array.from(event.target.selectedOptions).map(opt => opt.value);
+                    event.target.disabled = true;
 
-            if (response.status === 400) {
-              const data = await response.json();
-              toast.error(data.error || "Failed to update roles.");
-            } else if (!response.ok) {
-              toast.error("Failed to update roles.");
-            }
-          } catch (error) {
-            toast.error("Failed to update roles. (Network Error)");
-          } finally {
-            event.target.disabled = false;
-          }
-        };
+                    try {
+                        const response = await fetch(`/api/user/${params.row.userId}/${club.club.id}/roles`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ roles: selectedRoles }),
+                        });
 
-        return (
-          <select
-            multiple
-            defaultValue={currentRoles}
-            onChange={handleChange}
-            size={ALL_ROLES.length}
-            style={{
-              width: '100%',
-              minHeight: '3em',
-              fontSize: '0.9rem',
-              padding: '4px',
-              borderRadius: '4px',
-              border: '1px solid #ccc',
-              backgroundColor: '#f9f9f9',
-              overflow: 'hidden',
-            }}
-          >
-            {ALL_ROLES.map((role) => (
-              <option key={role} value={role}>
-                {EnumMappings[role]}
-              </option>
-            ))}
-          </select>
-        );
-      },
-    },
+                        if (response.status === 400) {
+                            const data = await response.json();
+                            toast.error(data.error || "Failed to update roles.");
+                        } else if (!response.ok) {
+                            toast.error("Failed to update roles.");
+                        }
+                    } catch (error) {
+                        toast.error("Failed to update roles. (Network Error)");
+                    } finally {
+                        event.target.disabled = false;
+                    }
+                };
 
-    { field: 'joinedAt', headerName: 'Joined', flex: 0.8, sortable: true },
-    { field: 'endedAt', headerName: 'Ended', flex: 0.8, sortable: true },
-    { field: 'status', headerName: 'Status', flex: 0.7, sortable: true },
-  ];
+                return (
+                    <select
+                        multiple
+                        defaultValue={currentRoles}
+                        onChange={handleChange}
+                        size={ALL_ROLES.length}
+                        style={{
+                            width: '100%',
+                            minHeight: '3em',
+                            fontSize: '0.9rem',
+                            padding: '4px',
+                            borderRadius: '4px',
+                            border: '1px solid #ccc',
+                            backgroundColor: '#f9f9f9',
+                            overflow: 'hidden',
+                        }}
+                    >
+                        {ALL_ROLES.map((role) => (
+                            <option key={role} value={role}>
+                                {EnumMappings[role]}
+                            </option>
+                        ))}
+                    </select>
+                );
+            },
+        },
 
-  const rows = club.members
-    .filter((member) => !member.endedAt)
-    .map((member) => {
-      return {
-        id: member.id,
-        userId: member.userId,
-        name: member.user?.name || 'Unknown',
-        email: member.user?.email || 'Unknown',
-        archeryGBNumber: member.user?.archeryGBNumber || '-',
-        sex: member.user?.sex != null ? EnumMappings[member.user.sex] : '-',
-        yearOfBirth: member.user?.yearOfBirth || '-',
-        ageCategory:
+        { field: 'joinedAt', headerName: 'Joined', flex: 0.8, sortable: true },
+        { field: 'endedAt', headerName: 'Ended', flex: 0.8, sortable: true },
+        { field: 'status', headerName: 'Status', flex: 0.7, sortable: true },
+    ];
+
+    const rows = club.members
+        .filter((member) => !member.endedAt)
+        .map((member) => {
+            return {
+                id: member.id,
+                userId: member.userId,
+                name: member.user?.name || 'Unknown',
+                email: member.user?.email || 'Unknown',
+                archeryGBNumber: member.user?.archeryGBNumber || '-',
+                sex: member.user?.sex != null ? EnumMappings[member.user.sex] : '-',
+                yearOfBirth: member.user?.yearOfBirth || '-',
+                ageCategory:
           member.user?.yearOfBirth
-            ? EnumMappings[calculateAgeCategory(member.user.yearOfBirth)]
-            : EnumMappings["SENIOR"],
-        roles: member.roles,
-        joinedAt: member.joinedAt ? new Date(member.joinedAt).toLocaleDateString() : '-',
-        endedAt: member.endedAt ? new Date(member.endedAt).toLocaleDateString() : '-',
-        status: 'Active',
-      };
-    });
+              ? EnumMappings[calculateAgeCategory(member.user.yearOfBirth)]
+              : EnumMappings["SENIOR"],
+                roles: member.roles,
+                joinedAt: member.joinedAt ? new Date(member.joinedAt).toLocaleDateString() : '-',
+                endedAt: member.endedAt ? new Date(member.endedAt).toLocaleDateString() : '-',
+                status: 'Active',
+            };
+        });
 
-  return (
-    <div style={{ width: '100%', marginTop: '1rem' }}>
-        <DataGrid
-          rows={rows}
-          getRowHeight={() => 'auto'}
-          columns={columns}
-          initialState={{
-            pagination: { paginationModel: { pageSize: 10, page: 0 } }
-          }}
-          pageSizeOptions={[10, 25, 50]}
-          disableRowSelectionOnClick
-        />
-    </div>
-  );
+    return (
+        <div style={{ width: '100%', marginTop: '1rem' }}>
+            <DataGrid
+                rows={rows}
+                getRowHeight={() => 'auto'}
+                columns={columns}
+                initialState={{
+                    pagination: { paginationModel: { pageSize: 10, page: 0 } }
+                }}
+                pageSizeOptions={[10, 25, 50]}
+                disableRowSelectionOnClick
+            />
+        </div>
+    );
 }

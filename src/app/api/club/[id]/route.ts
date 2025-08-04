@@ -11,13 +11,13 @@ export async function GET(request: NextRequest, context: any) {
 
     const [ club, members ] = await Promise.all([
         prisma.club.findUnique({ where: { id: clubId }, }),
-        prisma.clubMembership.findMany({ 
-            where: { clubId }, 
+        prisma.clubMembership.findMany({
+            where: { clubId },
             include: { user: true, }
         }),
     ]);
 
-    if (!club || !members) { 
+    if (!club || !members) {
         return NextResponse.json({ error: "Failed to fetch Club " + clubId}, { status: 404 });
     }
 

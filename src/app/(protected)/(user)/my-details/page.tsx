@@ -6,25 +6,25 @@ import EmergencyContactsForm from '@/app/ui/details/ice-form';
 import ClubCards from './ClubCards';
 
 export const metadata: Metadata = {
-  title: 'My Details',
+    title: 'My Details',
 };
 
 async function MyDetails() {
     const session = await getServerSession(authOptions);
     const userId = session?.user.id;
 
-    return ( 
+    return (
         <>
-          <div className="forms details-grid">   
-            <DetailsForm userId={session?.user.id} />
-            <EmergencyContactsForm user={session?.user} />
+            <div className="forms details-grid">
+                <DetailsForm userId={session?.user.id} />
+                <EmergencyContactsForm user={session?.user} />
 
-            <div className="club-cards-full-width">
-              <ClubCards userId={userId} />
+                <div className="club-cards-full-width">
+                    <ClubCards userId={userId} />
+                </div>
             </div>
-          </div>
         </>
-     );
+    );
 }
- 
+
 export default MyDetails;

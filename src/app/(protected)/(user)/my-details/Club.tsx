@@ -7,9 +7,9 @@ const Club = ({ club }: { club: ClubType }) => {
     const userRole = rolePriority.find(role => club.membershipDetails.roles.includes(role));
     const isLink = ["ADMIN", "RECORDS"].some(role => club.membershipDetails.roles.includes(role));
 
-    return ( 
+    return (
         <div className="clubcard">
-            
+
             {isLink ? (
                 <Link href={`../admin/members/${club.id}`}><h3 className="left">{club.name}</h3></Link>
             ) : (
@@ -18,7 +18,7 @@ const Club = ({ club }: { club: ClubType }) => {
 
             {userRole && <p className="small">{userRole}</p>}
         </div>
-     );
+    );
 }
- 
+
 export default Club;

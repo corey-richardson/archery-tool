@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import prisma from '@/app/lib/prisma';
 
 export const metadata: Metadata = {
-  title: 'Records',
+    title: 'Records',
 };
 
 type Score = {
@@ -24,16 +24,16 @@ type Score = {
 };
 
 async function Records() {
-  const session = await getServerSession(authOptions);
-  const isRecordsOrAdmin = session?.user?.memberships?.some((m: any) =>
-      m.roles.includes("RECORDS") || m.roles.includes("ADMIN")
-  );
+    const session = await getServerSession(authOptions);
+    const isRecordsOrAdmin = session?.user?.memberships?.some((m: any) =>
+        m.roles.includes("RECORDS") || m.roles.includes("ADMIN")
+    );
 
-  if (!session || !isRecordsOrAdmin) {
-      redirect("/unauthorised?reason=not-authorised-for-records");
-  }
+    if (!session || !isRecordsOrAdmin) {
+        redirect("/unauthorised?reason=not-authorised-for-records");
+    }
 
-  const userId = session.user.id;
+    const userId = session.user.id;
 
     // Get all where where user has RECORDS or ADMIN role
     const memberships = await prisma.clubMembership.findMany({
@@ -45,7 +45,7 @@ async function Records() {
         },
         select: {
             clubId: true,
-        },   
+        },
     });
 
     const clubIds = memberships.map(m => m.clubId);
@@ -72,7 +72,7 @@ async function Records() {
             user: {
                 select: {
                     name: true,
-                    email: true,                        
+                    email: true,
                 },
             },
         },
@@ -81,32 +81,32 @@ async function Records() {
         }
     })
 
-  return (
-    <main className="p-4 space-y-4">
-      <h1 className="text-2xl font-semibold">Submitted Scores</h1>
+    return (
+        <main className="p-4 space-y-4">
+            <h1 className="text-2xl font-semibold">Submitted Scores</h1>
 
-      {scores.length === 0 ? (
-        <p>No scores found.</p>
-      ) : (
-        <ul className="space-y-2">
-          {scores.map(score => (
-            <div key={score.id}>
-                <li className="border p-4 rounded shadow-sm">
-                <p><strong>Archer:</strong> {score.user.name} ({score.user.email})</p>
-                <p><strong>Date Shot:</strong> {new Date(score.dateShot).toLocaleDateString()}</p>
-                <p><strong>Round:</strong> {score.roundName}</p>
-                <p><strong>Score:</strong> {score.score}</p>
-                <p><strong>Bowstyle:</strong> {score.bowstyle}</p>
-                <p><strong>Round Type:</strong> {score.roundType}</p>
-                <p><strong>Competition Level:</strong> {score.competitionLevel}</p>
-                </li>
-                <hr />
-            </div>
-          ))}
-        </ul>
-      )}
-    </main>
-  );
+            {scores.length === 0 ? (
+                <p>No scores found.</p>
+            ) : (
+                <ul className="space-y-2">
+                    {scores.map(score => (
+                        <div key={score.id}>
+                            <li className="border p-4 rounded shadow-sm">
+                                <p><strong>Archer:</strong> {score.user.name} ({score.user.email})</p>
+                                <p><strong>Date Shot:</strong> {new Date(score.dateShot).toLocaleDateString()}</p>
+                                <p><strong>Round:</strong> {score.roundName}</p>
+                                <p><strong>Score:</strong> {score.score}</p>
+                                <p><strong>Bowstyle:</strong> {score.bowstyle}</p>
+                                <p><strong>Round Type:</strong> {score.roundType}</p>
+                                <p><strong>Competition Level:</strong> {score.competitionLevel}</p>
+                            </li>
+                            <hr />
+                        </div>
+                    ))}
+                </ul>
+            )}
+        </main>
+    );
 }
 
 export default Records;

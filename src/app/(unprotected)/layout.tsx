@@ -3,18 +3,18 @@ import { APP_NAME } from "../lib/constants";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: `${ APP_NAME }`,
-  description: "Archery Tool",
+    title: `${ APP_NAME }`,
+    description: "Archery Tool",
 };
 
 export default function Layout({
-  children,
+    children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <>
-      {children}
-    </>
-  );
+    return (
+        <>
+            {children}
+        </>
+    );
 }

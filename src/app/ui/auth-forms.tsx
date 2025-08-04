@@ -8,7 +8,7 @@ const AuthForms = () => {
 
     const { data: session } = useSession();
 
-    return ( 
+    return (
         <>
             {!session && <div className="forms">
                 <div>
@@ -23,10 +23,10 @@ const AuthForms = () => {
                 </div>
             </div>}
 
-            
+
 
         </>
-     );
+    );
 }
- 
+
 export default AuthForms;

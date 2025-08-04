@@ -46,17 +46,17 @@ const ScoreSubmissionForm = ({userId} : any) => {
             const res = await fetch(`/api/user/${userId}`);
             const data = await res.json();
             const ageCategory = calculateAgeCategory(data.yearOfBirth);
-            
+
             userDataRef.current = {
                 defaultBowstyle: data.defaultBowstyle,
                 ageCategory: ageCategory
             };
-            
+
             setBowstyle(data.defaultBowstyle);
             setAgeCategory(ageCategory);
         }
         fetchUser();
-        
+
     }, [userId]);
 
     // Fetch rounds when round type changes
@@ -76,7 +76,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
         fetchingRounds.current = type;
         setLoadingRounds(true);
         setRoundsLoadError(false);
-        
+
         try {
             const res = await fetch(`/api/rounds?type=${type}`);
             const data = await res.json();
@@ -103,7 +103,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
 
     useEffect(() => {
         if (!roundType) return;
-        
+
         fetchRounds(roundType);
         setRoundName("");
     }, [roundType, fetchRounds]);
@@ -160,10 +160,10 @@ const ScoreSubmissionForm = ({userId} : any) => {
     }
 
     // Render
-    return ( 
+    return (
         <div className="wider content">
             <form className="flex-form" onSubmit={handleSubmit}>
-               <div className="flex-form-row">
+                <div className="flex-form-row">
                     <label>Date Shot:</label>
                     <input
                         type="date"
@@ -182,9 +182,9 @@ const ScoreSubmissionForm = ({userId} : any) => {
                     </select>
 
                     <label>Round Name:</label>
-                    <input 
-                        type="text" 
-                        value={roundName} 
+                    <input
+                        type="text"
+                        value={roundName}
                         onChange={e => setRoundName(e.target.value)}
                         placeholder={loadingRounds ? "Loading rounds..." : "Enter Round Name"}
                         disabled={loadingRounds}
@@ -198,9 +198,9 @@ const ScoreSubmissionForm = ({userId} : any) => {
                             ))}
                         </datalist>
                     )}
-               </div>
+                </div>
 
-               <div className="flex-form-row">
+                <div className="flex-form-row">
                     <label>Bowstyle:</label>
                     <select value={bowstyle ?? ""} onChange={e => setBowstyle(e.target.value)} autoComplete="on" required>
                         <option disabled value="">Please Select</option>
@@ -219,9 +219,9 @@ const ScoreSubmissionForm = ({userId} : any) => {
                             </option>
                         ))}
                     </select>
-               </div>
+                </div>
 
-               <div className="flex-form-row">
+                <div className="flex-form-row">
                     <label>Score:</label>
                     <input type="number" step="1" value={score} onChange={e => setScore(e.target.value)} required/>
 
@@ -236,18 +236,18 @@ const ScoreSubmissionForm = ({userId} : any) => {
 
                     <label>Hits:</label>
                     <input type="number" step="1" value={hits} onChange={e => setHits(e.target.value)} />
-               </div>
+                </div>
 
-               <div className="flex-form-row">
+                <div className="flex-form-row">
                     <label>Notes:</label>
                     <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Add any extra details about the score here."></textarea>
-               </div>
+                </div>
 
-               {!isLoading && <button type="submit">Submit Score</button> }
-               {isLoading && <button disabled>Submitting...</button> }
+                {!isLoading && <button type="submit">Submit Score</button> }
+                {isLoading && <button disabled>Submitting...</button> }
             </form>
         </div>
-     );
+    );
 }
- 
+
 export default ScoreSubmissionForm;

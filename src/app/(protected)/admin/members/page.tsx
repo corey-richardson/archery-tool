@@ -4,20 +4,20 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: 'Members',
+    title: 'Members',
 };
 
 async function Members() {
-  const session = await getServerSession(authOptions);
-  const admin = session?.user?.memberships?.some((m: any) => m.roles.includes("ADMIN"));
+    const session = await getServerSession(authOptions);
+    const admin = session?.user?.memberships?.some((m: any) => m.roles.includes("ADMIN"));
 
-  if (!session || !admin ) {
-    redirect("/unauthorised?reason=not-an-admin");
-  }
+    if (!session || !admin ) {
+        redirect("/unauthorised?reason=not-an-admin");
+    }
 
-  return ( 
-      <></>
+    return (
+        <></>
     );
 }
- 
+
 export default Members;

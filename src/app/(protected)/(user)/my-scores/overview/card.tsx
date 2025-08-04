@@ -41,7 +41,7 @@ const OverviewCard = ({ userId }: { userId: string }) => {
 
     // TODO: Best scores
 
-    return ( 
+    return (
         <div className="wider content scorecard">
             <h2 style={{"paddingBottom": "1rem"}}>Hello, { user.name ?? "Unknown User" }.</h2>
 
@@ -59,7 +59,7 @@ const OverviewCard = ({ userId }: { userId: string }) => {
                 </div>
             </div>
         </div>
-     );
+    );
 }
- 
+
 export default OverviewCard;

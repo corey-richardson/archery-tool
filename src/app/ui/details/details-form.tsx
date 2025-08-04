@@ -44,7 +44,7 @@ const DetailsForm = ({userId} : any) => {
         }
 
         fetchUser();
-        
+
     }, [userId, refreshFlag]);
 
     useEffect(() => {
@@ -54,11 +54,11 @@ const DetailsForm = ({userId} : any) => {
 
     // Handlers
     const handleInputChange = useCallback(
-        (setter: React.Dispatch<React.SetStateAction<string>>) => 
+        (setter: React.Dispatch<React.SetStateAction<string>>) =>
             (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
                 setter(e.target.value);
                 setChangesPending(true);
-            }, 
+            },
         []
     );
 
@@ -89,7 +89,7 @@ const DetailsForm = ({userId} : any) => {
     }
 
     // Render
-    return ( 
+    return (
         <div>
             <h3>My Details.</h3>
             <p className="centred">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vitae facilis fuga voluptas autem, perspiciatis placeat, incidunt provident veniam eaque mollitia aliquam voluptate eos cumque officia illo consequuntur porro aperiam.</p>
@@ -116,12 +116,12 @@ const DetailsForm = ({userId} : any) => {
                 <input value={gender ?? ""} onChange={ handleInputChange(setGender) } placeholder="Optional"/>
 
                 <label>Year of Birth:</label>
-                <input 
-                    value={yearOfBirth ?? ""} 
-                    onChange={ handleInputChange(setYearOfBirth) } 
-                    type="number" 
-                    step="1" 
-                    min="1900" max={new Date().getFullYear()} 
+                <input
+                    value={yearOfBirth ?? ""}
+                    onChange={ handleInputChange(setYearOfBirth) }
+                    type="number"
+                    step="1"
+                    min="1900" max={new Date().getFullYear()}
                     placeholder="Please Set"/>
                 <input disabled value={ageCat ?? ""} />
 
@@ -139,19 +139,19 @@ const DetailsForm = ({userId} : any) => {
                 { !isLoading && !changesPending && <button disabled>Save Details</button> }
                 { !isLoading && changesPending && <button type="submit">Save Details</button> }
                 { isLoading && <button disabled>Loading...</button> }
-                
+
                 { !isLoading && (
                     <p style={{"marginTop": "12px"}} className="small centred">
                         Your details were last updated at {
-                        lastUpdated !== "..."
-                        ? new Date(lastUpdated).toLocaleString()
-                        : new Date(createdAt).toLocaleString()
+                            lastUpdated !== "..."
+                                ? new Date(lastUpdated).toLocaleString()
+                                : new Date(createdAt).toLocaleString()
                         }.
                     </p>
                 )}
             </form>
         </div>
-     );
+    );
 }
- 
+
 export default DetailsForm;

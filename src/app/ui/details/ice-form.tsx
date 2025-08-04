@@ -66,7 +66,7 @@ const EmergencyContactsForm = ({user} : any) => {
 
         if (response.ok) {
             fetchContacts().then(e => setIsLoading(false));
-        } 
+        }
     }
 
 
@@ -102,7 +102,7 @@ const EmergencyContactsForm = ({user} : any) => {
         fetchContacts();
     }, [fetchContacts]);
 
-    return ( 
+    return (
         <div>
             <h3>Emergency Contact Details.</h3>
             <p className="centred">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo adipisci aliquam, enim voluptate corrupti doloremque possimus, voluptatibus aliquid perspiciatis in maxime corporis voluptatem temporibus illo optio, maiores minus quaerat voluptates.</p>
@@ -140,7 +140,7 @@ const EmergencyContactsForm = ({user} : any) => {
                     <option value="FRIEND">{ EnumMappings["FRIEND"] }</option>
                     <option value="OTHER">{ EnumMappings["OTHER"] }</option>
                 </select>
-                
+
                 { !changesPending && <button disabled>Add New Contact</button> }
                 { !isLoading && changesPending && <button type="submit">Add New Contact</button> }
                 { isLoading && <button disabled>Adding...</button>}
@@ -199,8 +199,8 @@ const EmergencyContactsForm = ({user} : any) => {
                                 { !isLoading && pendingChanges.includes(contact.id) && <button type="submit">Update Contact</button> }
                                 { !isLoading && !pendingChanges.includes(contact.id) && <button disabled>Update Contact</button> }
                                 { isLoading && <button disabled>Updating...</button> }
-                                <button 
-                                    className="btn-secondary" 
+                                <button
+                                    className="btn-secondary"
                                     onClick={() => handleDeleteExistingContact(contact.id)}
                                 >Delete Contact</button>
                             </div>
@@ -214,7 +214,7 @@ const EmergencyContactsForm = ({user} : any) => {
                 ))
             )}
         </div>
-     );
+    );
 }
- 
+
 export default EmergencyContactsForm;
