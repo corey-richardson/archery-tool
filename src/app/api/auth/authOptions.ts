@@ -5,7 +5,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from 'next-auth/providers/github';
 import { compare } from "bcryptjs";
 import type { User, Session } from "next-auth";
-import type { JWT } from "next-auth/jwt";
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -39,6 +38,9 @@ export const authOptions: NextAuthOptions = {
                     id: user.id,
                     name: user.name,
                     email: user.email,
+                    defaultBowstyle: user.defaultBowstyle,
+                    sex: user.sex,
+                    yearOfBirth: user.yearOfBirth,
                 };
             }
         }),
@@ -50,12 +52,11 @@ export const authOptions: NextAuthOptions = {
 
     ],
     session: {
-        strategy: "jwt" as const,
+        strategy: "database",
     },
     callbacks: {
-        async jwt({ token, user }: { token: JWT; user?: User }) {
-            if (user) {
-                token.id = user.id;
+        async session({ session, user }: { session: Session; user: User }) {
+            if (session.user && user) {
                 const memberships = await prisma.clubMembership.findMany({
                     where: {
                         userId: user.id,
@@ -65,18 +66,9 @@ export const authOptions: NextAuthOptions = {
                         roles: true,
                     },
                 });
-
-                token.memberships = memberships;
+                session.user.id = user.id;
+                session.user.memberships = memberships;
             }
-            return token;
-        },
-
-        async session({ session, token }: { session: Session; token: JWT }) {
-            if (session.user) {
-                session.user.id = token.id as string;
-                session.user.memberships = token.memberships as Record<string, string[]>;
-            }
-
             return session;
         },
     },
