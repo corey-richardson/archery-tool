@@ -1,7 +1,6 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import calculateAgeCategory from '@/app/lib/calculateAgeCategory';
 import { EnumMappings } from '@/app/lib/enumMappings';
-import { toast } from 'react-hot-toast';
 
 interface Member {
   id: string;
@@ -58,12 +57,12 @@ export default function MemberManagement({ club }: { club: Club }) {
 
                         if (response.status === 400) {
                             const data = await response.json();
-                            toast.error(data.error || "Failed to update roles.");
+                            alert(data.error || "Failed to update roles.");
                         } else if (!response.ok) {
-                            toast.error("Failed to update roles.");
+                            alert("Failed to update roles.");
                         }
                     } catch (error) {
-                        toast.error("Failed to update roles. (Network Error)");
+                        alert("Failed to update roles. (Network Error)");
                     } finally {
                         event.target.disabled = false;
                     }

@@ -81,10 +81,19 @@ const DetailsForm = ({userId} : any) => {
                 updatedAt
             }),
         });
+
         if (response.ok) {
             setRefreshFlag(flag => !flag);
             setIsLoading(false);
             setChangesPending(false);
+        } else {
+            const data = await response.json();
+            if (response.status === 409) {
+                alert(data.message);
+            } else {
+                alert(data.message || "Failed to update details.");
+            }
+            setIsLoading(false);
         }
     }
 
