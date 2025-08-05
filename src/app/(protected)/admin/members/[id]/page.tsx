@@ -3,6 +3,7 @@ import { authOptions } from '@/app/api/auth/authOptions';
 import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
 import MemberManagementClient from '../../components/MemberManagementClient';
+import { baseUrl } from "@/app/lib/constants";
 
 const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
     const clubId = params.id;
@@ -19,7 +20,7 @@ const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
         redirect("/unauthorised?reason=not-an-admin");
     }
 
-    const res = await fetch(`${process.env.NEXTAUTH_URL || ''}/api/club/${clubId}`, {
+    const res = await fetch(`${baseUrl}/api/club/${clubId}`, {
         headers: { 'Content-Type': 'application/json' },
         cache: 'no-store',
     });
