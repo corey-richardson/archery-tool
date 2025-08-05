@@ -10,7 +10,8 @@
     "lint:fix": "next lint --fix",
     "lint:check": "next lint --max-warnings 0",
     "format:check": "eslint . --ext .js,.jsx,.ts,.tsx --max-warnings 0",
-    "postinstall": "prisma generate --no-engine"
+    "postinstall": "prisma generate --no-engine",
+    "prepare": "husky install"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -40,6 +41,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.1",
+    "husky": "^9.1.7",
     "prisma": "^6.12.0",
     "tsx": "^4.20.3",
     "typescript": "^5"
