@@ -64,7 +64,6 @@ function CreateClub() {
                 setClubName("");
                 setChangesPending(false);
 
-                await signOut({ redirect: false });
                 window.location.href = `/admin/members/${clubId}`;
             } else {
                 throw new Error(`HTTP error! status: ${res.status}`);

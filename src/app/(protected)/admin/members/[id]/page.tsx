@@ -8,17 +8,12 @@ const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
     const clubId = params.id;
     const session = await getServerSession(authOptions);
 
-    console.log("Current clubId:", clubId);
-    console.log("User memberships:", session?.user?.memberships);
-
     const admin = session?.user?.memberships?.some(
         (m: any) =>
             m.clubId === clubId &&
       Array.isArray(m.roles) &&
       m.roles.map((r: string) => r.trim().toUpperCase()).includes("ADMIN")
     );
-
-    console.log("Is admin of this club:", admin);
 
     if (!session || !admin ) {
         redirect("/unauthorised?reason=not-an-admin");
