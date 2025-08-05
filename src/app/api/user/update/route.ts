@@ -8,6 +8,28 @@ export async function PATCH(req: Request) {
         return NextResponse.json({message: "Missing required fields."}, { status: 400});
     }
 
+    const existingEmail = await prisma.user.findFirst({
+        where: {
+            email,
+            NOT: { id },
+        },
+    });
+    if (existingEmail) {
+        return NextResponse.json({ message: "Email is already in use." }, { status: 409 });
+    }
+
+    if (archeryGBNumber) {
+        const existingAGB = await prisma.user.findFirst({
+            where: {
+                archeryGBNumber,
+                NOT: { id },
+            },
+        });
+        if (existingAGB) {
+            return NextResponse.json({ message: "That ArcheryGB Number is already associated with a user." }, { status: 409 });
+        }
+    }
+
     const updatedUser = await prisma.user.update({
         where: {
             id,
