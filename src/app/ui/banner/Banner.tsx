@@ -9,8 +9,8 @@ const Banner = () => {
             <h1>{ APP_NAME }</h1>
             <p>This app is a tool for managing archery club membership and records. It allows club administrators to register members and maintain detailed records of scores and achievements. The interface is designed to be user-friendly and easy to use, and provides an Open-Source alternative to existing paid-products.</p>
 
-            <PersonalLinks />
             <ArcheryLinks />
+            <PersonalLinks />
 
             <p className="small">&copy; corey-richardson 2025, Photo by Jonathon Yau via Archery GB</p>
         </div>
