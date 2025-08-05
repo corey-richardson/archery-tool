@@ -3,7 +3,7 @@ import prisma from "@/app/lib/prisma";
 
 export async function POST(request: NextRequest) {
     const body = await request.json();
-    const { userId, ageCategory, submittedAt, dateShot, roundName, roundType, bowstyle, score, xs, tens, nines, hits, competitionLevel, notes } = body;
+    const { userId, sex, ageCategory, submittedAt, dateShot, roundName, roundType, bowstyle, score, xs, tens, nines, hits, competitionLevel, notes } = body;
 
     if (!userId || !dateShot || !roundName || !roundType || !bowstyle || !competitionLevel) {
         return NextResponse.json({error: "Missing required fields"}, { status: 400 });
@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
     const newScoreRecord = await prisma.scores.create({
         data: {
             userId,
+            sex,
             ageCategory,
             submittedAt,
             dateShot,

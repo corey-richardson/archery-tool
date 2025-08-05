@@ -11,6 +11,7 @@ export type Score = {
     hits?: number;
     competitionLevel: string;
     ageCategory: string;
+    sex?: string;
     notes?: string;
     submittedAt?: string;
     processedAt?: string;

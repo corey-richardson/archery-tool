@@ -33,7 +33,7 @@ const ScoreCard = ({ score, onDeletion } : { score: Score; onDeletion?: () => vo
                 </div>
                 <div>
                     <b>Bowstyle:</b> {EnumMappings[score.bowstyle] || score.bowstyle} |&nbsp;
-                    <b>Age Category:</b> {EnumMappings[score.ageCategory] || score.ageCategory}
+                    <b>Age Category:</b> {EnumMappings[score.ageCategory] || score.ageCategory} { /*{score.sex ? EnumMappings[score.sex] || score.sex : "NOT_SET"}*/ }
                 </div>
                 <div>
                     <b>Competition:</b> {EnumMappings[score.competitionLevel] || score.competitionLevel}

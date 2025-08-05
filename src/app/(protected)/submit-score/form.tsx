@@ -5,6 +5,7 @@ import React, { useEffect, useState, useRef, useMemo, useCallback } from "react"
 import { EnumMappings } from "@/app/lib/enumMappings";
 import { redirect } from "next/navigation";
 
+
 // Constants
 const TODAY = new Date();
 
@@ -27,11 +28,14 @@ const ScoreSubmissionForm = ({userId} : any) => {
     const [ hits, setHits ] = useState("");
     const [ notes, setNotes ] = useState("");
     const [ ageCategory, setAgeCategory] = useState("SENIOR");
+    const [ sex, setSex ] = useState("NOT_SET");
+
 
     // Refs for caching
     const roundsCache = useRef<{[key: string]: {name: string, body: string}[]}>({});
-    const userDataRef = useRef<{defaultBowstyle: string, ageCategory: string} | null>(null);
+    const userDataRef = useRef<{defaultBowstyle: string, ageCategory: string, sex: string} | null>(null);
     const fetchingRounds = useRef<string | null>(null);
+
 
     // Effects
     useEffect(() => {
@@ -40,6 +44,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
             if (userDataRef.current) {
                 setBowstyle(userDataRef.current.defaultBowstyle);
                 setAgeCategory(userDataRef.current.ageCategory);
+                setSex(userDataRef.current.sex);
                 return;
             }
 
@@ -49,15 +54,18 @@ const ScoreSubmissionForm = ({userId} : any) => {
 
             userDataRef.current = {
                 defaultBowstyle: data.defaultBowstyle,
-                ageCategory: ageCategory
+                ageCategory: ageCategory,
+                sex: data.sex,
             };
 
             setBowstyle(data.defaultBowstyle);
+            setSex(data.sex);
             setAgeCategory(ageCategory);
         }
         fetchUser();
 
     }, [userId]);
+
 
     // Fetch rounds when round type changes
     const fetchRounds = useCallback(async (type: string) => {
@@ -108,6 +116,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
         setRoundName("");
     }, [roundType, fetchRounds]);
 
+
     const bowstyleOptions = useMemo(() => [
         { value: "BAREBOW", label: EnumMappings["BAREBOW"] },
         { value: "RECURVE", label: EnumMappings["RECURVE"] },
@@ -117,6 +126,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
         { value: "OTHER", label: EnumMappings["OTHER"] }
     ], []);
 
+
     const competitionLevelOptions = useMemo(() => [
         { value: "PRACTICE", label: EnumMappings["PRACTICE"] },
         { value: "CLUB_EVENT", label: EnumMappings["CLUB_EVENT"] },
@@ -124,21 +134,24 @@ const ScoreSubmissionForm = ({userId} : any) => {
         { value: "RECORDSTATUS_COMPETITION", label: EnumMappings["RECORDSTATUS_COMPETITION"] }
     ], []);
 
+
     const roundTypeOptions = useMemo(() => [
         { value: "INDOOR", label: EnumMappings["INDOOR"] },
         { value: "OUTDOOR", label: EnumMappings["OUTDOOR"] }
     ], []);
 
+
     // Handlers
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+
         const submittedAt = new Date();
 
         const res = await fetch("/api/scores", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId, ageCategory, submittedAt, dateShot, roundName, roundType, bowstyle, score, xs, tens, nines, hits, competitionLevel, notes }),
+            body: JSON.stringify({ userId, ageCategory, sex, submittedAt, dateShot, roundName, roundType, bowstyle, score, xs, tens, nines, hits, competitionLevel, notes }),
         });
 
         if (res.ok) {

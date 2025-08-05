@@ -166,7 +166,7 @@ model Scores {
   nines            Int?
   hits             Int?
   competitionLevel CompetitionLevel
-  sex              Sex
+  sex              Sex?
   ageCategory      AgeCategories @default(SENIOR)
   notes            String?
 
@@ -195,6 +195,7 @@ enum Bowstyle {
 enum Sex {
   MALE
   FEMALE
+  NOT_SET
 }
 
 enum AgeCategories {

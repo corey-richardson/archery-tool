@@ -87,6 +87,7 @@ async function Records() {
                     tens: score.tens === null ? undefined : score.tens,
                     nines: score.nines === null ? undefined : score.nines,
                     hits: score.hits === null ? undefined : score.hits,
+                    sex: score.sex === null ? undefined : score.sex,
                     roundIndoorClassification: score.roundIndoorClassification === null ? undefined : score.roundIndoorClassification,
                     roundOutdoorClassification: score.roundOutdoorClassification === null ? undefined : score.roundOutdoorClassification,
                     roundHandicap: score.roundHandicap === null ? undefined : score.roundHandicap,
