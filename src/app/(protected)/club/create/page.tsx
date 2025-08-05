@@ -25,14 +25,14 @@ function CreateClub() {
             console.error('Failed to refresh session:', error);
         }
     };
-    
+
 
     // Fetch session on mount
     useEffect(() => {
         refreshSessionData();
     }, []);
 
-    
+
     // Handlers
     const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
@@ -58,7 +58,7 @@ function CreateClub() {
             if (res.ok) {
                 const data = await res.json();
                 const clubId = data.createdClub.id;
-                
+
                 console.log('Club created with ID:', clubId);
                 setIsPending(false);
                 setClubName("");
@@ -83,7 +83,7 @@ function CreateClub() {
         return <h4 style={{"color": "black"}}>No session found.</h4>;
     }
 
-    return ( 
+    return (
         <div className="content forms" style={{maxWidth: "80%"}}>
             <form onSubmit={handleSubmit}>
                 <label>Club Name:</label>
@@ -95,11 +95,11 @@ function CreateClub() {
                 { !changesPending && <button disabled>Create Club</button> }
                 { changesPending && !isPending && <button>Create Club</button> }
                 { isPending && <button disabled>Creating Club...</button> }
-                
+
                 <p className="small centred">Note that after creating a club, you may need to sign in again to reload the session data and get access to the Club Management Tools.</p>
             </form>
         </div>
-     );
+    );
 }
- 
+
 export default CreateClub;
