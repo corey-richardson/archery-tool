@@ -1,7 +1,8 @@
 # Archery Tool (WIP)
 
-[![wakatime](https://wakatime.com/badge/user/55c30436-1509-4eb9-9f18-fa9b7c6060c4/project/f284d99e-acc6-43a2-a5d0-bb6bfdf0f5c6.svg)](https://wakatime.com/badge/user/55c30436-1509-4eb9-9f18-fa9b7c6060c4/project/f284d99e-acc6-43a2-a5d0-bb6bfdf0f5c6)
 ![Deployment](https://img.shields.io/github/deployments/corey-richardson/archery-tool/production?label=Deployment%20Status)
+![Website](https://img.shields.io/website?url=https%3A%2F%2Farchery-tool.vercel.app%2F&up_message=online&label=Vercel%20Site)
+[![wakatime](https://wakatime.com/badge/user/55c30436-1509-4eb9-9f18-fa9b7c6060c4/project/f284d99e-acc6-43a2-a5d0-bb6bfdf0f5c6.svg)](https://wakatime.com/badge/user/55c30436-1509-4eb9-9f18-fa9b7c6060c4/project/f284d99e-acc6-43a2-a5d0-bb6bfdf0f5c6)
 ![GitHub License](https://img.shields.io/github/license/corey-richardson/archery-tool)
 
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
