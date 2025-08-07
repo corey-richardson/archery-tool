@@ -25,7 +25,7 @@ export default function RolesCell({ value, row, clubId, setError }: { value: str
                 body: JSON.stringify({ roles: selectedRoles }),
             });
 
-            if (response.status === 400) {
+            if (response.status === 400 || response.status === 401) {
                 const data = await response.json();
                 setError(data.error || "Failed to update roles.");
                 setLocalRoles(value || []);

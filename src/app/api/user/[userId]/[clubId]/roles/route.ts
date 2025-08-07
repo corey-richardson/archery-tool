@@ -3,7 +3,14 @@ import prisma from "@/app/lib/prisma";
 import { requireAdminUser } from '@/app/lib/server-utils';
 
 export async function PUT(req: NextRequest) {
-    await requireAdminUser();
+    try {
+        await requireAdminUser();
+    } catch (error) {
+        return NextResponse.json(
+            { error: "Only Admin users can update roles." },
+            { status: 401 }
+        );
+    }
 
     const url = req.nextUrl.pathname;
     const [, , , userId, clubId] = url.split('/'); // ['', 'api', 'user', userId, clubId, 'roles']
