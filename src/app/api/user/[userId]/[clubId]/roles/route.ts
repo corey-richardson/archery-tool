@@ -19,8 +19,8 @@ export async function PUT(req: NextRequest) {
 
     try {
         const existingMemberships = await prisma.clubMembership.findFirst({
-            where: { 
-                userId, 
+            where: {
+                userId,
                 clubId,
                 endedAt: null,
             },
@@ -50,7 +50,7 @@ export async function PUT(req: NextRequest) {
         }
 
         await prisma.clubMembership.update({
-            where: { 
+            where: {
                 id: existingMemberships.id
             },
             data: { roles },

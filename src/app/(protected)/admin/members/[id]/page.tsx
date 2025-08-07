@@ -12,7 +12,7 @@ const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
 
     const session = await getServerSession(authOptions);
     const admin = session?.user?.memberships?.some(
-    (m: any) => m.clubId === clubId && m.roles.includes("ADMIN")
+        (m: any) => m.clubId === clubId && m.roles.includes("ADMIN")
     );
 
     if (!session || !admin ) {
