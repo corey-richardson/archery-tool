@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
-import { requireLoggedInUser } from "@/app/lib/server-utils";
+import { requireAdminUser, requireLoggedInUser } from "@/app/lib/server-utils";
 
 export async function GET(request: NextRequest, context: any) {
+    console.log('API route cookies:', request.cookies.getAll());
     await requireLoggedInUser();
 
     const params = await context.params;
@@ -28,6 +29,7 @@ export async function GET(request: NextRequest, context: any) {
 }
 
 export async function DELETE(request: Request, context: any) {
+    await requireAdminUser();
     const clubId = context.params.id;
 
     if (!clubId) {

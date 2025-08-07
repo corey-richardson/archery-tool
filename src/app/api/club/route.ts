@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 import { requireLoggedInUser } from "@/app/lib/server-utils";
 
-export async function GET(request: Request) {
+export async function GET(request: Request, context: any) {
     await requireLoggedInUser();
 
     const { searchParams } = new URL(request.url);

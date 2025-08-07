@@ -16,7 +16,6 @@ interface User {
 }
 
 export async function requireLoggedInUser(redirectToAfterLogin?: string) {
-
     const session = await getServerSession(authOptions);
 
     const sp = new URLSearchParams();
@@ -32,7 +31,6 @@ export async function requireLoggedInUser(redirectToAfterLogin?: string) {
 
 export async function requireRecordsUserOrHigher(redirectToAfterLogin?: string) {
     const user = await requireLoggedInUser(redirectToAfterLogin);
-
 
     const isAdmin = (user as User).memberships.some((membership: Membership) =>
         membership.roles.includes("ADMIN") || membership.roles.includes("RECORDS")

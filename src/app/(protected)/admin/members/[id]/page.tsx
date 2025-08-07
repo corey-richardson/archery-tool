@@ -1,26 +1,26 @@
 import { notFound } from "next/navigation";
 import MemberManagementClient from '../../components/MemberManagementClient';
 import { baseUrl } from "@/app/lib/constants";
+import { redirect } from "next/navigation";
 import { cookies } from 'next/headers';
 
 const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
-    const clubId = params.id;
+    const p = await params;
+    const clubId = p.id;
 
-    const cookieStore = cookies();
-    const cookieHeader = cookieStore.toString();
-    console.log(cookieHeader);
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.getAll().map(c => `${c.name}=${c.value}`).join('; ');
 
     const res = await fetch(`${baseUrl}/api/club/${clubId}`, {
         headers: {
-            'Content-Type': 'application/json' ,
-            'Cookie': cookieHeader
+            'Content-Type': 'application/json',
+            'Cookie': cookieHeader,
         },
-        cache: 'no-store',
     });
 
     if (!res.ok) return notFound();
+    if (res.headers.get("content-type")?.includes("text/html")) redirect("/unauthorised?reason=not-logged-in");
 
-    console.log(res);
     const club = await res.json();
 
     if (!club) return notFound();
