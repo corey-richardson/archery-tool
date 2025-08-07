@@ -123,7 +123,7 @@ export default function MemberManagement({ club }: { club: Club }) {
         });
 
     return (
-        <div style={{ width: '100%', marginTop: '1rem' }}>
+        <div style={{ width: '100%', marginTop: '1rem', paddingBottom: "2rem" }}>
             <DataGrid
                 rows={rows}
                 getRowHeight={() => 'auto'}

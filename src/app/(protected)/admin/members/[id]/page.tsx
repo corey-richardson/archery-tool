@@ -26,8 +26,8 @@ const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
     if (!club) return notFound();
 
     return (
-        <div className="wider" style={{ margin: '0 auto', padding: '2rem 1rem' }}>
-            <h2 style={{ marginBottom: '2rem' }}>Manage Members for {club.club.name}.</h2>
+        <div className="content wider" style={{ margin: '0 auto', padding: '0 1rem' }}>
+            <h3>Manage Members for {club.club.name}.</h3>
             <MemberManagementClient club={club} />
         </div>
     );
