@@ -1,6 +1,7 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import calculateAgeCategory from '@/app/lib/calculateAgeCategory';
 import { EnumMappings } from '@/app/lib/enumMappings';
+import { useEffect, useState } from "react";
 
 interface Member {
   id: string;
@@ -29,6 +30,8 @@ interface Club {
 const ALL_ROLES = ['ADMIN', 'RECORDS', 'COACH', 'MEMBER'];
 
 export default function MemberManagement({ club }: { club: Club }) {
+    const [ error, setError ] = useState<string | null>(null);
+
     const columns: GridColDef[] = [
         { field: 'name', headerName: 'Name', flex: 1, sortable: true },
         { field: 'email', headerName: 'Email', flex: 1, sortable: true },
@@ -42,12 +45,20 @@ export default function MemberManagement({ club }: { club: Club }) {
             headerName: 'Roles (Ctrl+Click to add)',
             flex: 1,
             sortable: false,
+
             renderCell: (params) => {
-                const currentRoles: string[] = params.value || [];
+                const [localRoles, setLocalRoles] = useState<string[]>(params.value || []);
+                const [selectError, setSelectError] = useState(false);
+
+                useEffect(() => {
+                    setLocalRoles(params.value || []);
+                }, [params.value]);
 
                 const handleChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
                     const selectedRoles = Array.from(event.target.selectedOptions).map(opt => opt.value);
                     event.target.disabled = true;
+                    setLocalRoles(selectedRoles);
+                    setSelectError(false);
 
                     try {
                         const response = await fetch(`/api/user/${params.row.userId}/${club.club.id}/roles`, {
@@ -58,12 +69,21 @@ export default function MemberManagement({ club }: { club: Club }) {
 
                         if (response.status === 400) {
                             const data = await response.json();
-                            alert(data.error || "Failed to update roles.");
+                            setError(data.error || "Failed to update roles.");
+                            setLocalRoles(params.value || []);
+                            setSelectError(true);
                         } else if (!response.ok) {
-                            alert("Failed to update roles.");
+                            setError("Failed to update roles.");
+                            setLocalRoles(params.value || []);
+                            setSelectError(true);
+                        }
+                        else if (response.ok) {
+                            setError(null);
                         }
                     } catch (error) {
-                        alert("Failed to update roles. (Network Error): " + error);
+                        setError("Failed to update roles. (Network Error): " + error);
+                        setLocalRoles(params.value || []);
+                        setSelectError(true);
                     } finally {
                         event.target.disabled = false;
                     }
@@ -72,7 +92,7 @@ export default function MemberManagement({ club }: { club: Club }) {
                 return (
                     <select
                         multiple
-                        defaultValue={currentRoles}
+                        value={localRoles}
                         onChange={handleChange}
                         size={ALL_ROLES.length}
                         style={{
@@ -81,8 +101,8 @@ export default function MemberManagement({ club }: { club: Club }) {
                             fontSize: '0.9rem',
                             padding: '4px',
                             borderRadius: '4px',
-                            border: '1px solid #ccc',
-                            backgroundColor: '#f9f9f9',
+                            border: selectError ? '2px solid red' : '1px solid #ccc',
+                            backgroundColor: selectError ? '#ffeaea' : '#f9f9f9',
                             overflow: 'hidden',
                         }}
                     >
@@ -97,7 +117,6 @@ export default function MemberManagement({ club }: { club: Club }) {
         },
 
         { field: 'joinedAt', headerName: 'Joined', flex: 0.8, sortable: true },
-        { field: 'endedAt', headerName: 'Ended', flex: 0.8, sortable: true },
     ];
 
     const rows = club.members
@@ -133,6 +152,8 @@ export default function MemberManagement({ club }: { club: Club }) {
                 pageSizeOptions={[10, 25, 50]}
                 disableRowSelectionOnClick
             />
+
+            {error && <p className="small centred" style={{ color: "red" }}>{error}</p>}
         </div>
     );
 }
