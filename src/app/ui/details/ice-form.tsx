@@ -171,9 +171,9 @@ const EmergencyContactsForm = ({user} : any) => {
                                 <span className="emergency-contact-toggle-icon">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ verticalAlign: "middle" }}>
                                         {openContactIdx === idx ? (
-                                            <path d="M5 13L10 8L15 13" stroke="#0070f3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                            <path d="M5 13L10 8L15 13" stroke="#356df1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                         ) : (
-                                            <path d="M5 8L10 13L15 8" stroke="#0070f3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                            <path d="M5 8L10 13L15 8" stroke="#356df1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                         )}
                                     </svg>
                                 </span>
