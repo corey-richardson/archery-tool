@@ -13,7 +13,9 @@ async function SubmitScore() {
     return (
         <div className="wider content">
             <h3>Submit a Score to the Records Officer.</h3>
-            <p className="centred">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam maxime cum repellat officiis nemo hic doloribus. Quo, possimus tempora minima, mollitia eius ut pariatur, fugit blanditiis porro nesciunt exercitationem tempore.</p>
+            <p className="centred">
+                Use this form to submit your latest archery score to your club's records officer. Accurate score submissions help maintain your classification and handicap, and ensure club records are up to date. Please fill in all required fields and double-check your entry before submitting.
+            </p>
 
             <div className="forms">
                 <ScoreSubmissionForm userId={session?.user.id} />

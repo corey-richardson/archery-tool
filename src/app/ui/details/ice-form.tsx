@@ -105,7 +105,9 @@ const EmergencyContactsForm = ({user} : any) => {
     return (
         <div>
             <h3>Emergency Contact Details.</h3>
-            <p className="centred">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo adipisci aliquam, enim voluptate corrupti doloremque possimus, voluptatibus aliquid perspiciatis in maxime corporis voluptatem temporibus illo optio, maiores minus quaerat voluptates.</p>
+            <p className="centred">
+                Please provide up-to-date emergency contact details. This information is used by your club in case of urgent situations and will only be accessed by authorised officials. You can add, update, or remove contacts at any time. If you have privacy concerns, contact your club administrator.
+            </p>
 
             <h4>Add New Emergency Contact</h4>
             <form onSubmit={handleCreateNewContact}>

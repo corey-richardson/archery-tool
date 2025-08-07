@@ -14,7 +14,19 @@ export default async function Home() {
             <Banner />
 
             <div className="content centred">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <b>Welcome to the Archery Club Management Tool!</b> <br /><br />
+                <span>
+                    This website is designed to help archery clubs manage their members, records, and events efficiently and securely. Whether you are a club administrator, records officer, or a regular member, you will find tools tailored to your role:
+                </span>
+                <div style={{marginTop: '1rem', marginBottom: '1rem'}}>
+                    <b>Administrators:</b> can manage club details, invite new members, assign roles, and oversee all club activities.<br />
+                    <b>Records Officers:</b> have access to member scores, can update records, and help maintain the club's competitive history.<br />
+                    <b>Members:</b> can view their personal details, submit scores, track their progress, and participate in club events.<br />
+                </div>
+                <span>
+                    <br />
+                    The platform uses secure Single Sign-On (SSO) authentication to protect your data and ensure only authorised users can access sensitive information. If you are new, please log in below and contact your Club's administrator for an invite. For more information about your permissions, contact your Club's Admin or Records Officer.
+                </span>
             </div>
 
             { !session && <div className="forms">

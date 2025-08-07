@@ -15,7 +15,9 @@ async function RecordsOverview() {
     return (
         <div className="wider content">
             <h3>My Records Overview.</h3>
-            <p className="centred">Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum iste delectus quod maiores quaerat ipsam soluta beatae itaque eum deserunt. Fugiat, pariatur mollitia blanditiis rem molestias corporis voluptate in. Soluta.</p>
+            <p className="centred">
+                This page provides an overview of your current archery classification and handicap, based on your submitted scores. Review your progress, see your best performances, and track how your achievements compare to club and national standards. For details on how classifications and handicaps are calculated, consult your Club's Records Officer.
+            </p>
 
             <OverviewCard userId={userId} />
         </div>

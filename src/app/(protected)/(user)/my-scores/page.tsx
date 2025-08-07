@@ -17,7 +17,9 @@ async function MyScores() {
     return (
         <div className="wider content">
             <h3>My Scores.</h3>
-            <p className="centred">Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum iste delectus quod maiores quaerat ipsam soluta beatae itaque eum deserunt. Fugiat, pariatur mollitia blanditiis rem molestias corporis voluptate in. Soluta.</p>
+            <p className="centred">
+                This section displays your personal archery scores and records. You can review your performance history, track progress over time, and submit new scores. Use the links below to view a summary of your records or to add a new score after a competition or practice session. These scores are shared with the Club Records Officer for processing and to award classification and handicaps when you have achieved them.
+            </p>
 
             <div className="wider scores-links">
                 <Link href="/my-scores/overview" className="link-button">Records Overview</Link>

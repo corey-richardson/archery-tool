@@ -28,6 +28,9 @@ export default function ClubCards( { userId } : ClubcardProps ) {
     return (
         <>
             <h3>My Clubs.</h3>
+            <p className="centred">
+                Here you can view all the archery clubs you are currently a member of. Clubs provide access to events, records, and community features.
+            </p>
 
             { isLoading && (
                 <div className="content">

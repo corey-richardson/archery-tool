@@ -101,7 +101,9 @@ const DetailsForm = ({userId} : any) => {
     return (
         <div>
             <h3>My Details.</h3>
-            <p className="centred">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius vitae facilis fuga voluptas autem, perspiciatis placeat, incidunt provident veniam eaque mollitia aliquam voluptate eos cumque officia illo consequuntur porro aperiam.</p>
+            <p className="centred">
+                Please review and update your personal details below. Accurate information helps your club manage records, scores, and communications. Fields marked with * are required. If you have questions about how your data is used, contact your club administrator.
+            </p>
 
             <form onSubmit={handleSubmit}>
 
