@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
-import { requireAdminUser } from "@/app/lib/server-utils";
+import { requireLoggedInUser } from "@/app/lib/server-utils";
 
 export async function GET(request: NextRequest, context: any) {
-    await requireAdminUser();
+    await requireLoggedInUser();
 
     const params = await context.params;
     const userId = params.userId;
