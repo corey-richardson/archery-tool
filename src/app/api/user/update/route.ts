@@ -11,7 +11,7 @@ export async function PATCH(req: Request) {
 
     const { id, name, email, archeryGBNumber, sex, gender, yearOfBirth, defaultBowstyle  } = await req.json();
 
-    const isRecordsOrAdmin = requestor.memberships.some((membership: Membership) => 
+    const isRecordsOrAdmin = requestor.memberships.some((membership: Membership) =>
         membership.roles.includes('ADMIN') || membership.roles.includes('RECORDS')
     );
 

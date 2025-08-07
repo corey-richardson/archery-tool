@@ -6,7 +6,7 @@ import { requireLoggedInUser } from "@/app/lib/server-utils";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
     await requireLoggedInUser();
-    
+
     const clubId = params.id;
     const session = await getServerSession(authOptions);
 

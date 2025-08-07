@@ -71,7 +71,7 @@ export default function OutgoingInvites({ clubId }: { clubId: string }) {
                                         className="btn btn-secondary"
                                         onClick={() => handleRescind(invite.id)}
                                         disabled={rescindingId === invite.id}
-                                    >{ rescindingId === invite.id ? "Rescinding Invite..." : "Rescind Invite to Club" }</button>  
+                                    >{ rescindingId === invite.id ? "Rescinding Invite..." : "Rescind Invite to Club" }</button>
                                 </div>
                             </div>
                         </li>

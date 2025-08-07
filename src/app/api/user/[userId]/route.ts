@@ -12,7 +12,7 @@ export async function GET(req: NextRequest, context: any) {
     const params = await context.params;
     const userId = params.userId;
 
-    const isRecordsOrAdmin = requestor.memberships.some((membership: Membership) => 
+    const isRecordsOrAdmin = requestor.memberships.some((membership: Membership) =>
         membership.roles.includes('ADMIN') || membership.roles.includes('RECORDS')
     );
 

@@ -10,7 +10,7 @@ export function InviteForm({ clubId }: { clubId: string }) {
     const [error, setError] = useState<string | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const [userId, setUserId] = useState<string | undefined>(undefined);
-    
+
     useEffect(() => {
         getSession().then(session => {
             setUserId(session?.user?.id);

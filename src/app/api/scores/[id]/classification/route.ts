@@ -8,7 +8,7 @@ interface Params {
 
 export async function PUT(request: NextRequest, { params }: Params) {
     await requireRecordsUserOrHigher();
-    
+
     try {
         const scoreId = params.id;
         const body = await request.json();

@@ -11,7 +11,7 @@ const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
     console.log(cookieHeader);
 
     const res = await fetch(`${baseUrl}/api/club/${clubId}`, {
-        headers: { 
+        headers: {
             'Content-Type': 'application/json' ,
             'Cookie': cookieHeader
         },

@@ -6,7 +6,7 @@ import { requireLoggedInUser } from '@/app/lib/server-utils';
 
 export async function GET() {
     await requireLoggedInUser();
-    
+
     try {
         const session = await getServerSession(authOptions);
 

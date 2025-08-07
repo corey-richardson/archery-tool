@@ -4,7 +4,7 @@ import { requireLoggedInUser } from "@/app/lib/server-utils";
 
 export async function POST(request: NextRequest) {
     await requireLoggedInUser();
-    
+
     const body = await request.json();
     const { userId, contactName, contactPhone, contactEmail, relationshipType } = body;
 

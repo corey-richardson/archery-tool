@@ -12,7 +12,7 @@ export async function GET(request: NextRequest, context: any) {
     const params = await context.params;
     const userId = params.id;
 
-    const isRecordsOrAdmin = user.memberships.some((membership : Membership) => 
+    const isRecordsOrAdmin = user.memberships.some((membership : Membership) =>
         membership.roles.includes('ADMIN') || membership.roles.includes('RECORDS')
     );
 
@@ -39,7 +39,7 @@ export async function PATCH(request: NextRequest, context: any) {
     const contactId = params.id;
     const body = await request.json();
 
-    const isRecordsOrAdmin = user.memberships.some((membership : Membership) => 
+    const isRecordsOrAdmin = user.memberships.some((membership : Membership) =>
         membership.roles.includes('ADMIN') || membership.roles.includes('RECORDS')
     );
 

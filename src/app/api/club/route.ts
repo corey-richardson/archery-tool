@@ -4,7 +4,7 @@ import { requireLoggedInUser } from "@/app/lib/server-utils";
 
 export async function GET(request: Request) {
     await requireLoggedInUser();
-    
+
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
 

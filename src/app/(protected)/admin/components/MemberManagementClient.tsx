@@ -40,7 +40,7 @@ export default function MemberManagementClient({ club }: { club: any }) {
         }
     };
 
-    
+
 
     return (
         <div className="content">
@@ -56,7 +56,7 @@ export default function MemberManagementClient({ club }: { club: any }) {
 
                         <input className="forms" value={confirmDeletion} onChange={e => setConfirmDeletion(e.target.value)} />
                         {error && <div style={{ color: 'red', marginBottom: 8 }}>{error}</div>}
-                        
+
                         <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
                             <button
                                 onClick={() => setShowDialog(false)}
@@ -68,12 +68,12 @@ export default function MemberManagementClient({ club }: { club: any }) {
                             <button
                                 onClick={handleDelete}
                                 disabled={deleting || club.club.name.trim() !== confirmDeletion.trim()}
-                                style={{ 
-                                    padding: '0.5rem 1.5rem', 
-                                    borderRadius: 4, 
-                                    background: deleting || club.club.name.trim() !== confirmDeletion.trim() ? '#ccc' : '#c00', 
-                                    color: deleting || club.club.name.trim() !== confirmDeletion.trim() ? '#666' : '#fff', 
-                                    border: 'none', 
+                                style={{
+                                    padding: '0.5rem 1.5rem',
+                                    borderRadius: 4,
+                                    background: deleting || club.club.name.trim() !== confirmDeletion.trim() ? '#ccc' : '#c00',
+                                    color: deleting || club.club.name.trim() !== confirmDeletion.trim() ? '#666' : '#fff',
+                                    border: 'none',
                                     cursor: deleting || club.club.name.trim() !== confirmDeletion.trim() ? 'not-allowed' : 'pointer',
                                     opacity: deleting || club.club.name.trim() !== confirmDeletion.trim() ? 0.6 : 1,
                                     transition: 'all 0.2s ease'
