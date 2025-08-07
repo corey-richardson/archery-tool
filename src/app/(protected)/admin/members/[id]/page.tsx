@@ -3,10 +3,21 @@ import MemberManagementClient from '../../components/MemberManagementClient';
 import { baseUrl } from "@/app/lib/constants";
 import { redirect } from "next/navigation";
 import { cookies } from 'next/headers';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/authOptions";
 
 const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
     const p = await params;
     const clubId = p.id;
+
+    const session = await getServerSession(authOptions);
+    const admin = session?.user?.memberships?.some(
+    (m: any) => m.clubId === clubId && m.roles.includes("ADMIN")
+    );
+
+    if (!session || !admin ) {
+        redirect("/unauthorised?reason=not-an-admin");
+    }
 
     const cookieStore = await cookies();
     const cookieHeader = cookieStore.getAll().map(c => `${c.name}=${c.value}`).join('; ');
