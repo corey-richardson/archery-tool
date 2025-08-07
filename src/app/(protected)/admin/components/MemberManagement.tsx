@@ -14,6 +14,7 @@ interface Member {
     email: string;
     archeryGBNumber?: string;
     sex?: string | null;
+    gender?: string | null
     yearOfBirth?: number | null;
   };
 }
@@ -32,7 +33,7 @@ export default function MemberManagement({ club }: { club: Club }) {
         { field: 'name', headerName: 'Name', flex: 1, sortable: true },
         { field: 'email', headerName: 'Email', flex: 1, sortable: true },
         { field: 'archeryGBNumber', headerName: 'ArcheryGB Number', flex: 1, sortable: true },
-        { field: 'sex', headerName: 'Sex', flex: 0.5, sortable: true },
+        { field: 'sex', headerName: 'Sex (+ Pronouns)', flex: 0.8, sortable: true },
         { field: 'yearOfBirth', headerName: 'Year of Birth', flex: 0.7, sortable: true },
         { field: 'ageCategory', headerName: 'Age Category', flex: 0.8, sortable: true },
 
@@ -108,7 +109,7 @@ export default function MemberManagement({ club }: { club: Club }) {
                 name: member.user?.name || 'Unknown',
                 email: member.user?.email || 'Unknown',
                 archeryGBNumber: member.user?.archeryGBNumber || '-',
-                sex: member.user?.sex != null ? EnumMappings[member.user.sex] : '-',
+                sex: member.user?.sex ? EnumMappings[member.user.sex] + (member.user?.gender ? ` (${member.user?.gender})`  : "") : "-",
                 yearOfBirth: member.user?.yearOfBirth || '-',
                 ageCategory:
           member.user?.yearOfBirth
