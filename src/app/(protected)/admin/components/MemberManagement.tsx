@@ -87,7 +87,14 @@ export default function MemberManagement({ club }: { club: Club }) {
                 getRowHeight={() => 'auto'}
                 columns={columns}
                 initialState={{
-                    pagination: { paginationModel: { pageSize: 10, page: 0 } }
+                    pagination: { paginationModel: { pageSize: 10, page: 0 } },
+                    sorting: {
+                        sortModel:
+                            [{
+                                field: "name",
+                                sort: "asc"
+                            }]
+                    }
                 }}
                 pageSizeOptions={[10, 25, 50]}
                 disableRowSelectionOnClick
