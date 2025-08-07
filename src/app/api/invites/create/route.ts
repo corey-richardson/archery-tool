@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
+import { requireRecordsUserOrHigher } from "@/app/lib/server-utils";
 
 // POST /api/invites/create
 export async function POST(req: NextRequest) {
+    await requireRecordsUserOrHigher();
+
     const { clubId, archeryGBNumber, invitedBy } = await req.json();
 
     if (!clubId || !archeryGBNumber || !invitedBy) {
         return NextResponse.json({ error: "Missing clubId, archeryGBNumber, or invitedBy" }, { status: 400 });
     }
 
-    // Check if user exists
     const user = await prisma.user.findFirst({ where: { archeryGBNumber } });
 
-    // Check for existing invite
     const existingInvite = await prisma.invite.findFirst({
         where: {
             clubId,
@@ -27,7 +28,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Invite already exists for this user/number." }, { status: 409 });
     }
 
-    // Create invite
     const invite = await prisma.invite.create({
         data: {
             clubId,

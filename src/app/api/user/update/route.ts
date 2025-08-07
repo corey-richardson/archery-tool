@@ -1,8 +1,23 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
+import { requireLoggedInUser } from "@/app/lib/server-utils";
+
+interface Membership {
+    roles: string[];
+}
 
 export async function PATCH(req: Request) {
+    const requestor = await requireLoggedInUser();
+
     const { id, name, email, archeryGBNumber, sex, gender, yearOfBirth, defaultBowstyle  } = await req.json();
+
+    const isRecordsOrAdmin = requestor.memberships.some((membership: Membership) => 
+            membership.roles.includes('ADMIN') || membership.roles.includes('RECORDS')
+        );
+    
+        if (!isRecordsOrAdmin && requestor.id !== id) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+        }
 
     if (!id || !name || !email) {
         return NextResponse.json({message: "Missing required fields."}, { status: 400});

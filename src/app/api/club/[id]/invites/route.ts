@@ -2,8 +2,11 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 import { authOptions } from "@/app/api/auth/authOptions";
+import { requireLoggedInUser } from "@/app/lib/server-utils";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+    await requireLoggedInUser();
+    
     const clubId = params.id;
     const session = await getServerSession(authOptions);
 

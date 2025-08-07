@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import indoorRounds from '@/app/lib/IndoorRounds.json';
 import outdoorRounds from '@/app/lib/OutdoorRounds.json';
-import { error } from 'console';
+import { requireLoggedInUser } from '@/app/lib/server-utils';
 
 export async function GET(request: NextRequest) {
-
+    await requireLoggedInUser();
     // throw new Error("Simulated Error to test manual input");
 
     try {

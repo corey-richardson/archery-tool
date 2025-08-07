@@ -2,8 +2,11 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/authOptions';
 import prisma from '@/app/lib/prisma';
+import { requireLoggedInUser } from '@/app/lib/server-utils';
 
 export async function GET() {
+    await requireLoggedInUser();
+    
     try {
         const session = await getServerSession(authOptions);
 

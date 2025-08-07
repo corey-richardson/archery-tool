@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
+import { requireRecordsUserOrHigher } from "@/app/lib/server-utils";
 
 interface Params {
   params: { id: string };
 }
 
 export async function PUT(request: NextRequest, { params }: Params) {
+    await requireRecordsUserOrHigher();
+    
     try {
         const scoreId = params.id;
         const body = await request.json();

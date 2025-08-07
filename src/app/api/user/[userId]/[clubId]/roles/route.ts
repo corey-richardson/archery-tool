@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from "@/app/lib/prisma";
-import { error } from 'console';
+import { requireAdminUser } from '@/app/lib/server-utils';
 
 export async function PUT(req: NextRequest) {
+    await requireAdminUser();
+
     const url = req.nextUrl.pathname;
     const [, , , userId, clubId] = url.split('/'); // ['', 'api', 'user', userId, clubId, 'roles']
 

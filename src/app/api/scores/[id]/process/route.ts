@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/authOptions';
 import prisma from '@/app/lib/prisma';
+import { requireRecordsUserOrHigher } from "@/app/lib/server-utils";
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+    await requireRecordsUserOrHigher();
     try {
         const session = await getServerSession(authOptions);
 

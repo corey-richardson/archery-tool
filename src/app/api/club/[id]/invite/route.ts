@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
+import { requireAdminUser } from "@/app/lib/server-utils";
 
 export async function POST(req: NextRequest, context: any) {
+    await requireAdminUser();
+
     const clubId = context.params.id;
     const { archeryGBNumber, invitedBy } = await req.json();
 
