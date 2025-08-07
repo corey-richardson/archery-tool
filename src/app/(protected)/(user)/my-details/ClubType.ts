@@ -7,4 +7,9 @@ export type ClubType = {
         joinedAt: string;
         membershipId: string;
     };
+    adminOrRecordsUsers: {
+        id: string;
+        name: string;
+        highestRole: string;
+    }
 }
