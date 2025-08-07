@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { getSession } from "next-auth/react";
 
-export function InviteForm({ clubId }: { clubId: string }) {
+export function InviteForm({ clubId, onInviteSubmitted }: { clubId: string; onInviteSubmitted?: () => void }) {
     const [archeryGBNumber, setArcheryGBNumber] = useState("");
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState<string | null>(null);
@@ -33,6 +33,7 @@ export function InviteForm({ clubId }: { clubId: string }) {
                 setSuccess("Invite sent!");
                 setArcheryGBNumber("");
                 inputRef.current?.focus();
+                onInviteSubmitted?.();
             } else {
                 setError(data.error || "Failed to send invite");
             }
@@ -64,6 +65,7 @@ export function InviteForm({ clubId }: { clubId: string }) {
                 >
                     {loading ? "Sending..." : "Send Invite"}
                 </button>
+
                 {success && <span style={{ color: "green", marginLeft: 8 }}>{success}</span>}
                 {error && <span style={{ color: "red", marginLeft: 8 }}>{error}</span>}
             </form>

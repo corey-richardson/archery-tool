@@ -1,16 +1,49 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import MemberManagement from "./MemberManagement";
-import { getSession } from "next-auth/react";
 import { InviteForm } from "./InviteForm";
 import OutgoingInvites from "./OutgoingInvites";
+
+type Invite = {
+    id: string;
+    archeryGBNumber?: string;
+    user?: {
+        archeryGBNumber?: string;
+        name?: string;
+    };
+    createdAt: string;
+};
 
 export default function MemberManagementClient({ club }: { club: any }) {
     const [deleting, setDeleting] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [confirmDeletion, setConfirmDeletion] = useState("");
+    const [invites, setInvites] = useState<Invite[]>([]);
+    const [loadingInvites, setLoadingInvites] = useState(true);
+
+    const fetchInvites = useCallback(async () => {
+        setLoadingInvites(true);
+        setError(null);
+        try {
+            const res = await fetch(`/api/club/${club.club.id}/invites`);
+            const data = await res.json();
+            if (res.ok) setInvites(data.invites);
+            else setError(data.error || "Failed to load invites");
+        } catch (error) {
+            setError("Failed to load invites: " + error);
+        }
+        setLoadingInvites(false);
+    }, [club.club.id]);
+
+    useEffect(() => {
+        fetchInvites();
+    }, [fetchInvites]);
+
+    const handleInviteSubmitted = () => {
+        fetchInvites();
+    };
 
     const handleDelete = async () => {
         setDeleting(true);
@@ -31,6 +64,26 @@ export default function MemberManagementClient({ club }: { club: any }) {
             setDeleting(false);
         }
     };
+
+    const handleRescind = async (inviteId: string) => {
+        setError(null);
+
+        try {
+            const res = await fetch(`/api/invites/${inviteId}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            });
+
+            if (res.ok) {
+                setInvites(prev => prev.filter(invite => invite.id !== inviteId));
+            } else {
+                const data = await res.json();
+                setError(data.error || "Failed to rescind invite.");
+            }
+        } catch (error) {
+            setError("Error rescinding invite: " + error);
+        }
+    }
 
     return (
         <div className="content">
@@ -77,8 +130,14 @@ export default function MemberManagementClient({ club }: { club: any }) {
             )}
 
             <MemberManagement club={club} />
-            <InviteForm clubId={club.club.id} />
-            <OutgoingInvites clubId={club.club.id} />
+            <InviteForm clubId={club.club.id} onInviteSubmitted={handleInviteSubmitted} />
+
+            {invites.length > 0 && <OutgoingInvites
+                invites={invites}
+                loading={loadingInvites}
+                handleRescind={handleRescind}
+            />}
+            {loadingInvites && <p className="centred small">Loading...</p>}
 
             <hr style={{ margin: "2rem 0" }}/>
             <h3>Danger Zone</h3>

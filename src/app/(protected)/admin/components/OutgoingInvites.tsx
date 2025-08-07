@@ -1,59 +1,33 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-export default function OutgoingInvites({ clubId }: { clubId: string }) {
-    const [invites, setInvites] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [rescindingId, setRescindingId] = useState<string | null>(null);
+type Invite = {
+    id: string;
+    archeryGBNumber?: string;
+    user?: {
+        archeryGBNumber?: string;
+        name?: string;
+    };
+    createdAt: string;
+};
 
-    const handleRescind = async (inviteId: string) => {
-        setRescindingId(inviteId);
-        setError(null);
+interface OutgoingInvitesProps {
+    invites: Invite[];
+    loading: boolean;
+    handleRescind: (inviteId: string) => void;
+}
 
-        try {
-            const res = await fetch(`/api/invites/${inviteId}`, {
-                method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-            });
-
-            if (res.ok) {
-                setInvites(prev => prev.filter(invite => invite.id !== inviteId));
-            } else {
-                const data = await res.json();
-                setError(data.error || "Failed to rescind invite.");
-            }
-        } catch (error) {
-            setError("Error rescinding invite: " + error);
-        } finally {
-            setRescindingId(null);
-        }
-    }
-
-    useEffect(() => {
-        const fetchInvites = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const res = await fetch(`/api/club/${clubId}/invites`);
-                const data = await res.json();
-                if (res.ok) setInvites(data.invites);
-                else setError(data.error || "Failed to load invites");
-            } catch (error) {
-                setError("Failed to load invites: " + error);
-            }
-            setLoading(false);
-        };
-        fetchInvites(); }, [clubId]
-    );
+export default function OutgoingInvites({ invites, loading, handleRescind }: OutgoingInvitesProps) {
+    const [error] = useState<string | null>(null);
+    const [rescindingId] = useState<string | null>(null);
 
     return (
         <div>
             <h3>Outgoing Pending Invites</h3>
             {error && <div style={{ color: "red" }}>{error}</div>}
             {loading ? (
-                <p className="centred">Loading invites...</p>
+                <></>
             ) : invites.length === 0 ? (
                 <p className="centred">No pending invites.</p>
             ) : (
