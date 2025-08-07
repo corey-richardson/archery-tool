@@ -43,7 +43,7 @@ export default function NavbarClient({ session }: { session: any }) {
                             href={link.href}
                             className={clsx({ active: pathname === link.href })}
                             onClick={() => {
-                                setTimeout(() => setMenuOpen(false), 300); 
+                                setTimeout(() => setMenuOpen(false), 300);
                             }}
                         >
                             {link.label}
