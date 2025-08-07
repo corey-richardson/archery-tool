@@ -31,7 +31,19 @@ export async function requireRecordsUserOrHigher() {
     const user = await requireLoggedInUser();
 
     const isAdmin = (user as User).memberships.some((membership: Membership) =>
-        membership.roles.includes("ADMIN") || membership.roles.includes("RECORDS")
+        membership.roles.includes("ADMIN") || membership.roles.includes("CAPTAIN") || membership.roles.includes("RECORDS")
+    );
+
+    if (!isAdmin) redirect("/unauthorised?reason=not-an-admin");
+
+    return user;
+}
+
+export async function requireCaptainUserOrHigher() {
+    const user = await requireLoggedInUser();
+
+    const isAdmin = (user as User).memberships.some((membership: Membership) =>
+        membership.roles.includes("ADMIN") || membership.roles.includes("CAPTAIN")
     );
 
     if (!isAdmin) redirect("/unauthorised?reason=not-an-admin");

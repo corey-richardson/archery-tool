@@ -33,7 +33,6 @@ export default function ClubCards( { userId } : ClubcardProps ) {
 
             if (!res.ok) {
                 const data = await res.json();
-                console.log(data.error);
                 return { success: false, error: data.error || "Failed to leave club." };
             }
 

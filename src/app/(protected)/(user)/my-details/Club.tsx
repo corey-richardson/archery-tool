@@ -3,14 +3,15 @@ import Link from "next/link";
 import { EnumMappings } from "@/app/lib/enumMappings";
 import { useState } from "react";
 
+const rolePriority = ["ADMIN", "CAPTAIN", "RECORDS", "COACH", "MEMBER"];
+
 const Club = ({ club, handleLeaveClub }: { club: ClubType, handleLeaveClub: () => Promise<{success: boolean, error?: string}> }) => {
     const [ leaving, setLeaving ] = useState(false);
     const [ error, setError ] = useState<string | null>(null);
     const [ showConfirm, setShowConfirm ] = useState(false);
 
-    const rolePriority = ["ADMIN", "RECORDS", "COACH", "MEMBER"];
     const userRole = rolePriority.find(role => club.membershipDetails.roles.includes(role));
-    const isLink = ["ADMIN"].some(role => club.membershipDetails.roles.includes(role));
+    const isLink = ["ADMIN", "CAPTAIN"].some(role => club.membershipDetails.roles.includes(role));
 
     const onLeaveClub = async () => {
         setLeaving(true);
@@ -37,7 +38,6 @@ const Club = ({ club, handleLeaveClub }: { club: ClubType, handleLeaveClub: () =
                     {club.adminOrRecordsUsers
                         .slice() // avoid mutating original array
                         .sort((a: any, b: any) => {
-                            const rolePriority = ["ADMIN", "RECORDS", "COACH", "MEMBER"];
                             const aPriority = rolePriority.indexOf(a.highestRole);
                             const bPriority = rolePriority.indexOf(b.highestRole);
                             if (aPriority !== bPriority) return aPriority - bPriority;

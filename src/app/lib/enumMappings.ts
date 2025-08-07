@@ -3,6 +3,7 @@ export const EnumMappings: Record<string, string> = {
     MEMBER: "Member",
     COACH: "Coach",
     RECORDS: "Records",
+    CAPTAIN: "Captain",
     ADMIN: "Admin",
     // Bowstyles
     BAREBOW: "Barebow",

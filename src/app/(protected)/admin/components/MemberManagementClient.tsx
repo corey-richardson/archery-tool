@@ -15,7 +15,7 @@ type Invite = {
     createdAt: string;
 };
 
-export default function MemberManagementClient({ club }: { club: any }) {
+export default function MemberManagementClient({ club, admin }: { club: any, admin: boolean }) {
     const [deleting, setDeleting] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -87,7 +87,7 @@ export default function MemberManagementClient({ club }: { club: any }) {
 
     return (
         <div className="content">
-            {showDialog && (
+            {showDialog && admin && (
                 <div style={{
                     position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
                     background: 'rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
@@ -130,26 +130,29 @@ export default function MemberManagementClient({ club }: { club: any }) {
             )}
 
             <MemberManagement club={club} />
-            <InviteForm clubId={club.club.id} onInviteSubmitted={handleInviteSubmitted} />
 
-            {invites.length > 0 && <OutgoingInvites
-                invites={invites}
-                loading={loadingInvites}
-                handleRescind={handleRescind}
-            />}
-            {loadingInvites && <p className="centred small">Loading...</p>}
-
-            <hr style={{ margin: "2rem 0" }}/>
-            <h3>Danger Zone</h3>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-                <button
-                    className="centred"
-                    onClick={() => setShowDialog(true)}
-                    disabled={deleting}
-                    style={{ marginBottom: "1.5rem", background: "#c00", color: "#fff", border: "none", padding: "0.5rem 1.5rem", borderRadius: 4, cursor: deleting ? "not-allowed" : "pointer" }}
-                >Delete Club
-                </button>
-            </div>
+            {admin && (
+                <>
+                    <InviteForm clubId={club.club.id} onInviteSubmitted={handleInviteSubmitted} />
+                    {invites.length > 0 && <OutgoingInvites
+                        invites={invites}
+                        loading={loadingInvites}
+                        handleRescind={handleRescind}
+                    />}
+                    {loadingInvites && <p className="centred small">Loading...</p>}
+                    <hr style={{ margin: "2rem 0" }}/>
+                    <h3>Danger Zone</h3>
+                    <div style={{ display: "flex", justifyContent: "center" }}>
+                        <button
+                            className="centred"
+                            onClick={() => setShowDialog(true)}
+                            disabled={deleting}
+                            style={{ marginBottom: "1.5rem", background: "#c00", color: "#fff", border: "none", padding: "0.5rem 1.5rem", borderRadius: 4, cursor: deleting ? "not-allowed" : "pointer" }}
+                        >Delete Club
+                        </button>
+                    </div>
+                </>
+            )}
         </div>
     );
 }

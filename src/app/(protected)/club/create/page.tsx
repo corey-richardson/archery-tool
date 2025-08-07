@@ -45,8 +45,6 @@ function CreateClub() {
                 body: JSON.stringify({ clubName, creatorId, }),
             })
 
-            console.log(res);
-
             if (res.status === 409) {
                 const errorData = await res.json();
                 alert(errorData.message || 'A club with that name already exists');
@@ -59,7 +57,6 @@ function CreateClub() {
                 const data = await res.json();
                 const clubId = data.createdClub.id;
 
-                console.log('Club created with ID:', clubId);
                 setIsPending(false);
                 setClubName("");
                 setChangesPending(false);

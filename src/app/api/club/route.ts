@@ -27,21 +27,23 @@ export async function GET(request: Request) {
         // Sort function
         const getRolePriority = (roles: string[]) => {
             if (roles.includes('ADMIN')) return 1;
-            if (roles.includes('RECORDS')) return 2;
-            if (roles.includes('COACH')) return 3;
-            if (roles.includes('MEMBER')) return 4;
+            if (roles.includes('CAPTAIN')) return 2;
+            if (roles.includes('RECORDS')) return 3;
+            if (roles.includes('COACH')) return 4;
+            if (roles.includes('MEMBER')) return 5;
             return 5;
         };
 
         const clubs = await Promise.all(
             userClubs.map(async membership => {
-                // Fetch users with ADMIN or RECORDS roles for this club
+                // Fetch users with ADMIN, CAPTAIN or RECORDS roles for this club
                 const adminOrRecordsUsers = await prisma.clubMembership.findMany({
                     where: {
                         clubId: membership.club.id,
                         endedAt: null,
                         OR: [
                             { roles: { has: "ADMIN" } },
+                            { roles: { has: "CAPTAIN" } },
                             { roles: { has: "RECORDS" } }
                         ]
                     },
@@ -62,9 +64,11 @@ export async function GET(request: Request) {
                         name: u.user.name,
                         highestRole: u.roles.includes("ADMIN")
                             ? "ADMIN"
-                            : u.roles.includes("RECORDS")
-                                ? "RECORDS"
-                                : "?"
+                            : u.roles.includes("CAPTAIN")
+                                ? "CAPTAIN"
+                                : u.roles.includes("RECORDS")
+                                    ? "RECORDS"
+                                    : "?"
                     })),
                     _rolePriority: getRolePriority(membership.roles),
                 };

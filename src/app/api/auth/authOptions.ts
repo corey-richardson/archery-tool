@@ -34,6 +34,7 @@ export const authOptions: NextAuthOptions = {
                     select: {
                         clubId: true,
                         roles: true,
+                        endedAt: true,
                     },
                 });
                 session.user.id = user.id;

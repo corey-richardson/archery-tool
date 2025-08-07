@@ -28,8 +28,6 @@ export async function POST(request: NextRequest) {
                 }
             });
 
-            console.log(adminCount);
-
             if (adminCount == 0) {
                 return NextResponse.json({ error: "You cannot leave as the only admin. Please assign another member to be an admin or delete the club." }, { status: 403 });
             }

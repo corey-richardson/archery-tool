@@ -11,11 +11,15 @@ const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
     const clubId = p.id;
 
     const session = await getServerSession(authOptions);
+
     const admin = session?.user?.memberships?.some(
         (m: any) => m.clubId === clubId && m.roles.includes("ADMIN")
     );
+    const captain = session?.user?.memberships?.some(
+        (m: any) => m.clubId === clubId && m.roles.includes("CAPTAIN")
+    );
 
-    if (!session || !admin ) {
+    if (!session || !(admin || captain) ) {
         redirect("/unauthorised?reason=not-an-admin");
     }
 
@@ -39,7 +43,7 @@ const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
     return (
         <div className="content wider" style={{ margin: '0 auto', padding: '0 1rem' }}>
             <h3>Manage Members for {club.club.name}.</h3>
-            <MemberManagementClient club={club} />
+            <MemberManagementClient club={club} admin={admin} />
         </div>
     );
 }

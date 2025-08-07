@@ -11,23 +11,27 @@ export const metadata: Metadata = {
 
 async function Records() {
     const session = await getServerSession(authOptions);
-    const isRecordsOrAdmin = session?.user?.memberships?.some((m: any) =>
-        m.roles.includes("RECORDS") || m.roles.includes("ADMIN")
-    );
 
-    if (!session || !isRecordsOrAdmin) {
+    const activeMembership = session?.user?.memberships?.find(
+        (m: any) => m.endedAt === null
+    );
+    console.log(activeMembership);
+
+    const hasRecordsAccess = activeMembership && (activeMembership.roles.includes("ADMIN") || activeMembership.roles.includes("CAPTAIN"));
+
+    if (!session || !hasRecordsAccess) {
         redirect("/unauthorised?reason=not-authorised-for-records");
     }
 
     const userId = session.user.id;
 
-    // Get all where where user has RECORDS or ADMIN role
     const memberships = await prisma.clubMembership.findMany({
         where: {
             userId,
             roles: {
                 hasSome: ["ADMIN", "RECORDS"],
             },
+            endedAt: null,
         },
         select: {
             clubId: true,
@@ -36,10 +40,10 @@ async function Records() {
 
     const clubIds = memberships.map(m => m.clubId);
 
-    // Get all members in those clubs
     const members = await prisma.clubMembership.findMany({
         where: {
             clubId: { in: clubIds, },
+            endedAt: null,
         },
         select: {
             userId: true,
@@ -48,11 +52,9 @@ async function Records() {
 
     const memberIds = [...new Set(members.map(m => m.userId))];
 
-    // Get all scores for those members with no processedAt date
     const scores = await prisma.scores.findMany({
         where: {
             userId: { in: memberIds, },
-            // processedAt: null,
         },
         include: {
             user: {

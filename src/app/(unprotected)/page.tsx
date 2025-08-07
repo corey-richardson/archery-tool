@@ -20,6 +20,7 @@ export default async function Home() {
                 </span>
                 <div style={{marginTop: '1rem', marginBottom: '1rem'}}>
                     <b>Administrators:</b> can manage club details, invite new members, assign roles, and oversee all club activities.<br />
+                    <b>Captains/Tournament Officers:</b> have read-only access to club information and member details to assist with competition entries and manage emergency contact information.<br />
                     <b>Records Officers:</b> have access to member scores, can update records, and help maintain the club's competitive history.<br />
                     <b>Members:</b> can view their personal details, submit scores, track their progress, and participate in club events.<br />
                 </div>

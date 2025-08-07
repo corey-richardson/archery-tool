@@ -5,11 +5,8 @@ import { requireAdminUser } from '@/app/lib/server-utils';
 export async function PUT(req: NextRequest) {
     try {
         await requireAdminUser();
-    } catch (error) {
-        return NextResponse.json(
-            { error: "Only Admin users can update roles." },
-            { status: 401 }
-        );
+    } catch {
+        return NextResponse.json({ error: "Only Admin users can update roles." }, { status: 401 });
     }
 
     const url = req.nextUrl.pathname;
@@ -38,10 +35,7 @@ export async function PUT(req: NextRequest) {
             });
 
             if (adminCount == 0) {
-                return NextResponse.json(
-                    { error: "Cannot remove the last admin from the club." },
-                    { status: 400 }
-                );
+                return NextResponse.json({ error: "Cannot remove the last admin from the club." }, { status: 400 });
             }
         }
 

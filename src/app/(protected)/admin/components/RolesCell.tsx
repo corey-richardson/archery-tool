@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { EnumMappings } from '@/app/lib/enumMappings';
 
-const ALL_ROLES = ['ADMIN', 'RECORDS', 'COACH', 'MEMBER'];
+const ALL_ROLES = ['ADMIN', 'CAPTAIN', 'RECORDS', 'COACH', 'MEMBER'];
 
 export default function RolesCell({ value, row, clubId, setError }: { value: string[], row: any, clubId: string, setError: (err: string|null) => void }) {
 
