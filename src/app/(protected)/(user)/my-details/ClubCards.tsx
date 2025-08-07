@@ -23,6 +23,28 @@ export default function ClubCards( { userId } : ClubcardProps ) {
         fetchUsersClubs();
     }, [userId]);
 
+    const handleLeaveClub = async (clubId: string) => {
+        try {
+            const res = await fetch("/api/club/leave", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ clubId, userId }),
+            });
+
+            if (!res.ok) { 
+                const data = await res.json();
+                console.log(data.error);
+                return { success: false, error: data.error || "Failed to leave club." };
+            }
+
+            setClubs(prev => prev.filter((club: any) => club.id !== clubId));
+            return { success: true };
+        } catch (error) {
+            console.error(error);
+            return { success: false, error: "Failed to leave club." };
+        }
+    }
+
     return (
         <>
             <h3>My Clubs.</h3>
@@ -46,7 +68,11 @@ export default function ClubCards( { userId } : ClubcardProps ) {
                 <>
                     <div className="clubcard-list">
                         {clubs.map((club: any) => (
-                            <Club key={club.id} club={club} />
+                            <Club 
+                                key={club.id} 
+                                club={club} 
+                                handleLeaveClub={() => handleLeaveClub(club.id)}
+                            />
                         ))}
                     </div>
 

@@ -1,12 +1,23 @@
 import { ClubType } from "./ClubType";
 import Link from "next/link";
 import { EnumMappings } from "@/app/lib/enumMappings";
+import { useState } from "react";
 
-const Club = ({ club }: { club: ClubType }) => {
+const Club = ({ club, handleLeaveClub }: { club: ClubType, handleLeaveClub: () => Promise<{success: boolean, error?: string}> }) => {
+    const [ leaving, setLeaving ] = useState(false);
+    const [ error, setError ] = useState<string | null>(null);
 
     const rolePriority = ["ADMIN", "RECORDS", "COACH", "MEMBER"];
     const userRole = rolePriority.find(role => club.membershipDetails.roles.includes(role));
     const isLink = ["ADMIN", "RECORDS"].some(role => club.membershipDetails.roles.includes(role));
+
+    const onLeaveClub = async () => {
+        setLeaving(true);
+        setError(null);
+        const result = await handleLeaveClub();
+        if (!result.success) setError(result.error || "Failed to leave club.");
+        setLeaving(false);
+    }
 
     return (
         <div className="clubcard">
@@ -28,6 +39,16 @@ const Club = ({ club }: { club: ClubType }) => {
                     ))}
                 </div>
             )}
+
+            <button
+                className="btn-secondary"
+                onClick={onLeaveClub}
+                disabled={leaving}
+            >
+                {leaving ? "Leaving..." : "Leave Club"}
+            </button>
+            
+            {error && <p className="small" style={{ color: "red" }}>{error}</p>}
         </div>
     );
 }
