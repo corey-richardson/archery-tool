@@ -84,8 +84,6 @@ model ClubMembership {
 
   admin       User?   @relation("ClubAdmins", fields: [adminUserId], references: [id])
   adminUserId String?
-
-  @@unique([userId, clubId])
 }
 
 model Account {

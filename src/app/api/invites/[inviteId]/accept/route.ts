@@ -20,12 +20,11 @@ export async function POST(req: Request, { params }: { params: { inviteId: strin
         return NextResponse.json({ error: "Invite not found" }, { status: 404 });
     }
 
-    const existingMembership = await prisma.clubMembership.findUnique({
+    const existingMembership = await prisma.clubMembership.findFirst({
         where: {
-            userId_clubId: {
-                userId: session.user.id,
-                clubId: invite.clubId,
-            },
+            userId: session.user.id,
+            clubId: invite.clubId,
+            endedAt: null,
         },
     });
 

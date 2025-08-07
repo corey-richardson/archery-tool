@@ -18,8 +18,12 @@ export async function PUT(req: NextRequest) {
     const { roles } = await req.json();
 
     try {
-        const existingMemberships = await prisma.clubMembership.findUnique({
-            where: { userId_clubId: { userId, clubId } },
+        const existingMemberships = await prisma.clubMembership.findFirst({
+            where: { 
+                userId, 
+                clubId,
+                endedAt: null,
+            },
         });
 
         const isRemovingAdmin = existingMemberships?.roles.includes("ADMIN") && !roles.includes("ADMIN");
@@ -41,8 +45,14 @@ export async function PUT(req: NextRequest) {
             }
         }
 
+        if (!existingMemberships) {
+            return NextResponse.json({ error: "Membership not found." }, { status: 404 });
+        }
+
         await prisma.clubMembership.update({
-            where: { userId_clubId: { userId, clubId } },
+            where: { 
+                id: existingMemberships.id
+            },
             data: { roles },
         });
 
