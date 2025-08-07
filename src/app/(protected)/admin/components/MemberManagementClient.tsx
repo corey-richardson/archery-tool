@@ -12,14 +12,6 @@ export default function MemberManagementClient({ club }: { club: any }) {
     const [error, setError] = useState<string | null>(null);
     const [confirmDeletion, setConfirmDeletion] = useState("");
 
-    const [userId, setUserId] = useState<string | undefined>(undefined);
-
-    useState(() => {
-        getSession().then(session => {
-            setUserId(session?.user?.id);
-        });
-    });
-
     const handleDelete = async () => {
         setDeleting(true);
         setError(null);
@@ -39,8 +31,6 @@ export default function MemberManagementClient({ club }: { club: any }) {
             setDeleting(false);
         }
     };
-
-
 
     return (
         <div className="content">

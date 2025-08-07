@@ -1,7 +1,8 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import calculateAgeCategory from '@/app/lib/calculateAgeCategory';
 import { EnumMappings } from '@/app/lib/enumMappings';
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import RolesCell from './RolesCell';
 
 interface Member {
   id: string;
@@ -27,8 +28,6 @@ interface Club {
   club: Club;
 }
 
-const ALL_ROLES = ['ADMIN', 'RECORDS', 'COACH', 'MEMBER'];
-
 export default function MemberManagement({ club }: { club: Club }) {
     const [ error, setError ] = useState<string | null>(null);
 
@@ -46,74 +45,15 @@ export default function MemberManagement({ club }: { club: Club }) {
             flex: 1,
             sortable: false,
 
-            renderCell: (params) => {
-                const [localRoles, setLocalRoles] = useState<string[]>(params.value || []);
-                const [selectError, setSelectError] = useState(false);
+            renderCell: (params) => (
+                <RolesCell
+                    value={params.value}
+                    row={params.row}
+                    clubId={club.club.id}
+                    setError={setError}
+                />
+            ),
 
-                useEffect(() => {
-                    setLocalRoles(params.value || []);
-                }, [params.value]);
-
-                const handleChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
-                    const selectedRoles = Array.from(event.target.selectedOptions).map(opt => opt.value);
-                    event.target.disabled = true;
-                    setLocalRoles(selectedRoles);
-                    setSelectError(false);
-
-                    try {
-                        const response = await fetch(`/api/user/${params.row.userId}/${club.club.id}/roles`, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ roles: selectedRoles }),
-                        });
-
-                        if (response.status === 400) {
-                            const data = await response.json();
-                            setError(data.error || "Failed to update roles.");
-                            setLocalRoles(params.value || []);
-                            setSelectError(true);
-                        } else if (!response.ok) {
-                            setError("Failed to update roles.");
-                            setLocalRoles(params.value || []);
-                            setSelectError(true);
-                        }
-                        else if (response.ok) {
-                            setError(null);
-                        }
-                    } catch (error) {
-                        setError("Failed to update roles. (Network Error): " + error);
-                        setLocalRoles(params.value || []);
-                        setSelectError(true);
-                    } finally {
-                        event.target.disabled = false;
-                    }
-                };
-
-                return (
-                    <select
-                        multiple
-                        value={localRoles}
-                        onChange={handleChange}
-                        size={ALL_ROLES.length}
-                        style={{
-                            width: '100%',
-                            minHeight: '3em',
-                            fontSize: '0.9rem',
-                            padding: '4px',
-                            borderRadius: '4px',
-                            border: selectError ? '2px solid red' : '1px solid #ccc',
-                            backgroundColor: selectError ? '#ffeaea' : '#f9f9f9',
-                            overflow: 'hidden',
-                        }}
-                    >
-                        {ALL_ROLES.map((role) => (
-                            <option key={role} value={role}>
-                                {EnumMappings[role]}
-                            </option>
-                        ))}
-                    </select>
-                );
-            },
         },
 
         { field: 'joinedAt', headerName: 'Joined', flex: 0.8, sortable: true },
