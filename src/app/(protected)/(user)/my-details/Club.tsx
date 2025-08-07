@@ -47,7 +47,7 @@ const Club = ({ club, handleLeaveClub }: { club: ClubType, handleLeaveClub: () =
             >
                 {leaving ? "Leaving..." : "Leave Club"}
             </button>
-            
+
             {error && <p className="small" style={{ color: "red" }}>{error}</p>}
         </div>
     );
