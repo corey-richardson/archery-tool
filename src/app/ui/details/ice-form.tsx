@@ -69,7 +69,8 @@ const EmergencyContactsForm = ({user} : any) => {
         });
 
         if (response.ok) {
-            fetchContacts().then(() => setIsLoading(false));
+            setContacts(prev => prev.filter(contact => contact.id !== contactId));
+            setIsLoading(false);
         }
     }
 
@@ -184,6 +185,7 @@ const EmergencyContactsForm = ({user} : any) => {
                             </span>
                             <span className="emergency-contact-toggle-action">{openContactIdx === idx ? "Hide details" : "Show details"}</span>
                         </button>
+
                         {openContactIdx === idx && (
                             <form id={`contact-details-${contact.id}`} onSubmit={e =>{
                                 e.preventDefault();
