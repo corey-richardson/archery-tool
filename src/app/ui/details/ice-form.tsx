@@ -25,6 +25,10 @@ const EmergencyContactsForm = ({user} : any) => {
     const [ newContactRelationship, setNewContactRelationship ] = useState<string>("NOT_SET");
     const [ pendingChanges, setPendingChanges] = useState<string[]>([]);
 
+    // Foldable contact state: only one open at a time
+    const [openContactIdx, setOpenContactIdx] = useState<number | null>(null);
+    const toggleContact = (idx: number) => setOpenContactIdx(openContactIdx === idx ? null : idx);
+
     const fetchContacts = useCallback(async () => {
         const res = await fetch(`/api/ice-details/${user.id}`);
         const data = await res.json();
@@ -152,66 +156,93 @@ const EmergencyContactsForm = ({user} : any) => {
             { isLoading && <p className="centred">Loading Emergency Contact Information...</p>}
             { !isLoading && contacts.length == 0 && <hr/> && <p className="centred">No existing Emergency Contacts found!</p> }
             { !isLoading && contacts.length > 0 && <hr/> && <h4>Existing Emergency Contacts</h4> }
+
             { !isLoading && contacts.length > 0 && (
                 contacts.map((contact, idx) => (
-                    <div key={contact.id}>
-                        <form onSubmit={e =>{
-                            e.preventDefault();
-                            handleUpdateExistingContact(contact);
-                        }}>
-                            <label>*Contact Name:</label>
-                            <input
-                                value={contact.contactName}
-                                onChange={e => handleContactChange(idx, "contactName", e.target.value)}
-                                placeholder="Contact Name"
-                                required
-                            />
+                    <div key={contact.id} className={`emergency-contact-card${openContactIdx === idx ? ' open' : ''}`}>
+                        <button
+                            type="button"
+                            onClick={() => toggleContact(idx)}
+                            className="emergency-contact-toggle btn-secondary"
+                            aria-expanded={openContactIdx === idx}
+                            aria-controls={`contact-details-${contact.id}`}
+                        >
+                            <span className="emergency-contact-toggle-details">
+                                <span className="emergency-contact-toggle-icon">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ verticalAlign: "middle" }}>
+                                        {openContactIdx === idx ? (
+                                            <path d="M5 13L10 8L15 13" stroke="#0070f3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        ) : (
+                                            <path d="M5 8L10 13L15 8" stroke="#0070f3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        )}
+                                    </svg>
+                                </span>
+                                <span className="emergency-contact-toggle-name">{contact.contactName}</span>
+                                <span className="emergency-contact-toggle-relationship">
+                                    ({EnumMappings[contact.relationshipType] || contact.relationshipType})
+                                </span>
+                            </span>
+                            <span className="emergency-contact-toggle-action">{openContactIdx === idx ? "Hide details" : "Show details"}</span>
+                        </button>
+                        {openContactIdx === idx && (
+                            <form id={`contact-details-${contact.id}`} onSubmit={e =>{
+                                e.preventDefault();
+                                handleUpdateExistingContact(contact);
+                            }}>
+                                <label>*Contact Name:</label>
+                                <input
+                                    value={contact.contactName}
+                                    onChange={e => handleContactChange(idx, "contactName", e.target.value)}
+                                    placeholder="Contact Name"
+                                    required
+                                />
 
-                            <label>*Contact Phone Number:</label>
-                            <input
-                                value={contact.contactPhone}
-                                onChange={e => handleContactChange(idx, "contactPhone", e.target.value)}
-                                placeholder="Contact Phone"
-                                required
-                            />
+                                <label>*Contact Phone Number:</label>
+                                <input
+                                    value={contact.contactPhone}
+                                    onChange={e => handleContactChange(idx, "contactPhone", e.target.value)}
+                                    placeholder="Contact Phone"
+                                    required
+                                />
 
-                            <label>Contact Email:</label>
-                            <input
-                                value={contact.contactEmail || ""}
-                                onChange={e => handleContactChange(idx, "contactEmail", e.target.value)}
-                                placeholder="Contact Email"
-                                type="email"
-                            />
+                                <label>Contact Email:</label>
+                                <input
+                                    value={contact.contactEmail || ""}
+                                    onChange={e => handleContactChange(idx, "contactEmail", e.target.value)}
+                                    placeholder="Contact Email"
+                                    type="email"
+                                />
 
-                            <label>Relationship to Contact:</label>
-                            <select
-                                value={contact.relationshipType || "NOT_SET"}
-                                onChange={e => handleContactChange(idx, "relationshipType", e.target.value)}
-                            >
-                                <option disabled value="NOT_SET">Select Relationship</option>
-                                <option value="PARENT">Parent</option>
-                                <option value="GUARDIAN">Guardian</option>
-                                <option value="SPOUSE">Spouse or Partner</option>
-                                <option value="SIBLING">Sibling</option>
-                                <option value="FRIEND">Friend</option>
-                                <option value="OTHER">Other</option>
-                            </select>
+                                <label>Relationship to Contact:</label>
+                                <select
+                                    value={contact.relationshipType || "NOT_SET"}
+                                    onChange={e => handleContactChange(idx, "relationshipType", e.target.value)}
+                                >
+                                    <option disabled value="NOT_SET">Select Relationship</option>
+                                    <option value="PARENT">Parent</option>
+                                    <option value="GUARDIAN">Guardian</option>
+                                    <option value="SPOUSE">Spouse or Partner</option>
+                                    <option value="SIBLING">Sibling</option>
+                                    <option value="FRIEND">Friend</option>
+                                    <option value="OTHER">Other</option>
+                                </select>
 
-                            <div style={{ display: "flex", alignContent: "center", gap: "1.5rem" }}>
-                                { !isLoading && pendingChanges.includes(contact.id) && <button type="submit">Update Contact</button> }
-                                { !isLoading && !pendingChanges.includes(contact.id) && <button disabled>Update Contact</button> }
-                                { isLoading && <button disabled>Updating...</button> }
-                                <button
-                                    className="btn-secondary"
-                                    onClick={() => handleDeleteExistingContact(contact.id)}
-                                >Delete Contact</button>
-                            </div>
+                                <div style={{ display: "flex", alignContent: "center", gap: "1.5rem" }}>
+                                    { !isLoading && pendingChanges.includes(contact.id) && <button type="submit" style={{ alignSelf: "center" }}>Update Contact</button> }
+                                    { !isLoading && !pendingChanges.includes(contact.id) && <button disabled style={{ alignSelf: "center" }}>Update Contact</button> }
+                                    { isLoading && <button disabled style={{ alignSelf: "center" }}>Updating...</button> }
+                                    <button
+                                        className="btn-secondary"
+                                        style={{ alignSelf: "center" }}
+                                        onClick={() => handleDeleteExistingContact(contact.id)}
+                                    >Delete Contact</button>
+                                </div>
 
-                            <p style={{"marginTop": "12px"}} className="small centred">
-                                These details were last updated at { new Date(contact.updatedAt).toLocaleString() }. Are they still in date?
-                            </p>
-                        </form>
-                        { idx < contacts.length - 1 && <hr /> }
+                                <p style={{"marginTop": "12px"}} className="small centred">
+                                    These details were last updated at { new Date(contact.updatedAt).toLocaleString() }. Are they still in date?
+                                </p>
+                            </form>
+                        )}
                     </div>
                 ))
             )}
