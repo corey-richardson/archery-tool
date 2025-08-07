@@ -15,10 +15,8 @@ interface User {
     memberships: Membership[];
 }
 
-export async function requireLoggedInUser(redirectToAfterLogin?: string) {
+export async function requireLoggedInUser() {
     const session = await getServerSession(authOptions);
-
-    const sp = new URLSearchParams();
     if (!session?.user.id) redirect("/unauthorised?reason=not-logged-in");
 
     return {
@@ -29,8 +27,8 @@ export async function requireLoggedInUser(redirectToAfterLogin?: string) {
     };
 }
 
-export async function requireRecordsUserOrHigher(redirectToAfterLogin?: string) {
-    const user = await requireLoggedInUser(redirectToAfterLogin);
+export async function requireRecordsUserOrHigher() {
+    const user = await requireLoggedInUser();
 
     const isAdmin = (user as User).memberships.some((membership: Membership) =>
         membership.roles.includes("ADMIN") || membership.roles.includes("RECORDS")
@@ -41,8 +39,8 @@ export async function requireRecordsUserOrHigher(redirectToAfterLogin?: string) 
     return user;
 }
 
-export async function requireAdminUser(redirectToAfterLogin?: string) {
-    const user = await requireLoggedInUser(redirectToAfterLogin);
+export async function requireAdminUser() {
+    const user = await requireLoggedInUser();
 
 
     const isAdmin = (user as User).memberships.some((membership: Membership) =>

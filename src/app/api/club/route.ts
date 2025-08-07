@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 import { requireLoggedInUser } from "@/app/lib/server-utils";
 
-export async function GET(request: Request, context: any) {
+export async function GET(request: Request) {
     await requireLoggedInUser();
 
     const { searchParams } = new URL(request.url);
@@ -72,7 +72,7 @@ export async function POST (req: Request) {
 
     if (!createdClub) return NextResponse.json({ error: "Failed to create club." }, { status: 500 });
 
-    const addCreator = await prisma.clubMembership.create({
+    await prisma.clubMembership.create({
         data: {
             userId: creatorId,
             clubId: createdClub.id,

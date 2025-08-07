@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Club from './Club';
 import Link from "next/link";
 
@@ -13,14 +13,13 @@ export default function ClubCards( { userId } : ClubcardProps ) {
     const [ clubs, setClubs ] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    const fetchUsersClubs = async () => {
-        const res = await fetch(`/api/club?userId=${userId}`);
-        const data = await res.json();
-        setClubs(data.clubs);
-        setIsLoading(false);
-    }
-
     useEffect(() => {
+        const fetchUsersClubs = async () => {
+            const res = await fetch(`/api/club?userId=${userId}`);
+            const data = await res.json();
+            setClubs(data.clubs);
+            setIsLoading(false);
+        }
         fetchUsersClubs();
     }, [userId]);
 

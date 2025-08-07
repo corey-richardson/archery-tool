@@ -20,42 +20,41 @@ export default function Scorecards({ userId, onDeletion }: ScorecardsProps) {
 
     const cacheRef = useRef<{ [page: number]: { scores: Score[]; hasMore: boolean; totalPages: number } }>({});
 
-    const fetchUsersScores = async () => {
-        setIsLoading(true);
-        if (cacheRef.current[page]) {
-            const cachedPage = cacheRef.current[page];
-            setScores(cachedPage.scores);
-            setHasMore(cachedPage.hasMore);
-            setTotalPages(cachedPage.totalPages);
-            setIsLoading(false);
-            return;
-        }
-
-        const res = await fetch(`/api/scores/user/${userId}?page=${page}&pageSize=${pageSize}`);
-        const data = await res.json();
-        const scoresData = data.scores || data;
-        const hasMoreData = data.hasMore !== undefined ? data.hasMore : (scoresData.length === pageSize);
-        const totalPagesData = data.totalPages || 1;
-        cacheRef.current[page] = {
-            scores: scoresData,
-            hasMore: hasMoreData,
-            totalPages: totalPagesData
-        };
-        setScores(scoresData);
-        setHasMore(hasMoreData);
-        setTotalPages(totalPagesData);
-        setIsLoading(false);
-    };
-
     const handleDelete = async (deletedId: string) => {
         if (onDeletion) {
             await onDeletion();
         }
-        
+
         setScores(prevScores => prevScores.filter(score => score.id !== deletedId));
     };
 
     useEffect(() => {
+        const fetchUsersScores = async () => {
+            setIsLoading(true);
+            if (cacheRef.current[page]) {
+                const cachedPage = cacheRef.current[page];
+                setScores(cachedPage.scores);
+                setHasMore(cachedPage.hasMore);
+                setTotalPages(cachedPage.totalPages);
+                setIsLoading(false);
+                return;
+            }
+
+            const res = await fetch(`/api/scores/user/${userId}?page=${page}&pageSize=${pageSize}`);
+            const data = await res.json();
+            const scoresData = data.scores || data;
+            const hasMoreData = data.hasMore !== undefined ? data.hasMore : (scoresData.length === pageSize);
+            const totalPagesData = data.totalPages || 1;
+            cacheRef.current[page] = {
+                scores: scoresData,
+                hasMore: hasMoreData,
+                totalPages: totalPagesData
+            };
+            setScores(scoresData);
+            setHasMore(hasMoreData);
+            setTotalPages(totalPagesData);
+            setIsLoading(false);
+        };
         fetchUsersScores();
     }, [userId, page]);
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { getSession, signOut } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
 function CreateClub() {

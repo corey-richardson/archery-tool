@@ -36,8 +36,8 @@ export function InviteForm({ clubId }: { clubId: string }) {
             } else {
                 setError(data.error || "Failed to send invite");
             }
-        } catch (e) {
-            setError("Error sending invite");
+        } catch (error) {
+            setError("Error sending invite: " + error);
         } finally {
             setLoading(false);
         }

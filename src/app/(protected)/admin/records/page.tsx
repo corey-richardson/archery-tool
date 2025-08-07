@@ -3,17 +3,11 @@ import { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import prisma from '@/app/lib/prisma';
-import { Score } from '../components/Score';
-
 import RecordsManagement from '../components/RecordsManagement';
 
 export const metadata: Metadata = {
     title: 'Records',
 };
-
-interface RecordsManagementProps {
-  scores: Score[];
-}
 
 async function Records() {
     const session = await getServerSession(authOptions);

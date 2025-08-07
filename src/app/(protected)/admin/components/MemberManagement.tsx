@@ -62,7 +62,7 @@ export default function MemberManagement({ club }: { club: Club }) {
                             alert("Failed to update roles.");
                         }
                     } catch (error) {
-                        alert("Failed to update roles. (Network Error)");
+                        alert("Failed to update roles. (Network Error): " + error);
                     } finally {
                         event.target.disabled = false;
                     }

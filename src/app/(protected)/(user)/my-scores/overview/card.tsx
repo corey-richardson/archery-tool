@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Overview } from "./Overview";
-import prisma from "@/app/lib/prisma";
-
 import { EnumMappings } from "@/app/lib/enumMappings";
 
 const OverviewCard = ({ userId }: { userId: string }) => {
@@ -12,18 +10,17 @@ const OverviewCard = ({ userId }: { userId: string }) => {
     const [ user, setUser ] = useState<{ name?: string }>({});
     const [ overview, setOverview ] = useState<Overview>();
 
-    const fetchUserOverview = async () => {
-        setIsLoading(true);
-        let res = await fetch(`/api/user/${userId}`);
-        let data = await res.json();
-        setUser(data);
-        res = await fetch(`/api/scores/overview/${userId}`);
-        data = await res.json();
-        setOverview(data);
-        setIsLoading(false);
-    }
-
     useEffect(() => {
+        const fetchUserOverview = async () => {
+            setIsLoading(true);
+            let res = await fetch(`/api/user/${userId}`);
+            let data = await res.json();
+            setUser(data);
+            res = await fetch(`/api/scores/overview/${userId}`);
+            data = await res.json();
+            setOverview(data);
+            setIsLoading(false);
+        }
         fetchUserOverview();
     }, [userId]);
 

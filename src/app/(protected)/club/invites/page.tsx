@@ -23,8 +23,8 @@ const ClubInvites = () => {
             const data = await res.json();
             if (res.ok) setInvites(data.invites);
             else setError(data.error || "Failed to load invites");
-        } catch (e) {
-            setError("Failed to load invites");
+        } catch (error) {
+            setError("Failed to load invites: " + error);
         }
         setLoading(false);
     };

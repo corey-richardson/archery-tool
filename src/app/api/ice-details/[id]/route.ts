@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
-import { requireLoggedInUser, requireRecordsUserOrHigher } from "@/app/lib/server-utils";
+import { requireLoggedInUser } from "@/app/lib/server-utils";
 
 interface Membership {
     roles: string[];

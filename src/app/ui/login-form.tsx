@@ -7,26 +7,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const router = useRouter();
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        const res = await signIn("credentials", {
-            email,
-            password,
-            redirect: false,
-            callbackUrl: "/my-details",
-        });
-
-        if (res?.ok && res.url) {
-            router.push(res.url);
-        } else {
-            alert("Sign-in failed");
-        }
-    };
 
     return (
         <div className="content">

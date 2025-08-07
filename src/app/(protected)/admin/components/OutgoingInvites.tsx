@@ -8,20 +8,6 @@ export default function OutgoingInvites({ clubId }: { clubId: string }) {
     const [error, setError] = useState<string | null>(null);
     const [rescindingId, setRescindingId] = useState<string | null>(null);
 
-    const fetchInvites = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const res = await fetch(`/api/club/${clubId}/invites`);
-            const data = await res.json();
-            if (res.ok) setInvites(data.invites);
-            else setError(data.error || "Failed to load invites");
-        } catch (e) {
-            setError("Failed to load invites");
-        }
-        setLoading(false);
-    };
-
     const handleRescind = async (inviteId: string) => {
         setRescindingId(inviteId);
         setError(null);
@@ -39,13 +25,28 @@ export default function OutgoingInvites({ clubId }: { clubId: string }) {
                 setError(data.error || "Failed to rescind invite.");
             }
         } catch (error) {
-            setError("Error rescinding invite.");
+            setError("Error rescinding invite: " + error);
         } finally {
             setRescindingId(null);
         }
     }
 
-    useEffect(() => { fetchInvites(); }, [clubId]);
+    useEffect(() => {
+        const fetchInvites = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const res = await fetch(`/api/club/${clubId}/invites`);
+                const data = await res.json();
+                if (res.ok) setInvites(data.invites);
+                else setError(data.error || "Failed to load invites");
+            } catch (error) {
+                setError("Failed to load invites: " + error);
+            }
+            setLoading(false);
+        };
+        fetchInvites(); }, [clubId]
+    );
 
     return (
         <div>

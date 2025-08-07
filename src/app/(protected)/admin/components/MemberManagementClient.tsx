@@ -33,8 +33,8 @@ export default function MemberManagementClient({ club }: { club: any }) {
             } else {
                 setError("Failed to delete club.");
             }
-        } catch (e) {
-            setError("Error deleting club.");
+        } catch (error) {
+            setError("Error deleting club: " + error);
         } finally {
             setDeleting(false);
         }

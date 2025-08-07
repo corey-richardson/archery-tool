@@ -65,7 +65,7 @@ const EmergencyContactsForm = ({user} : any) => {
         });
 
         if (response.ok) {
-            fetchContacts().then(e => setIsLoading(false));
+            fetchContacts().then(() => setIsLoading(false));
         }
     }
 
@@ -87,7 +87,7 @@ const EmergencyContactsForm = ({user} : any) => {
         });
 
         if (response.ok) {
-            fetchContacts().then(e => {
+            fetchContacts().then(() => {
                 setNewContactName("");
                 setNewContactPhone("");
                 setNewContactEmail("");
