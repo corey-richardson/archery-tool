@@ -138,19 +138,19 @@ export default function RecordsManagement({ scores }: { scores: Score[] }) {
     const columns: GridColDef[] = [
         { field: 'name', headerName: 'Name', flex: 0.8, sortable: true },
         { field: 'bowstyle', headerName: 'Bowstyle', flex: 0.8, sortable: true },
-        { field: 'ageCategory', headerName: 'Age Category', flex: 0.8, sortable: true },
-        { field: 'sex', headerName: 'Sex', flex: 0.5, sortable: true },
+        { field: 'ageCategory', headerName: 'Age Category', flex: 0.7, sortable: true },
+        { field: 'sex', headerName: 'Sex', flex: 0.4, sortable: true },
 
         { field: 'dateShot', headerName: 'Date Shot', flex: 0.8, sortable: true },
         { field: 'roundName', headerName: 'Round Name', flex: 1, sortable: true },
 
-        { field: 'score', headerName: 'Score', flex: 0.5, sortable: true },
-        { field: 'xs', headerName: 'Xs + Tens', flex: 0.5, sortable: true },
-        { field: 'tens', headerName: 'Tens', flex: 0.5, sortable: true },
-        { field: 'nines', headerName: 'Nines', flex: 0.5, sortable: true },
-        { field: 'hits', headerName: 'Hits', flex: 0.5, sortable: true },
+        { field: 'score', headerName: 'Score', flex: 0.4, sortable: true },
+        { field: 'xs', headerName: 'Xs + Tens', flex: 0.3, sortable: true },
+        { field: 'tens', headerName: 'Tens', flex: 0.3, sortable: true },
+        { field: 'nines', headerName: 'Nines', flex: 0.3, sortable: true },
+        { field: 'hits', headerName: 'Hits', flex: 0.3, sortable: true },
 
-        { field: 'competitionLevel', headerName: 'Competition Level', flex: 1, sortable: false },
+        { field: 'competitionLevel', headerName: 'Competition Level', flex: 0.8, sortable: false },
 
         {
             field: 'roundClassification',
@@ -163,7 +163,7 @@ export default function RecordsManagement({ scores }: { scores: Score[] }) {
         {
             field: 'roundHandicap',
             headerName: 'Handicap',
-            flex: 0.5,
+            flex: 0.6,
             sortable: false,
             renderCell: (params) => <HandicapInput scoreId={params.row.id} initialValue={params.value ?? ''} />
         },
@@ -172,8 +172,8 @@ export default function RecordsManagement({ scores }: { scores: Score[] }) {
 
         {
             field: 'processedAt',
-            headerName: 'Process Score',
-            flex: 0.5,
+            headerName: 'Process',
+            flex: 0.8,
             sortable: false,
             renderCell: (params) => <ProcessButton score={params.row} />
         },

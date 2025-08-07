@@ -97,7 +97,6 @@ export default function MemberManagement({ club }: { club: Club }) {
 
         { field: 'joinedAt', headerName: 'Joined', flex: 0.8, sortable: true },
         { field: 'endedAt', headerName: 'Ended', flex: 0.8, sortable: true },
-        { field: 'status', headerName: 'Status', flex: 0.7, sortable: true },
     ];
 
     const rows = club.members
@@ -118,7 +117,6 @@ export default function MemberManagement({ club }: { club: Club }) {
                 roles: member.roles,
                 joinedAt: member.joinedAt ? new Date(member.joinedAt).toLocaleDateString() : '-',
                 endedAt: member.endedAt ? new Date(member.endedAt).toLocaleDateString() : '-',
-                status: 'Active',
             };
         });
 
