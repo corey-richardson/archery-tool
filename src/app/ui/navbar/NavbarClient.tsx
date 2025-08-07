@@ -13,7 +13,7 @@ const navLinks = [
     { href: "/my-scores", label: "My Scores", admin: false },
     { href: "/submit-score", label: "Submit a Score", admin: false },
     // { href: "/admin/members", label: "Members Tools", admin: true },
-    { href: "/admin/records", label: "Records Tools", admin: true },
+    { href: "/admin/records", label: "Records Tools", records: true, admin: true },
 ];
 
 export default function NavbarClient({ session }: { session: any }) {
@@ -21,6 +21,7 @@ export default function NavbarClient({ session }: { session: any }) {
     const pathname = usePathname();
 
     const admin = session?.user?.memberships?.some((m: any) => m.roles.includes("ADMIN"));
+    const records = session?.user?.memberships?.some((m: any) => m.roles.includes("RECORDS"));
 
     return (
         <nav className="navbar blue">
@@ -36,7 +37,7 @@ export default function NavbarClient({ session }: { session: any }) {
             </button>
             <div className={`links${menuOpen ? " open" : ""}`}>
                 {navLinks
-                    .filter((link) => session?.user && (!link.admin || admin))
+                    .filter((link) => session?.user && (!link.admin || admin || (link.records && records)))
                     .map((link) => (
                         <Link
                             key={link.href}
