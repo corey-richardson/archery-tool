@@ -29,6 +29,20 @@ export async function POST(req: NextRequest, context: any) {
         return NextResponse.json({ error: "Invite already exists for this user/number." }, { status: 409 });
     }
 
+    if (user) {
+        const existingMember = await prisma.clubMembership.findFirst({
+            where: {
+                clubId,
+                userId: user?.id,
+                endedAt: null,
+            },
+        });
+
+        if (existingMember) {
+            return NextResponse.json({ error: "This user is already a member of the club." }, { status: 409 });
+        }
+    }
+
     const invite = await prisma.invite.create({
         data: {
             clubId,

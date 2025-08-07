@@ -30,7 +30,8 @@ export function InviteForm({ clubId, onInviteSubmitted }: { clubId: string; onIn
             });
             const data = await res.json();
             if (res.ok) {
-                setSuccess("Invite sent!");
+                setSuccess("Invite sent!")
+                setTimeout(() => setSuccess(""), 3000);
                 setArcheryGBNumber("");
                 inputRef.current?.focus();
                 onInviteSubmitted?.();
@@ -47,6 +48,9 @@ export function InviteForm({ clubId, onInviteSubmitted }: { clubId: string; onIn
     return (
         <div style={{paddingBottom: "2rem"}}>
             <h3>Invite Member</h3>
+            <p className="centred small" style={{marginBottom: "0.5rem"}}>Invite a member by entering their Archery GB number. If the user has not registered yet, the invite will remain valid and can be accepted once they sign up and link their Archery GB number to their account.</p>
+            <p className="centred small" style={{marginBottom: "1.5rem"}}>Please note: Archery GB numbers are unique and can only be associated with one account. Until a user links their Archery GB number, there is a risk that someone else could register with that number first. This does not give them access to the details of ant other members of the club.</p>
+
             <form onSubmit={handleSubmit} className="centred" >
                 <input
                     ref={inputRef}
@@ -55,19 +59,19 @@ export function InviteForm({ clubId, onInviteSubmitted }: { clubId: string; onIn
                     value={archeryGBNumber}
                     onChange={e => setArcheryGBNumber(e.target.value)}
                     required
-                    style={{ padding: "0.5rem", borderRadius: 4, border: "1px solid #ccc", minWidth: 180 }}
+                    style={{ padding: "0.5rem", borderRadius: 4, border: "1px solid #ccc", minWidth: 200 }}
                     disabled={loading}
                 />
                 <button
                     type="submit"
                     disabled={loading || !archeryGBNumber}
-                    style={{ padding: "0.5rem 1.5rem", borderRadius: 4, background: "#007bff", color: "#fff", border: "none", cursor: loading ? "not-allowed" : "pointer" }}
+                    style={{ marginLeft: "0.5rem", padding: "0.5rem 1.5rem", borderRadius: 4, background: "#007bff", color: "#fff", border: "none", cursor: loading ? "not-allowed" : "pointer" }}
                 >
                     {loading ? "Sending..." : "Send Invite"}
                 </button>
 
-                {success && <span style={{ color: "green", marginLeft: 8 }}>{success}</span>}
-                {error && <span style={{ color: "red", marginLeft: 8 }}>{error}</span>}
+                {success && <span style={{ color: "green", marginLeft: "0.5rem" }}>{success}</span>}
+                {error && <span style={{ color: "red", marginLeft: "0.5rem" }}>{error}</span>}
             </form>
         </div>
     );
