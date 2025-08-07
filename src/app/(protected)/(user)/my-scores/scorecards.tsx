@@ -47,12 +47,12 @@ export default function Scorecards({ userId, onDeletion }: ScorecardsProps) {
         setIsLoading(false);
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (deletedId: string) => {
         if (onDeletion) {
             await onDeletion();
         }
-        cacheRef.current = {};
-        await fetchUsersScores();
+        
+        setScores(prevScores => prevScores.filter(score => score.id !== deletedId));
     };
 
     useEffect(() => {
@@ -84,7 +84,7 @@ export default function Scorecards({ userId, onDeletion }: ScorecardsProps) {
                 <>
                     <div className="scorecard-list">
                         {scores.map((score: Score) => (
-                            <ScoreCard key={score.id} score={score} onDeletion={handleDelete} />
+                            <ScoreCard key={score.id} score={score} onDeletion={() => handleDelete(score.id)} />
                         ))}
                     </div>
 
