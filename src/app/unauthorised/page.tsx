@@ -39,17 +39,17 @@ function UnauthorisedContent() {
 
                     <div className="not-found-actions">
 
-                        {signedIn && !sessionExpired && 
+                        {signedIn && !sessionExpired &&
                         <Link href="/my-details" className="btn btn-primary">
                             Back to My Details
                         </Link>}
 
-                        {!signedIn && 
+                        {!signedIn &&
                         <Link href="/" className="btn btn-primary">
                             Back to Dashboard
                         </Link>}
 
-                        {!sessionExpired && 
+                        {!sessionExpired &&
                         <button
                             onClick={() => router.back()}
                             className="btn btn-secondary"
@@ -57,7 +57,7 @@ function UnauthorisedContent() {
                             ← Go Back
                         </button>}
 
-                        {sessionExpired && 
+                        {sessionExpired &&
                         <form action={() => signOut({ callbackUrl: "/" })}>
                             <button
                                 type="submit"
