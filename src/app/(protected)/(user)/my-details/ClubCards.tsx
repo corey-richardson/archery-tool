@@ -57,13 +57,13 @@ export default function ClubCards( { userId } : ClubcardProps ) {
                 </div>
             )}
 
-            { !isLoading && clubs.length == 0 && (
+            { !isLoading && clubs && clubs.length == 0 && (
                 <div className="content">
                     <p className="centred bold">You're not part of any clubs yet!</p>
                 </div>
             )}
 
-            { !isLoading && clubs.length > 0 && (
+            { !isLoading && clubs && clubs.length > 0 && (
                 <>
                     <div className="clubcard-list">
                         {clubs.map((club: any) => (
