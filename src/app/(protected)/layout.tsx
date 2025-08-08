@@ -27,6 +27,11 @@ export default async function Layout({
         redirect("/unauthorised?reason=not-logged-in");
     }
 
+    if (session.expires && new Date(session.expires) < new Date()) {
+        console.log("Session expired.");
+        redirect("/unauthorised?reason=session-expired");
+    }
+
     return (
         <>
             <Navbar />

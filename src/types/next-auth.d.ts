@@ -13,5 +13,6 @@ declare module "next-auth" {
       role?: string;
       accountType?: string;
     } & DefaultSession["user"];
+    expires: string;
   }
 }

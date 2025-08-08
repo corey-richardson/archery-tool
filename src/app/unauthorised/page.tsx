@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { signOut } from "next-auth/react";
 
 function UnauthorisedContent() {
     const router = useRouter();
@@ -10,8 +11,11 @@ function UnauthorisedContent() {
     const reason = searchParams.get("reason");
 
     let signedIn = true;
+    let sessionExpired = false;
+
     switch (reason) {
         case ("not-logged-in"): signedIn = false; break;
+        case ("session-expired"): sessionExpired = true; break;
         default: break;
     }
 
@@ -34,20 +38,34 @@ function UnauthorisedContent() {
                     <h2>You're not allowed to access this page!</h2>
 
                     <div className="not-found-actions">
-                        {signedIn && <Link href="/my-details" className="btn btn-primary">
+
+                        {signedIn && !sessionExpired && 
+                        <Link href="/my-details" className="btn btn-primary">
                             Back to My Details
                         </Link>}
 
-                        {!signedIn && <Link href="/" className="btn btn-primary">
+                        {!signedIn && 
+                        <Link href="/" className="btn btn-primary">
                             Back to Dashboard
                         </Link>}
 
+                        {!sessionExpired && 
                         <button
                             onClick={() => router.back()}
                             className="btn btn-secondary"
                         >
                             ← Go Back
-                        </button>
+                        </button>}
+
+                        {sessionExpired && 
+                        <form action={() => signOut({ callbackUrl: "/" })}>
+                            <button
+                                type="submit"
+                                className="btn btn-primary"
+                            >
+                                Sign Out
+                            </button>
+                        </form>}
 
                     </div>
 

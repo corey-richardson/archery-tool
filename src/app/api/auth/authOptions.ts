@@ -40,6 +40,7 @@ export const authOptions: NextAuthOptions = {
                 session.user.id = user.id;
                 session.user.memberships = memberships;
             }
+
             return session;
         },
     },
