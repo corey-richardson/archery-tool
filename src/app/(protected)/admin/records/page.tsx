@@ -15,7 +15,6 @@ async function Records() {
     const activeMembership = session?.user?.memberships?.find(
         (m: any) => m.endedAt === null
     );
-    console.log(activeMembership);
 
     const hasRecordsAccess = activeMembership && (activeMembership.roles.includes("ADMIN") || activeMembership.roles.includes("CAPTAIN"));
 
@@ -88,7 +87,7 @@ async function Records() {
                     roundOutdoorClassification: score.roundOutdoorClassification === null ? undefined : score.roundOutdoorClassification,
                     roundHandicap: score.roundHandicap === null ? undefined : score.roundHandicap,
                     notes: score.notes === null ? undefined : score.notes,
-
+                    ageCategory: score.ageCategory === null ? "" : score.ageCategory,
                     processedAt: score.processedAt === null
                         ? undefined
                         : (score.processedAt instanceof Date
