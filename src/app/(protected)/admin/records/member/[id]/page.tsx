@@ -27,12 +27,12 @@ const RecordProfile = async ({ params, searchParams }: { params: { id: string };
     }
 
     return (
-        <div style={{ margin: '0 auto', padding: '2rem 3rem' }}>
+        <div style={{ margin: "0 auto", padding: "2rem 3rem" }}>
 
-            <h2 style={{ marginBottom: '2rem' }}>Records Overview for { userName }:</h2>
+            <h2 style={{ marginBottom: "2rem" }}>Records Overview for { userName }:</h2>
             <RecordsOverviewManagement userId={userId} />
 
-            <h2 style={{ marginBottom: '2rem', marginTop: '2rem' }}>Scores submitted by { userName }:</h2>
+            <h2 style={{ marginBottom: "2rem", marginTop: "2rem" }}>Scores submitted by { userName }:</h2>
             <RecordsManagement initialScores={scores} />
         </div>
     );

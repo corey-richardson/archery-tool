@@ -40,7 +40,7 @@ export async function DELETE(request: Request, context: any) {
         await prisma.club.delete({ where: { id: clubId } });
         return NextResponse.json({ message: "Club deleted" }, { status: 200 });
     } catch (error) {
-        console.error('Error deleting club:', error);
+        console.error("Error deleting club:", error);
         return NextResponse.json({ error: "Failed to delete club" }, { status: 500 });
     }
 }

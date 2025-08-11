@@ -1,8 +1,8 @@
 "use client";
 
-import ScoreCard from './card';
-import { Score } from './Score';
-import { useEffect, useState, useRef } from 'react';
+import ScoreCard from "./card";
+import { Score } from "./Score";
+import { useEffect, useState, useRef } from "react";
 
 type ScorecardsProps = {
     userId: string;
@@ -87,7 +87,7 @@ export default function Scorecards({ userId, onDeletion }: ScorecardsProps) {
                         ))}
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', margin: '2rem 0', alignItems: 'center' }}>
+                    <div style={{ display: "flex", justifyContent: "center", gap: "1rem", margin: "2rem 0", alignItems: "center" }}>
                         <button className="btn-navigation" onClick={handlePrev} disabled={page === 1 || isLoading}>&lt; Previous</button>
                         <p className="small">Page {page} of {totalPages}</p>
                         <button className="btn-navigation" onClick={handleNext} disabled={!hasMore || isLoading}>Next &gt;</button>

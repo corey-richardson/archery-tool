@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { EnumMappings } from '@/app/lib/enumMappings';
+import { EnumMappings } from "@/app/lib/enumMappings";
 
-const ALL_ROLES = ['ADMIN', 'CAPTAIN', 'RECORDS', 'COACH', 'MEMBER'];
+const ALL_ROLES = ["ADMIN", "CAPTAIN", "RECORDS", "COACH", "MEMBER"];
 
 export default function RolesCell({ value, row, clubId, setError }: { value: string[], row: any, clubId: string, setError: (err: string|null) => void }) {
 
@@ -20,8 +20,8 @@ export default function RolesCell({ value, row, clubId, setError }: { value: str
 
         try {
             const response = await fetch(`/api/user/${row.userId}/${clubId}/roles`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ roles: selectedRoles }),
             });
 
@@ -56,14 +56,14 @@ export default function RolesCell({ value, row, clubId, setError }: { value: str
             }}
             size={ALL_ROLES.length}
             style={{
-                width: '100%',
-                minHeight: '3em',
-                fontSize: '0.9rem',
-                padding: '4px',
-                borderRadius: '4px',
-                border: selectError ? '2px solid red' : '1px solid #ccc',
-                backgroundColor: selectError ? '#ffeaea' : '#f9f9f9',
-                overflow: 'hidden',
+                width: "100%",
+                minHeight: "3em",
+                fontSize: "0.9rem",
+                padding: "4px",
+                borderRadius: "4px",
+                border: selectError ? "2px solid red" : "1px solid #ccc",
+                backgroundColor: selectError ? "#ffeaea" : "#f9f9f9",
+                overflow: "hidden",
             }}
         >
             {ALL_ROLES.map((role) => (

@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import indoorRounds from '@/app/lib/IndoorRounds.json';
-import outdoorRounds from '@/app/lib/OutdoorRounds.json';
-import { requireLoggedInUser } from '@/app/lib/server-utils';
+import { NextRequest, NextResponse } from "next/server";
+import indoorRounds from "@/app/lib/IndoorRounds.json";
+import outdoorRounds from "@/app/lib/OutdoorRounds.json";
+import { requireLoggedInUser } from "@/app/lib/server-utils";
 
 export async function GET(request: NextRequest) {
     await requireLoggedInUser();
@@ -9,21 +9,21 @@ export async function GET(request: NextRequest) {
 
     try {
         const { searchParams } = new URL(request.url);
-        const type = searchParams.get('type');
+        const type = searchParams.get("type");
 
         if (!type) {
-            return NextResponse.json({ error: 'Type parameter is required' }, { status: 400 });
+            return NextResponse.json({ error: "Type parameter is required" }, { status: 400 });
         }
 
         let rounds;
 
-        if (type.toUpperCase() === 'INDOOR') {
+        if (type.toUpperCase() === "INDOOR") {
             rounds = indoorRounds.map(round => ({
                 name: round.name,
                 codename: round.codename,
                 body: round.body
             }));
-        } else if (type.toUpperCase() === 'OUTDOOR') {
+        } else if (type.toUpperCase() === "OUTDOOR") {
             rounds = outdoorRounds.map(round => ({
                 name: round.name,
                 codename: round.codename,
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ rounds });
     } catch (error) {
-        console.error('Error fetching rounds:', error);
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+        console.error("Error fetching rounds:", error);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }

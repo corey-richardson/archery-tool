@@ -89,22 +89,22 @@ export default function MemberManagementClient({ club, admin }: { club: any, adm
         <div className="content">
             {showDialog && admin && (
                 <div style={{
-                    position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-                    background: 'rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
+                    position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh",
+                    background: "rgba(0,0,0,0.3)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000
                 }}>
-                    <div style={{ background: '#fff', padding: '2rem', borderRadius: 8, minWidth: 320, boxShadow: '0 2px 16px rgba(0,0,0,0.2)' }}>
+                    <div style={{ background: "#fff", padding: "2rem", borderRadius: 8, minWidth: 320, boxShadow: "0 2px 16px rgba(0,0,0,0.2)" }}>
                         <h4>Delete Club</h4>
                         <p>Are you sure you want to delete the club "{club.club.name}"? This cannot be undone.</p>
                         <p>Type the Club's full name to continue.</p>
 
                         <input className="forms" value={confirmDeletion} onChange={e => setConfirmDeletion(e.target.value)} />
-                        {error && <div style={{ color: 'red', marginBottom: 8 }}>{error}</div>}
+                        {error && <div style={{ color: "red", marginBottom: 8 }}>{error}</div>}
 
-                        <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
+                        <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
                             <button
                                 onClick={() => setShowDialog(false)}
                                 disabled={deleting}
-                                style={{ padding: '0.5rem 1.5rem', borderRadius: 4, border: '1px solid #888', background: '#eee', color: '#333', cursor: deleting ? 'not-allowed' : 'pointer' }}
+                                style={{ padding: "0.5rem 1.5rem", borderRadius: 4, border: "1px solid #888", background: "#eee", color: "#333", cursor: deleting ? "not-allowed" : "pointer" }}
                             >
                 Cancel
                             </button>
@@ -112,17 +112,17 @@ export default function MemberManagementClient({ club, admin }: { club: any, adm
                                 onClick={handleDelete}
                                 disabled={deleting || club.club.name.trim() !== confirmDeletion.trim()}
                                 style={{
-                                    padding: '0.5rem 1.5rem',
+                                    padding: "0.5rem 1.5rem",
                                     borderRadius: 4,
-                                    background: deleting || club.club.name.trim() !== confirmDeletion.trim() ? '#ccc' : '#c00',
-                                    color: deleting || club.club.name.trim() !== confirmDeletion.trim() ? '#666' : '#fff',
-                                    border: 'none',
-                                    cursor: deleting || club.club.name.trim() !== confirmDeletion.trim() ? 'not-allowed' : 'pointer',
+                                    background: deleting || club.club.name.trim() !== confirmDeletion.trim() ? "#ccc" : "#c00",
+                                    color: deleting || club.club.name.trim() !== confirmDeletion.trim() ? "#666" : "#fff",
+                                    border: "none",
+                                    cursor: deleting || club.club.name.trim() !== confirmDeletion.trim() ? "not-allowed" : "pointer",
                                     opacity: deleting || club.club.name.trim() !== confirmDeletion.trim() ? 0.6 : 1,
-                                    transition: 'all 0.2s ease'
+                                    transition: "all 0.2s ease"
                                 }}
                             >
-                                {deleting ? 'Deleting...' : 'Delete Club'}
+                                {deleting ? "Deleting..." : "Delete Club"}
                             </button>
                         </div>
                     </div>

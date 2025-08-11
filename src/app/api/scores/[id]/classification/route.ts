@@ -37,7 +37,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
         return NextResponse.json(updatedScore);
     } catch (error) {
-        console.error('Failed to update roundClassification:', error);
-        return NextResponse.json({ error: 'Failed to update classification' }, { status: 500 });
+        console.error("Failed to update roundClassification:", error);
+        return NextResponse.json({ error: "Failed to update classification" }, { status: 500 });
     }
 }

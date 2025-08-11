@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import Club from './Club';
+import { useEffect, useState } from "react";
+import Club from "./Club";
 import Link from "next/link";
 
 type ClubcardProps = {

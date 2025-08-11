@@ -1,11 +1,11 @@
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
 import { getServerSession } from "next-auth";
-import { authOptions } from '@/app/api/auth/authOptions';
-import OverviewCard from '../OverviewCard';
+import { authOptions } from "@/app/api/auth/authOptions";
+import OverviewCard from "../OverviewCard";
 
 export const metadata: Metadata = {
-    title: 'Records Overview',
+    title: "Records Overview",
 };
 
 async function RecordsOverview() {

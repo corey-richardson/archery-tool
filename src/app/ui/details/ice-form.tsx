@@ -160,7 +160,7 @@ const EmergencyContactsForm = ({user} : any) => {
 
             { !isLoading && contacts.length > 0 && (
                 contacts.map((contact, idx) => (
-                    <div key={contact.id} className={`emergency-contact-card${openContactIdx === idx ? ' open' : ''}`}>
+                    <div key={contact.id} className={`emergency-contact-card${openContactIdx === idx ? " open" : ""}`}>
                         <button
                             type="button"
                             onClick={() => toggleContact(idx)}

@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     await requireLoggedInUser();
 
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('userId');
+    const userId = searchParams.get("userId");
 
     if (!userId) {
         return NextResponse.json({ error: "Missing userId" }, { status: 400 });
@@ -26,11 +26,11 @@ export async function GET(request: Request) {
 
         // Sort function
         const getRolePriority = (roles: string[]) => {
-            if (roles.includes('ADMIN')) return 1;
-            if (roles.includes('CAPTAIN')) return 2;
-            if (roles.includes('RECORDS')) return 3;
-            if (roles.includes('COACH')) return 4;
-            if (roles.includes('MEMBER')) return 5;
+            if (roles.includes("ADMIN")) return 1;
+            if (roles.includes("CAPTAIN")) return 2;
+            if (roles.includes("RECORDS")) return 3;
+            if (roles.includes("COACH")) return 4;
+            if (roles.includes("MEMBER")) return 5;
             return 5;
         };
 
@@ -82,7 +82,7 @@ export async function GET(request: Request) {
         return NextResponse.json({ clubs: sortedClubs }, { status: 200 });
 
     } catch (error) {
-        console.error('Error fetching user clubs:', error);
+        console.error("Error fetching user clubs:", error);
         return NextResponse.json({ error: "Failed to fetch clubs" }, { status: 500 });
     }
 }
@@ -96,7 +96,7 @@ export async function POST (req: Request) {
     }
 
     const existingclub = await prisma.club.findUnique({ where: { name: clubName }});
-    if (existingclub) { return NextResponse.json({ message: 'A club with that name already exists' }, { status: 409 }); }
+    if (existingclub) { return NextResponse.json({ message: "A club with that name already exists" }, { status: 409 }); }
 
     const createdClub = await prisma.club.create({
         data: {

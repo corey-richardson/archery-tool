@@ -66,9 +66,9 @@ const DetailsForm = ({userId} : any) => {
         e.preventDefault();
         setIsLoading(true);
         const updatedAt = new Date();
-        const response = await fetch('/api/user/update', {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+        const response = await fetch("/api/user/update", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 id: userId,
                 name,

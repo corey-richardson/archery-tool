@@ -1,10 +1,10 @@
-import { Metadata } from 'next';
-import ScoreSubmissionForm from './form';
+import { Metadata } from "next";
+import ScoreSubmissionForm from "./form";
 import { getServerSession } from "next-auth";
-import { authOptions } from '@/app/api/auth/authOptions';
+import { authOptions } from "@/app/api/auth/authOptions";
 
 export const metadata: Metadata = {
-    title: 'Submit a Score',
+    title: "Submit a Score",
 };
 
 async function SubmitScore() {

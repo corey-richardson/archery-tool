@@ -1,14 +1,14 @@
-import { Metadata } from 'next';
-import Scorecards from './scorecards';
-import Link from 'next/link';
-import OverviewCard from './OverviewCard';
+import { Metadata } from "next";
+import Scorecards from "./scorecards";
+import Link from "next/link";
+import OverviewCard from "./OverviewCard";
 import { getServerSession } from "next-auth";
-import { authOptions } from '@/app/api/auth/authOptions';
+import { authOptions } from "@/app/api/auth/authOptions";
 
 /** TODO: Add more sections to the Overview page and then uncomment link */
 
 export const metadata: Metadata = {
-    title: 'My Scores',
+    title: "My Scores",
 };
 
 async function MyScores() {

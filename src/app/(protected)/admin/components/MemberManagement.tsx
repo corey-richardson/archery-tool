@@ -1,9 +1,9 @@
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import calculateAgeCategory from '@/app/lib/calculateAgeCategory';
-import { EnumMappings } from '@/app/lib/enumMappings';
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import calculateAgeCategory from "@/app/lib/calculateAgeCategory";
+import { EnumMappings } from "@/app/lib/enumMappings";
 import { useState } from "react";
-import RolesCell from './RolesCell';
-import Link from 'next/link';
+import RolesCell from "./RolesCell";
+import Link from "next/link";
 
 interface Member {
   id: string;
@@ -34,26 +34,26 @@ export default function MemberManagement({ club }: { club: Club }) {
 
     const columns: GridColDef[] = [
         {
-            field: 'name',
-            headerName: 'Name',
+            field: "name",
+            headerName: "Name",
             flex: 1,
             sortable: true,
             renderCell: (params) => (
                 <Link href={`/admin/members/member/${params.row.id}`}>
-                    {params.value || 'Unknown'}
+                    {params.value || "Unknown"}
                 </Link>
             )
         },
 
-        { field: 'email', headerName: 'Email', flex: 1, sortable: true },
-        { field: 'archeryGBNumber', headerName: 'ArcheryGB Number', flex: 1, sortable: true },
-        { field: 'sex', headerName: 'Sex (+ Pronouns)', flex: 0.8, sortable: true },
-        { field: 'yearOfBirth', headerName: 'Year of Birth', flex: 0.7, sortable: true },
-        { field: 'ageCategory', headerName: 'Age Category', flex: 0.8, sortable: true },
+        { field: "email", headerName: "Email", flex: 1, sortable: true },
+        { field: "archeryGBNumber", headerName: "ArcheryGB Number", flex: 1, sortable: true },
+        { field: "sex", headerName: "Sex (+ Pronouns)", flex: 0.8, sortable: true },
+        { field: "yearOfBirth", headerName: "Year of Birth", flex: 0.7, sortable: true },
+        { field: "ageCategory", headerName: "Age Category", flex: 0.8, sortable: true },
 
         {
-            field: 'roles',
-            headerName: 'Roles (Ctrl+Click to add)',
+            field: "roles",
+            headerName: "Roles (Ctrl+Click to add)",
             flex: 1,
             sortable: false,
 
@@ -68,7 +68,7 @@ export default function MemberManagement({ club }: { club: Club }) {
 
         },
 
-        { field: 'joinedAt', headerName: 'Joined', flex: 0.8, sortable: true },
+        { field: "joinedAt", headerName: "Joined", flex: 0.8, sortable: true },
     ];
 
     const rows = club.members
@@ -77,26 +77,26 @@ export default function MemberManagement({ club }: { club: Club }) {
             return {
                 id: member.id,
                 userId: member.userId,
-                name: member.user?.name || 'Unknown',
-                email: member.user?.email || 'Unknown',
-                archeryGBNumber: member.user?.archeryGBNumber || '-',
+                name: member.user?.name || "Unknown",
+                email: member.user?.email || "Unknown",
+                archeryGBNumber: member.user?.archeryGBNumber || "-",
                 sex: member.user?.sex ? EnumMappings[member.user.sex] + (member.user?.gender ? ` (${member.user?.gender})`  : "") : "-",
-                yearOfBirth: member.user?.yearOfBirth || '-',
+                yearOfBirth: member.user?.yearOfBirth || "-",
                 ageCategory:
           member.user?.yearOfBirth
               ? EnumMappings[calculateAgeCategory(member.user.yearOfBirth)]
               : EnumMappings["SENIOR"],
                 roles: member.roles,
-                joinedAt: member.joinedAt ? new Date(member.joinedAt).toLocaleDateString() : '-',
-                endedAt: member.endedAt ? new Date(member.endedAt).toLocaleDateString() : '-',
+                joinedAt: member.joinedAt ? new Date(member.joinedAt).toLocaleDateString() : "-",
+                endedAt: member.endedAt ? new Date(member.endedAt).toLocaleDateString() : "-",
             };
         });
 
     return (
-        <div style={{ width: '100%', marginTop: '1rem', paddingBottom: "2rem" }}>
+        <div style={{ width: "100%", marginTop: "1rem", paddingBottom: "2rem" }}>
             <DataGrid
                 rows={rows}
-                getRowHeight={() => 'auto'}
+                getRowHeight={() => "auto"}
                 columns={columns}
                 initialState={{
                     pagination: { paginationModel: { pageSize: 10, page: 0 } },

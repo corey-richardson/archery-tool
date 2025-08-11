@@ -24,7 +24,7 @@ export async function DELETE(req: Request, { params }: { params: { inviteId: str
     });
 
     const isRecordsOrAdmin = requestor.memberships.some((membership: Membership) =>
-        membership.roles.includes('ADMIN') || membership.roles.includes('RECORDS')
+        membership.roles.includes("ADMIN") || membership.roles.includes("RECORDS")
     );
 
     if (!isRecordsOrAdmin) {

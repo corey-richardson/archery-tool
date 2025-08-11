@@ -1,9 +1,9 @@
-import Banner from '@/app/ui/banner/Banner';
+import Banner from "@/app/ui/banner/Banner";
 import LoginForm from "@/app/ui/login-form";
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/authOptions';
-import Link from 'next/link';
-import SignOutButton from '../ui/signOutButton';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/authOptions";
+import Link from "next/link";
+import SignOutButton from "../ui/signOutButton";
 
 export default async function Home() {
 
@@ -18,7 +18,7 @@ export default async function Home() {
                 <span>
                     This website is designed to help archery clubs manage their members, records, and events efficiently and securely. Whether you are a club administrator, records officer, or a regular member, you will find tools tailored to your role:
                 </span>
-                <div style={{marginTop: '1rem', marginBottom: '1rem'}}>
+                <div style={{marginTop: "1rem", marginBottom: "1rem"}}>
                     <b>Administrators:</b> can manage club details, invite new members, assign roles, and oversee all club activities.<br />
                     <b>Captains/Tournament Officers:</b> have read-only access to club information and member details to assist with competition entries and manage emergency contact information.<br />
                     <b>Records Officers:</b> have access to member scores, can update records, and help maintain the club's competitive history.<br />

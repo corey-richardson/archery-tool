@@ -1,12 +1,12 @@
-import { Metadata } from 'next';
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
-import { authOptions } from '@/app/api/auth/authOptions';
-import DetailsForm from '@/app/ui/details/details-form';
-import EmergencyContactsForm from '@/app/ui/details/ice-form';
-import ClubCards from './ClubCards';
+import { authOptions } from "@/app/api/auth/authOptions";
+import DetailsForm from "@/app/ui/details/details-form";
+import EmergencyContactsForm from "@/app/ui/details/ice-form";
+import ClubCards from "./ClubCards";
 
 export const metadata: Metadata = {
-    title: 'My Details',
+    title: "My Details",
 };
 
 async function MyDetails() {

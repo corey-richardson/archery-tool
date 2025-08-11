@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import MemberManagementClient from '../../components/MemberManagementClient';
+import MemberManagementClient from "../../components/MemberManagementClient";
 import { baseUrl } from "@/app/lib/constants";
 import { redirect } from "next/navigation";
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
 
@@ -24,12 +24,12 @@ const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
     }
 
     const cookieStore = await cookies();
-    const cookieHeader = cookieStore.getAll().map(c => `${c.name}=${c.value}`).join('; ');
+    const cookieHeader = cookieStore.getAll().map(c => `${c.name}=${c.value}`).join("; ");
 
     const res = await fetch(`${baseUrl}/api/club/${clubId}`, {
         headers: {
-            'Content-Type': 'application/json',
-            'Cookie': cookieHeader,
+            "Content-Type": "application/json",
+            "Cookie": cookieHeader,
         },
     });
 
@@ -41,7 +41,7 @@ const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
     if (!club) return notFound();
 
     return (
-        <div className="content wider" style={{ margin: '0 auto', padding: '0 1rem' }}>
+        <div className="content wider" style={{ margin: "0 auto", padding: "0 1rem" }}>
             <h3>Manage Members for {club.club.name}.</h3>
             <MemberManagementClient club={club} admin={admin} />
         </div>

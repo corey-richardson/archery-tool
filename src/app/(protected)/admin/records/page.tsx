@@ -1,12 +1,12 @@
-import { authOptions } from '@/app/api/auth/authOptions';
-import { Metadata } from 'next';
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
-import prisma from '@/app/lib/prisma';
-import RecordsManagement from '../components/RecordsManagement';
+import { authOptions } from "@/app/api/auth/authOptions";
+import { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import prisma from "@/app/lib/prisma";
+import RecordsManagement from "../components/RecordsManagement";
 
 export const metadata: Metadata = {
-    title: 'Records',
+    title: "Records",
 };
 
 async function Records() {
@@ -64,23 +64,13 @@ async function Records() {
             },
         },
         orderBy: {
-            dateShot: 'desc',
+            dateShot: "desc",
         }
     })
 
-    const filterModel = {
-        items: [
-            {
-                field: 'processedAt',
-                operator: 'isEmpty',
-                id: 1,
-            },
-        ],
-    };
-
     return (
-        <div style={{ margin: '0 auto', padding: '2rem 3rem' }}>
-            <h2 style={{ marginBottom: '2rem' }}>Submitted Scores.</h2>
+        <div style={{ margin: "0 auto", padding: "2rem 3rem" }}>
+            <h2 style={{ marginBottom: "2rem" }}>Submitted Scores.</h2>
 
             {scores.length === 0 ? (
                 <p>No scores found.</p>

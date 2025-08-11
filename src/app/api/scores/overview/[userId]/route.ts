@@ -43,7 +43,7 @@ export async function PATCH(request: NextRequest, context: any) {
     try {
         body = await request.json();
     } catch (error) {
-        return NextResponse.json({ error: "Invalid JSON request." }, { status: 400 });
+        return NextResponse.json({ error: "Invalid JSON request: " + error }, { status: 400 });
     }
 
     const { field, value } = body;
@@ -58,6 +58,6 @@ export async function PATCH(request: NextRequest, context: any) {
         });
         return NextResponse.json(updatedOverview, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ error: "Failed to update record overview."}, { status: 500 });
+        return NextResponse.json({ error: "Failed to update record overview: " + error}, { status: 500 });
     }
 }

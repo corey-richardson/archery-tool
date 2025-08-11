@@ -15,6 +15,10 @@ const eslintConfig = [
     rules: {
       "react/no-unescaped-entities": "off",
       "@typescript-eslint/no-explicit-any": "off",
+      "quotes": ["error", "double", { 
+        "avoidEscape": true,
+        "allowTemplateLiterals": true 
+      }],
       // Indentation rules
       "indent": ["error", 4, { 
         "SwitchCase": 1,

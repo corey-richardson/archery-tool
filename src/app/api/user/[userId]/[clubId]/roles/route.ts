@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
-import { requireAdminUser } from '@/app/lib/server-utils';
+import { requireAdminUser } from "@/app/lib/server-utils";
 
 export async function PUT(req: NextRequest) {
     try {
@@ -10,7 +10,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const url = req.nextUrl.pathname;
-    const [, , , userId, clubId] = url.split('/'); // ['', 'api', 'user', userId, clubId, 'roles']
+    const [, , , userId, clubId] = url.split("/"); // ['', 'api', 'user', userId, clubId, 'roles']
 
     const { roles } = await req.json();
 
@@ -52,7 +52,7 @@ export async function PUT(req: NextRequest) {
 
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error('Update failed:', error);
-        return NextResponse.json({ error: 'Failed to update roles' }, { status: 500 });
+        console.error("Update failed:", error);
+        return NextResponse.json({ error: "Failed to update roles" }, { status: 500 });
     }
 }

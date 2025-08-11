@@ -94,13 +94,13 @@ const ScoreSubmissionForm = ({userId} : any) => {
                 setAvailableRounds(data.rounds);
                 setRoundsLoadError(false);
             } else {
-                console.error('Error fetching rounds:', data.error);
+                console.error("Error fetching rounds:", data.error);
                 setAvailableRounds([]);
                 setRoundsLoadError(true);
             }
 
         } catch (error) {
-            console.error('Error fetching rounds:', error);
+            console.error("Error fetching rounds:", error);
             setAvailableRounds([]);
             setRoundsLoadError(true);
         } finally {
@@ -150,7 +150,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
 
         const res = await fetch("/api/scores", {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId, ageCategory, sex, submittedAt, dateShot, roundName, roundType, bowstyle, score, xs, tens, nines, hits, competitionLevel, notes }),
         });
 

@@ -5,7 +5,7 @@ import Navbar from "../ui/navbar/Navbar";
 
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from '@/app/api/auth/authOptions';
+import { authOptions } from "@/app/api/auth/authOptions";
 
 export const metadata: Metadata = {
     title: {

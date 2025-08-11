@@ -13,7 +13,7 @@ export async function GET(req: NextRequest, context: any) {
     const userId = params.userId;
 
     const isRecordsOrAdmin = requestor.memberships.some((membership: Membership) =>
-        membership.roles.includes('ADMIN') || membership.roles.includes('RECORDS')
+        membership.roles.includes("ADMIN") || membership.roles.includes("RECORDS")
     );
 
     if (!isRecordsOrAdmin && requestor.id !== userId) {

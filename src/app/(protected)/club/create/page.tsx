@@ -20,9 +20,9 @@ function CreateClub() {
             if (freshSession) {
                 setCreatorId(freshSession.user.id);
             }
-            console.log('Session refreshed:', freshSession);
+            console.log("Session refreshed:", freshSession);
         } catch (error) {
-            console.error('Failed to refresh session:', error);
+            console.error("Failed to refresh session:", error);
         }
     };
 
@@ -41,13 +41,13 @@ function CreateClub() {
         try {
             const res = await fetch("/api/club", {
                 method: "POST",
-                headers: { 'Content-Type': 'application/json' },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ clubName, creatorId, }),
             })
 
             if (res.status === 409) {
                 const errorData = await res.json();
-                alert(errorData.message || 'A club with that name already exists');
+                alert(errorData.message || "A club with that name already exists");
                 setClubName("");
                 setIsPending(false);
                 return;
@@ -66,8 +66,8 @@ function CreateClub() {
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
         } catch (error) {
-            console.error('Error creating club:', error);
-            alert('An error occurred while creating the club');
+            console.error("Error creating club:", error);
+            alert("An error occurred while creating the club");
             setIsPending(false);
         }
     }

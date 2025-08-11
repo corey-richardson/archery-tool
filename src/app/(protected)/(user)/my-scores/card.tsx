@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Score } from './Score';
+import { Score } from "./Score";
 import { EnumMappings } from "@/app/lib/enumMappings";
 import { useState } from "react";
 

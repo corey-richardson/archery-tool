@@ -1,16 +1,16 @@
 "use client";
 
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { EnumMappings } from '@/app/lib/enumMappings';
-import { useState } from 'react';
-import { Score } from './Score';
-import Link from 'next/link';
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { EnumMappings } from "@/app/lib/enumMappings";
+import { useState } from "react";
+import { Score } from "./Score";
+import Link from "next/link";
 
 const indoorClassifications = [
-    'IA3', 'IA2', 'IA1', 'IB3', 'IB2', 'IB1', 'IMB', 'IGMB', 'UNCLASSIFIED'
+    "IA3", "IA2", "IA1", "IB3", "IB2", "IB1", "IMB", "IGMB", "UNCLASSIFIED"
 ];
 const outdoorClassifications = [
-    'A3', 'A2', 'A1', 'B3', 'B2', 'B1', 'MB', 'GMB', 'EMB', 'UNCLASSIFIED'
+    "A3", "A2", "A1", "B3", "B2", "B1", "MB", "GMB", "EMB", "UNCLASSIFIED"
 ];
 
 const ageCategories = [
@@ -18,21 +18,21 @@ const ageCategories = [
 ];
 
 
-const HandicapInput = ({ scoreId, initialValue }: { scoreId: string, initialValue: number | '' }) => {
-    const [handicap, setHandicap] = useState<number | ''>(initialValue);
+const HandicapInput = ({ scoreId, initialValue }: { scoreId: string, initialValue: number | "" }) => {
+    const [handicap, setHandicap] = useState<number | "">(initialValue);
 
     const handleBlur = async () => {
         if (handicap === initialValue) return; // no change
 
         try {
             const response = await fetch(`/api/scores/${scoreId}/handicap`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ roundHandicap: handicap }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update handicap');
+                throw new Error("Failed to update handicap");
             }
         } catch (error) {
             setHandicap(initialValue);
@@ -45,21 +45,21 @@ const HandicapInput = ({ scoreId, initialValue }: { scoreId: string, initialValu
             type="number"
             value={handicap}
             min="0" max="150" step="1"
-            onChange={e => setHandicap(e.target.value === '' ? '' : Number(e.target.value))}
+            onChange={e => setHandicap(e.target.value === "" ? "" : Number(e.target.value))}
             onBlur={handleBlur}
-            style={{ width: '100%', boxSizing: 'border-box' }}
+            style={{ width: "100%", boxSizing: "border-box" }}
         />
     );
 };
 
 
 const ClassificationSelect = ({ score }: { score: any }) => {
-    const currentClassification = score.roundType === 'INDOOR'
+    const currentClassification = score.roundType === "INDOOR"
         ? score.roundIndoorClassification
         : score.roundOutdoorClassification;
 
-    const [selected, setSelected] = useState(currentClassification || '');
-    const options = score.roundType === 'INDOOR' ? indoorClassifications : outdoorClassifications;
+    const [selected, setSelected] = useState(currentClassification || "");
+    const options = score.roundType === "INDOOR" ? indoorClassifications : outdoorClassifications;
 
     const handleChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newClassification = event.target.value;
@@ -67,13 +67,13 @@ const ClassificationSelect = ({ score }: { score: any }) => {
 
         try {
             const response = await fetch(`/api/scores/${score.id}/classification`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ roundType: score.roundType, roundClassification: newClassification }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update classification');
+                throw new Error("Failed to update classification");
             }
         } catch (error) {
             setSelected(score.roundClassification);
@@ -82,7 +82,7 @@ const ClassificationSelect = ({ score }: { score: any }) => {
     };
 
     return (
-        <select value={selected} onChange={handleChange} style={{ width: '100%', textAlign: 'center' }}>
+        <select value={selected} onChange={handleChange} style={{ width: "100%", textAlign: "center" }}>
             <option value="" disabled>-</option>
             {options.map(opt => (
                 <option key={opt} value={opt}>
@@ -103,13 +103,13 @@ const AgeCategorySelect = ({ score }: { score: any }) => {
 
         try {
             const response = await fetch(`/api/scores/${score.id}/age-category`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ageCategory: newAgeCategory }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update age category');
+                throw new Error("Failed to update age category");
             }
         } catch (error) {
             setCurrentAgeCategory(score.ageCategory);
@@ -118,7 +118,7 @@ const AgeCategorySelect = ({ score }: { score: any }) => {
     }
 
     return (
-        <select value={currentAgeCategory} onChange={handleChange} style={{ width: '100%', textAlign: 'center' }}>
+        <select value={currentAgeCategory} onChange={handleChange} style={{ width: "100%", textAlign: "center" }}>
             <option value="" disabled>-</option>
             {ageCategories.map(ageCat => (
                 <option key={ageCat} value={ageCat}>
@@ -138,13 +138,13 @@ const NotesInput = ({ score }: { score: any }) => {
 
         try {
             const response = await fetch(`/api/scores/${score.id}/note`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ note: currentNote }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update note');
+                throw new Error("Failed to update note");
             }
         } catch (error) {
             setCurrentNote(score.notes || "");
@@ -177,18 +177,18 @@ const ProcessButton = ({ score, onProcessed }: { score: any; onProcessed: (score
 
         try {
             const response = await fetch(`/api/scores/${score.id}/process`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ processedAt: new Date().toISOString() }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to process score');
+                throw new Error("Failed to process score");
             }
 
             onProcessed(score.id);
         } catch (error) {
-            console.error('Error processing score:', error);
+            console.error("Error processing score:", error);
         } finally {
             setIsProcessing(false);
         }
@@ -199,17 +199,17 @@ const ProcessButton = ({ score, onProcessed }: { score: any; onProcessed: (score
             onClick={handleProcess}
             disabled={isProcessing || !!score.processedAt}
             style={{
-                width: '100%',
-                padding: '4px 8px',
-                backgroundColor: score.processedAt ? '#4caf50' : '#2196f3',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: score.processedAt ? 'default' : 'pointer',
+                width: "100%",
+                padding: "4px 8px",
+                backgroundColor: score.processedAt ? "#4caf50" : "#2196f3",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: score.processedAt ? "default" : "pointer",
                 opacity: score.processedAt ? 0.7 : 1
             }}
         >
-            {isProcessing ? 'Processing...' : (score.processedAt ? 'Processed' : 'Process')}
+            {isProcessing ? "Processing..." : (score.processedAt ? "Processed" : "Process")}
         </button>
     );
 };
@@ -219,21 +219,21 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
 
     const [ scores, setScores ] = useState(initialScores);
     const [ filters, setFilters ] = useState({
-        processedStatus: initialFilterModel === 'unprocessed' ? 'unprocessed' : 'all',
-        roundType: 'all',
-        dateStart: '',
-        dateEnd: '',
-        searchTerm: ''
+        processedStatus: initialFilterModel === "unprocessed" ? "unprocessed" : "all",
+        roundType: "all",
+        dateStart: "",
+        dateEnd: "",
+        searchTerm: ""
     });
 
     const filteredScores = scores.filter(score => {
 
-        if (filters.processedStatus === 'processed' && !score.processedAt) return false;
-        if (filters.processedStatus === 'unprocessed' && score.processedAt) return false;
-        
-        if (filters.roundType === 'indoor' && score.roundType !== 'INDOOR') return false;
-        if (filters.roundType === 'outdoor' && score.roundType !== 'OUTDOOR') return false;
-        
+        if (filters.processedStatus === "processed" && !score.processedAt) return false;
+        if (filters.processedStatus === "unprocessed" && score.processedAt) return false;
+
+        if (filters.roundType === "indoor" && score.roundType !== "INDOOR") return false;
+        if (filters.roundType === "outdoor" && score.roundType !== "OUTDOOR") return false;
+
         if (filters.dateStart && score.dateShot) {
             const scoreDate = new Date(score.dateShot);
             const startDate = new Date(filters.dateStart);
@@ -244,94 +244,94 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
             const endDate = new Date(filters.dateEnd);
             if (scoreDate > endDate) return false;
         }
-        
+
         if (filters.searchTerm) {
             const searchLower = filters.searchTerm.toLowerCase();
             const searchableText = [
                 score.user?.name,
                 score.roundName,
                 score.notes
-            ].join(' ').toLowerCase();
-            
+            ].join(" ").toLowerCase();
+
             if (!searchableText.includes(searchLower)) return false;
         }
-        
+
         return true;
     });
 
 
     const columns: GridColDef[] = [
         {
-            field: 'name',
-            headerName: 'Name',
+            field: "name",
+            headerName: "Name",
             flex: 0.8,
             sortable: true,
             renderCell: (params) => (
                 <Link href={`/admin/records/member/${params.row.userId}?name=${encodeURIComponent(params.row.name)}`}>
-                    {params.value || 'Unknown'}
+                    {params.value || "Unknown"}
                 </Link>
             )
         },
 
-        { field: 'bowstyle', headerName: 'Bowstyle', flex: 0.8, sortable: true },
+        { field: "bowstyle", headerName: "Bowstyle", flex: 0.8, sortable: true },
 
         {
-            field: 'ageCategory',
-            headerName: 'Age Category',
+            field: "ageCategory",
+            headerName: "Age Category",
             flex: 0.7,
             sortable: true,
 
             renderCell: (params) => <AgeCategorySelect score={params.row} />
         },
 
-        { field: 'sex', headerName: 'Sex', flex: 0.4, sortable: true },
+        { field: "sex", headerName: "Sex", flex: 0.4, sortable: true },
 
-        { 
-            field: 'dateShot',
-            headerName: 'Date Shot', 
-            flex: 0.8, 
+        {
+            field: "dateShot",
+            headerName: "Date Shot",
+            flex: 0.8,
             sortable: true,
             renderCell: (params) =>  new Date(params.value).toLocaleDateString()
         },
 
-        { field: 'roundType', headerName: 'Round Type', flex: 0.6, sortable: true, filterable: true, renderCell: (params) => EnumMappings[params.value] },
-        { field: 'roundName', headerName: 'Round Name', flex: 1, sortable: true },
+        { field: "roundType", headerName: "Round Type", flex: 0.6, sortable: true, filterable: true, renderCell: (params) => EnumMappings[params.value] },
+        { field: "roundName", headerName: "Round Name", flex: 1, sortable: true },
 
-        { field: 'score', headerName: 'Score', flex: 0.4, sortable: true },
-        { field: 'xs', headerName: 'Xs + Tens', flex: 0.3, sortable: true },
-        { field: 'tens', headerName: 'Tens', flex: 0.3, sortable: true },
-        { field: 'nines', headerName: 'Nines', flex: 0.3, sortable: true },
-        { field: 'hits', headerName: 'Hits', flex: 0.3, sortable: true },
+        { field: "score", headerName: "Score", flex: 0.4, sortable: true },
+        { field: "xs", headerName: "Xs + Tens", flex: 0.3, sortable: true },
+        { field: "tens", headerName: "Tens", flex: 0.3, sortable: true },
+        { field: "nines", headerName: "Nines", flex: 0.3, sortable: true },
+        { field: "hits", headerName: "Hits", flex: 0.3, sortable: true },
 
-        { field: 'competitionLevel', headerName: 'Competition Level', flex: 0.8, sortable: false },
+        { field: "competitionLevel", headerName: "Competition Level", flex: 0.8, sortable: false },
 
         {
-            field: 'roundHandicap',
-            headerName: 'Handicap',
+            field: "roundHandicap",
+            headerName: "Handicap",
             flex: 0.6,
             sortable: false,
-            renderCell: (params) => <HandicapInput scoreId={params.row.id} initialValue={params.value ?? ''} />
+            renderCell: (params) => <HandicapInput scoreId={params.row.id} initialValue={params.value ?? ""} />
         },
 
         {
-            field: 'roundClassification',
-            headerName: 'Classification',
+            field: "roundClassification",
+            headerName: "Classification",
             flex: 1,
             sortable: false,
             renderCell: (params) => <ClassificationSelect score={params.row} />
         },
 
         {
-            field: 'notes',
-            headerName: 'Notes',
+            field: "notes",
+            headerName: "Notes",
             flex: 1,
             sortable: true,
             renderCell: (params) => <NotesInput score={params.row} />
         },
 
         {
-            field: 'processedAt',
-            headerName: 'Process',
+            field: "processedAt",
+            headerName: "Process",
             flex: 0.8,
             sortable: false,
             renderCell: (params) => <ProcessButton
@@ -355,7 +355,7 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
         name: score.user.name,
         bowstyle: EnumMappings[score.bowstyle] || score.bowstyle,
         ageCategory: score.ageCategory || "SENIOR",
-        sex: score.sex !== undefined ? (EnumMappings[score.sex] || score.sex) : '',
+        sex: score.sex !== undefined ? (EnumMappings[score.sex] || score.sex) : "",
         dateShot: score.dateShot,
         roundType: score.roundType,
         roundName: score.roundName,
@@ -365,7 +365,7 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
         nines: score.nines,
         hits: score.hits,
         competitionLevel: EnumMappings[score.competitionLevel] || score.competitionLevel,
-        roundClassification: score.roundClassification !== undefined ? (EnumMappings[score.roundClassification] || score.roundClassification) : '',
+        roundClassification: score.roundClassification !== undefined ? (EnumMappings[score.roundClassification] || score.roundClassification) : "",
         roundIndoorClassification: score.roundIndoorClassification,
         roundOutdoorClassification: score.roundOutdoorClassification,
         roundHandicap: score.roundHandicap,
@@ -378,7 +378,7 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
             <DataGrid
                 rows={rows}
                 columns={columns}
-                getRowHeight={() => 'auto'}
+                getRowHeight={() => "auto"}
                 initialState={{
                     pagination: { paginationModel: { pageSize: 10, page: 0 } },
                 }}
@@ -386,13 +386,13 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
                 disableRowSelectionOnClick
             />
 
-            <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'right', alignItems: 'center' }}>
+            <div style={{ marginTop: "1rem", display: "flex", gap: "0.5rem", flexWrap: "wrap", justifyContent: "right", alignItems: "center" }}>
                 <div>
-                    <label style={{ fontWeight: 'bold', marginRight: '0.5rem' }}>Status:</label>
+                    <label style={{ fontWeight: "bold", marginRight: "0.5rem" }}>Status:</label>
                     <select
                         value={filters.processedStatus}
                         onChange={(e) => setFilters(prev => ({ ...prev, processedStatus: e.target.value }))}
-                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                        style={{ padding: "0.5rem", borderRadius: "4px", border: "1px solid #ccc" }}
                     >
                         <option value="all">All</option>
                         <option value="processed">Processed</option>
@@ -401,11 +401,11 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
                 </div>
 
                 <div>
-                    <label style={{ fontWeight: 'bold', marginRight: '0.5rem' }}>Venue:</label>
+                    <label style={{ fontWeight: "bold", marginRight: "0.5rem" }}>Venue:</label>
                     <select
                         value={filters.roundType}
                         onChange={(e) => setFilters(prev => ({ ...prev, roundType: e.target.value }))}
-                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                        style={{ padding: "0.5rem", borderRadius: "4px", border: "1px solid #ccc" }}
                     >
                         <option value="all">All</option>
                         <option value="indoor">Indoor</option>
@@ -414,57 +414,57 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
                 </div>
 
                 <div>
-                    <label style={{ fontWeight: 'bold', marginRight: '0.5rem' }}>From:</label>
+                    <label style={{ fontWeight: "bold", marginRight: "0.5rem" }}>From:</label>
                     <input
                         type="date"
                         value={filters.dateStart}
                         onChange={(e) => setFilters(prev => ({ ...prev, dateStart: e.target.value }))}
-                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                        style={{ padding: "0.5rem", borderRadius: "4px", border: "1px solid #ccc" }}
                     />
                 </div>
 
                 <div>
-                    <label style={{ fontWeight: 'bold', marginRight: '0.5rem' }}>To:</label>
+                    <label style={{ fontWeight: "bold", marginRight: "0.5rem" }}>To:</label>
                     <input
                         type="date"
                         value={filters.dateEnd}
                         onChange={(e) => setFilters(prev => ({ ...prev, dateEnd: e.target.value }))}
-                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                        style={{ padding: "0.5rem", borderRadius: "4px", border: "1px solid #ccc" }}
                     />
                 </div>
 
                 <div>
-                    <label style={{ fontWeight: 'bold', marginRight: '0.5rem' }}>Search:</label>
+                    <label style={{ fontWeight: "bold", marginRight: "0.5rem" }}>Search:</label>
                     <input
                         type="text"
                         value={filters.searchTerm}
                         onChange={(e) => setFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
                         placeholder="Name, round, notes..."
-                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                        style={{ padding: "0.5rem", borderRadius: "4px", border: "1px solid #ccc" }}
                     />
                 </div>
 
                 <button
                     className='btn-secondary'
                     onClick={() => setFilters({
-                        processedStatus: 'all',
-                        roundType: 'all', 
-                        dateStart: '',
-                        dateEnd: '',
-                        searchTerm: ''
+                        processedStatus: "all",
+                        roundType: "all",
+                        dateStart: "",
+                        dateEnd: "",
+                        searchTerm: ""
                     })}
-                    style={{ 
-                        padding: '0.5rem 1rem',
-                        borderRadius: '6px',
-                        border: '1px solid #ccc',
-                        backgroundColor: '#f5f5f5',
-                        cursor: 'pointer'
+                    style={{
+                        padding: "0.5rem 1rem",
+                        borderRadius: "6px",
+                        border: "1px solid #ccc",
+                        backgroundColor: "#f5f5f5",
+                        cursor: "pointer"
                     }}
                 >
                     Clear All
                 </button>
 
-                <span style={{ color: '#666', fontSize: '0.9em' }}>
+                <span style={{ color: "#666", fontSize: "0.9em" }}>
                     Showing {rows.length} of {scores.length} scores
                 </span>
             </div>

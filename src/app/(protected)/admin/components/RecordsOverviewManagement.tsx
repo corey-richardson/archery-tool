@@ -3,13 +3,13 @@
 import { EnumMappings } from "@/app/lib/enumMappings";
 import { useEffect, useState } from "react";
 import { Overview } from "../../(user)/my-scores/Overview";
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 const indoorClassifications = [
-    'IA3', 'IA2', 'IA1', 'IB3', 'IB2', 'IB1', 'IMB', 'IGMB', 'UNCLASSIFIED'
+    "IA3", "IA2", "IA1", "IB3", "IB2", "IB1", "IMB", "IGMB", "UNCLASSIFIED"
 ];
 const outdoorClassifications = [
-    'A3', 'A2', 'A1', 'B3', 'B2', 'B1', 'MB', 'GMB', 'EMB', 'UNCLASSIFIED'
+    "A3", "A2", "A1", "B3", "B2", "B1", "MB", "GMB", "EMB", "UNCLASSIFIED"
 ];
 
 
@@ -27,8 +27,8 @@ const changeHandler = async (
 
     try {
         const response = await fetch(`/api/scores/overview/${overview.userId}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ field: field, value: valueToSendToBackend }),
         });
 
@@ -50,7 +50,7 @@ const IndoorClassification = ({ overview }: { overview: Overview}) => {
     }
 
     return (
-        <select value={current} onChange={handleChange} style={{ width: '100%', textAlign: 'center' }}>
+        <select value={current} onChange={handleChange} style={{ width: "100%", textAlign: "center" }}>
             <option value="" disabled>-</option>
             {indoorClassifications.map(opt => (
                 <option key={opt} value={opt}>
@@ -70,7 +70,7 @@ const IndoorBadgeGiven = ({ overview }: { overview: Overview}) => {
     }
 
     return (
-        <select value={current} onChange={handleChange} style={{ width: '100%', textAlign: 'center' }}>
+        <select value={current} onChange={handleChange} style={{ width: "100%", textAlign: "center" }}>
             <option value="" disabled>-</option>
             {indoorClassifications.map(opt => (
                 <option key={opt} value={opt}>
@@ -109,7 +109,7 @@ const OutdoorClassification = ({ overview }: { overview: Overview}) => {
     }
 
     return (
-        <select value={current} onChange={handleChange} style={{ width: '100%', textAlign: 'center' }}>
+        <select value={current} onChange={handleChange} style={{ width: "100%", textAlign: "center" }}>
             <option value="" disabled>-</option>
             {outdoorClassifications.map(opt => (
                 <option key={opt} value={opt}>
@@ -129,7 +129,7 @@ const OutdoorBadgeGiven = ({ overview }: { overview: Overview}) => {
     }
 
     return (
-        <select value={current} onChange={handleChange} style={{ width: '100%', textAlign: 'center' }}>
+        <select value={current} onChange={handleChange} style={{ width: "100%", textAlign: "center" }}>
             <option value="" disabled>-</option>
             {outdoorClassifications.map(opt => (
                 <option key={opt} value={opt}>
@@ -162,7 +162,6 @@ const OutdoorHandicap = ({ overview }: { overview: Overview}) => {
 
 export default function RecordsOverviewManagement({ userId }: { userId: string}) {
     const [ isLoading, setIsLoading ] = useState(false);
-    const [ user, setUser ] = useState<{ name?: string }>({});
     const [ overview, setOverview ] = useState<Overview>();
     const [ notes, setNotes ] = useState("");
 
@@ -171,7 +170,6 @@ export default function RecordsOverviewManagement({ userId }: { userId: string})
             setIsLoading(true);
             let res = await fetch(`/api/user/${userId}`);
             let data = await res.json();
-            setUser(data);
             res = await fetch(`/api/scores/overview/${userId}`);
             data = await res.json();
             setOverview(data);
@@ -195,62 +193,62 @@ export default function RecordsOverviewManagement({ userId }: { userId: string})
 
     const indoorColumns: GridColDef[] = [
         {
-            field: 'indoorClassification',
-            headerName: 'Indoor Classification',
+            field: "indoorClassification",
+            headerName: "Indoor Classification",
             flex: 1,
             sortable: false,
             filterable: false,
             hideable: false,
-            renderCell: (params) => (<IndoorClassification overview={overview} />)
+            renderCell: () => (<IndoorClassification overview={overview} />)
         },
         {
-            field: 'indoorBadgeGiven',
-            headerName: 'Indoor Badge Given',
+            field: "indoorBadgeGiven",
+            headerName: "Indoor Badge Given",
             flex: 1,
             sortable: false,
             filterable: false,
             hideable: false,
-            renderCell: (params) => (<IndoorBadgeGiven overview={overview} />)
+            renderCell: () => (<IndoorBadgeGiven overview={overview} />)
         },
         {
-            field: 'indoorHandicap',
-            headerName: 'Indoor Handicap',
+            field: "indoorHandicap",
+            headerName: "Indoor Handicap",
             flex: 1,
             sortable: false,
             filterable: false,
             hideable: false,
-            renderCell: (params) => (<IndoorHandicap overview={overview} />)
+            renderCell: () => (<IndoorHandicap overview={overview} />)
         },
     ]
 
 
     const outdoorColumns: GridColDef[] = [
         {
-            field: 'outdoorClassification',
-            headerName: 'Outdoor Classification',
+            field: "outdoorClassification",
+            headerName: "Outdoor Classification",
             flex: 1,
             sortable: false,
             filterable: false,
             hideable: false,
-            renderCell: (params) => (<OutdoorClassification overview={overview} />)
+            renderCell: () => (<OutdoorClassification overview={overview} />)
         },
         {
-            field: 'outdoorBadgeGiven',
-            headerName: 'Outdoor Badge Given',
+            field: "outdoorBadgeGiven",
+            headerName: "Outdoor Badge Given",
             flex: 1,
             sortable: false,
             filterable: false,
             hideable: false,
-            renderCell: (params) => (<OutdoorBadgeGiven overview={overview} />)
+            renderCell: () => (<OutdoorBadgeGiven overview={overview} />)
         },
         {
-            field: 'outdoorHandicap',
-            headerName: 'Outdoor Handicap',
+            field: "outdoorHandicap",
+            headerName: "Outdoor Handicap",
             flex: 1,
             sortable: false,
             filterable: false,
             hideable: false,
-            renderCell: (params) => (<OutdoorHandicap overview={overview} />)
+            renderCell: () => (<OutdoorHandicap overview={overview} />)
         },
     ]
 
@@ -274,17 +272,17 @@ export default function RecordsOverviewManagement({ userId }: { userId: string})
             <DataGrid
                 rows={indoorRow}
                 columns={indoorColumns}
-                getRowHeight={() => 'auto'}
+                getRowHeight={() => "auto"}
             />
 
-            <h4 style={{ marginTop: '1rem', marginBottom: '0.5rem' }}>Outdoors:</h4>
+            <h4 style={{ marginTop: "1rem", marginBottom: "0.5rem" }}>Outdoors:</h4>
             <DataGrid
                 rows={outdoorRow}
                 columns={outdoorColumns}
-                getRowHeight={() => 'auto'}
+                getRowHeight={() => "auto"}
             />
 
-            <h4 style={{ marginTop: '1rem', marginBottom: '0.5rem' }}>Notes on user:</h4>
+            <h4 style={{ marginTop: "1rem", marginBottom: "0.5rem" }}>Notes on user:</h4>
             <textarea
                 value={notes}
                 onChange={(event) => setNotes(event.target.value)}

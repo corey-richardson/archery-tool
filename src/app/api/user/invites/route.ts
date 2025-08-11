@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/authOptions';
-import prisma from '@/app/lib/prisma';
-import { requireLoggedInUser } from '@/app/lib/server-utils';
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/authOptions";
+import prisma from "@/app/lib/prisma";
+import { requireLoggedInUser } from "@/app/lib/server-utils";
 
 export async function GET() {
     await requireLoggedInUser();
@@ -11,7 +11,7 @@ export async function GET() {
         const session = await getServerSession(authOptions);
 
         if (!session?.user?.id) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
         const invites = await prisma.invite.findMany({
@@ -33,16 +33,16 @@ export async function GET() {
                 }
             },
             orderBy: {
-                createdAt: 'desc'
+                createdAt: "desc"
             }
         });
 
         return NextResponse.json({ invites });
 
     } catch (error) {
-        console.error('Error fetching user invites:', error);
+        console.error("Error fetching user invites:", error);
         return NextResponse.json(
-            { error: 'Failed to fetch invites' },
+            { error: "Failed to fetch invites" },
             { status: 500 }
         );
     }

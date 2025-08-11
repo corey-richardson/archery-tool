@@ -2,7 +2,7 @@ import prisma from "@/app/lib/prisma";
 import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
-import GitHubProvider from 'next-auth/providers/github';
+import GitHubProvider from "next-auth/providers/github";
 import type { User, Session } from "next-auth";
 
 export const authOptions: NextAuthOptions = {

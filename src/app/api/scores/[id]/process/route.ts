@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/authOptions';
-import prisma from '@/app/lib/prisma';
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/authOptions";
+import prisma from "@/app/lib/prisma";
 import { requireRecordsUserOrHigher } from "@/app/lib/server-utils";
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
@@ -10,7 +10,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         const session = await getServerSession(authOptions);
 
         if (!session) {
-            return NextResponse.json({ error: 'Unauthorised' }, { status: 401 });
+            return NextResponse.json({ error: "Unauthorised" }, { status: 401 });
         }
 
         // Check if user has RECORDS or ADMIN role
@@ -19,13 +19,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         );
 
         if (!isRecordsOrAdmin) {
-            return NextResponse.json({ error: 'Insufficient permissions' }, { status: 403 });
+            return NextResponse.json({ error: "Insufficient permissions" }, { status: 403 });
         }
 
         const { processedAt } = await request.json();
 
         if (!processedAt) {
-            return NextResponse.json({ error: 'processedAt is required' }, { status: 400 });
+            return NextResponse.json({ error: "processedAt is required" }, { status: 400 });
         }
 
         // Update the score with processedAt timestamp
@@ -39,14 +39,14 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         });
 
         return NextResponse.json({
-            message: 'Score processed successfully',
+            message: "Score processed successfully",
             score: updatedScore,
         });
 
     } catch (error) {
-        console.error('Error processing score:', error);
+        console.error("Error processing score:", error);
         return NextResponse.json(
-            { error: 'Internal server error' },
+            { error: "Internal server error" },
             { status: 500 }
         );
     }
