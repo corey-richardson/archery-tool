@@ -23,16 +23,16 @@ const RecordProfile = async ({ params, searchParams }: { params: { id: string };
         console.error(error);
     }
 
-    return ( 
+    return (
         <div style={{ margin: '0 auto', padding: '2rem 3rem' }}>
-            
+
             <h2 style={{ marginBottom: '2rem' }}>Records Overview for { searchParams.name }:</h2>
-            <p>todo</p>            
+            <p>todo</p>
 
             <h2 style={{ marginBottom: '2rem', marginTop: '2rem' }}>Scores submitted by { searchParams.name }:</h2>
             <RecordsManagement scores={scores}/>
         </div>
-     );
+    );
 }
- 
+
 export default RecordProfile;

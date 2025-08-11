@@ -33,17 +33,17 @@ export default function MemberManagement({ club }: { club: Club }) {
     const [ error, setError ] = useState<string | null>(null);
 
     const columns: GridColDef[] = [
-        { 
-            field: 'name', 
-            headerName: 'Name', 
-            flex: 1, 
+        {
+            field: 'name',
+            headerName: 'Name',
+            flex: 1,
             sortable: true,
             renderCell: (params) => (
                 <Link href={`/admin/members/member/${params.row.id}`}>
                     {params.value || 'Unknown'}
                 </Link>
-            ) 
-    },
+            )
+        },
 
         { field: 'email', headerName: 'Email', flex: 1, sortable: true },
         { field: 'archeryGBNumber', headerName: 'ArcheryGB Number', flex: 1, sortable: true },

@@ -216,16 +216,16 @@ const ProcessButton = ({ score }: { score: any }) => {
 
 export default function RecordsManagement({ scores }: { scores: Score[] }) {
     const columns: GridColDef[] = [
-        { 
-            field: 'name', 
-            headerName: 'Name', 
-            flex: 0.8, 
+        {
+            field: 'name',
+            headerName: 'Name',
+            flex: 0.8,
             sortable: true,
             renderCell: (params) => (
                 <Link href={`/admin/records/member/${params.row.userId}?name=${encodeURIComponent(params.row.name)}`}>
                     {params.value || 'Unknown'}
-                </Link> 
-            ) 
+                </Link>
+            )
         },
 
         { field: 'bowstyle', headerName: 'Bowstyle', flex: 0.8, sortable: true },
