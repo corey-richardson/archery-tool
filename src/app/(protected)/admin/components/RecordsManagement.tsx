@@ -4,6 +4,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { EnumMappings } from '@/app/lib/enumMappings';
 import { useState } from 'react';
 import { Score } from './Score';
+import Link from 'next/link';
 
 const indoorClassifications = [
     'IA3', 'IA2', 'IA1', 'IB3', 'IB2', 'IB1', 'IMB', 'IGMB', 'UNCLASSIFIED'
@@ -215,7 +216,18 @@ const ProcessButton = ({ score }: { score: any }) => {
 
 export default function RecordsManagement({ scores }: { scores: Score[] }) {
     const columns: GridColDef[] = [
-        { field: 'name', headerName: 'Name', flex: 0.8, sortable: true },
+        { 
+            field: 'name', 
+            headerName: 'Name', 
+            flex: 0.8, 
+            sortable: true,
+            renderCell: (params) => (
+                <Link href={`/admin/records/member/${params.row.userId}?name=${encodeURIComponent(params.row.name)}`}>
+                    {params.value || 'Unknown'}
+                </Link> 
+            ) 
+        },
+
         { field: 'bowstyle', headerName: 'Bowstyle', flex: 0.8, sortable: true },
 
         {
@@ -275,6 +287,7 @@ export default function RecordsManagement({ scores }: { scores: Score[] }) {
 
     const rows = scores.map((score, idx) => ({
         id: score.id ?? idx, // Ensure each row has a unique id
+        userId: score.user.id,
         name: score.user.name,
         bowstyle: EnumMappings[score.bowstyle] || score.bowstyle,
         ageCategory: score.ageCategory || "SENIOR",

@@ -93,6 +93,11 @@ async function Records() {
                         : (score.processedAt instanceof Date
                             ? score.processedAt.toISOString()
                             : score.processedAt),
+                    user: {
+                        id: score.userId,
+                        name: score.user?.name,
+                        email: score.user?.email,
+                    },
                 }))} />
             )}
         </div>
