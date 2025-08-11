@@ -6,4 +6,5 @@ export type Overview = {
     outdoorBadgeGiven?: string;
     indoorHandicap?: number;
     outdoorHandicap?: number;
+    notes: string;
 };

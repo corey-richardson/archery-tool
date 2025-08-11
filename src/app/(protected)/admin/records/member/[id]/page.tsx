@@ -1,10 +1,13 @@
 import RecordsManagement from "../../../components/RecordsManagement";
 import prisma from "@/app/lib/prisma";
+import RecordsOverviewManagement from "../../../components/RecordsOverviewManagement";
 
 const RecordProfile = async ({ params, searchParams }: { params: { id: string }; searchParams: { [key: string]: string | undefined } }) => {
-    const userId = await params.id;
-    console.log(userId);
-    console.log(searchParams.name);
+    const p = await params;
+    const sp = await searchParams;
+
+    const userId = p.id;
+    const userName = sp.name;
 
     let scores: Array<any> = [];
     try {
@@ -26,11 +29,11 @@ const RecordProfile = async ({ params, searchParams }: { params: { id: string };
     return (
         <div style={{ margin: '0 auto', padding: '2rem 3rem' }}>
 
-            <h2 style={{ marginBottom: '2rem' }}>Records Overview for { searchParams.name }:</h2>
-            <p>todo</p>
+            <h2 style={{ marginBottom: '2rem' }}>Records Overview for { userName }:</h2>
+            <RecordsOverviewManagement userId={userId} />
 
-            <h2 style={{ marginBottom: '2rem', marginTop: '2rem' }}>Scores submitted by { searchParams.name }:</h2>
-            <RecordsManagement scores={scores}/>
+            <h2 style={{ marginBottom: '2rem', marginTop: '2rem' }}>Scores submitted by { userName }:</h2>
+            <RecordsManagement initialScores={scores} />
         </div>
     );
 }

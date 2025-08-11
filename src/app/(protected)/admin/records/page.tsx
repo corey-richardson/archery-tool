@@ -68,6 +68,16 @@ async function Records() {
         }
     })
 
+    const filterModel = {
+        items: [
+            {
+                field: 'processedAt',
+                operator: 'isEmpty',
+                id: 1,
+            },
+        ],
+    };
+
     return (
         <div style={{ margin: '0 auto', padding: '2rem 3rem' }}>
             <h2 style={{ marginBottom: '2rem' }}>Submitted Scores.</h2>
@@ -75,7 +85,7 @@ async function Records() {
             {scores.length === 0 ? (
                 <p>No scores found.</p>
             ) : (
-                <RecordsManagement scores={scores.map(score => ({
+                <RecordsManagement initialScores={scores.map(score => ({
                     ...score,
                     dateShot: score.dateShot instanceof Date ? score.dateShot.toISOString() : score.dateShot,
                     xs: score.xs === null ? undefined : score.xs,
@@ -98,7 +108,7 @@ async function Records() {
                         name: score.user?.name,
                         email: score.user?.email,
                     },
-                }))} />
+                }))} filterModel={filterModel} />
             )}
         </div>
     );

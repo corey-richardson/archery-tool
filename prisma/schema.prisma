@@ -143,6 +143,7 @@ model RecordsSummary {
   outdoorBadgeGiven     OutdoorClassification?
   indoorHandicap        Int?
   outdoorHandicap       Int?
+  notes                 String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

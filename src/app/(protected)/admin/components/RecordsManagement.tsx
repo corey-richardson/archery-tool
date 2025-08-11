@@ -44,7 +44,7 @@ const HandicapInput = ({ scoreId, initialValue }: { scoreId: string, initialValu
         <input
             type="number"
             value={handicap}
-            min="0" max="100" step="1"
+            min="0" max="150" step="1"
             onChange={e => setHandicap(e.target.value === '' ? '' : Number(e.target.value))}
             onBlur={handleBlur}
             style={{ width: '100%', boxSizing: 'border-box' }}
@@ -109,7 +109,7 @@ const AgeCategorySelect = ({ score }: { score: any }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update handicap');
+                throw new Error('Failed to update age category');
             }
         } catch (error) {
             setCurrentAgeCategory(score.ageCategory);
@@ -169,7 +169,7 @@ const NotesInput = ({ score }: { score: any }) => {
 }
 
 
-const ProcessButton = ({ score }: { score: any }) => {
+const ProcessButton = ({ score, onProcessed }: { score: any; onProcessed: (scoreId: string) => void }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
     const handleProcess = async () => {
@@ -185,11 +185,12 @@ const ProcessButton = ({ score }: { score: any }) => {
             if (!response.ok) {
                 throw new Error('Failed to process score');
             }
+
+            onProcessed(score.id);
         } catch (error) {
             console.error('Error processing score:', error);
         } finally {
             setIsProcessing(false);
-            window.location.reload();
         }
     };
 
@@ -214,7 +215,10 @@ const ProcessButton = ({ score }: { score: any }) => {
 };
 
 
-export default function RecordsManagement({ scores }: { scores: Score[] }) {
+export default function RecordsManagement({ initialScores, filterModel }: { initialScores: Score[], filterModel?: any }) {
+
+    const [ scores, setScores ] = useState(initialScores);
+
     const columns: GridColDef[] = [
         {
             field: 'name',
@@ -253,19 +257,19 @@ export default function RecordsManagement({ scores }: { scores: Score[] }) {
         { field: 'competitionLevel', headerName: 'Competition Level', flex: 0.8, sortable: false },
 
         {
-            field: 'roundClassification',
-            headerName: 'Classification',
-            flex: 1,
-            sortable: false,
-            renderCell: (params) => <ClassificationSelect score={params.row} />
-        },
-
-        {
             field: 'roundHandicap',
             headerName: 'Handicap',
             flex: 0.6,
             sortable: false,
             renderCell: (params) => <HandicapInput scoreId={params.row.id} initialValue={params.value ?? ''} />
+        },
+
+        {
+            field: 'roundClassification',
+            headerName: 'Classification',
+            flex: 1,
+            sortable: false,
+            renderCell: (params) => <ClassificationSelect score={params.row} />
         },
 
         {
@@ -281,7 +285,18 @@ export default function RecordsManagement({ scores }: { scores: Score[] }) {
             headerName: 'Process',
             flex: 0.8,
             sortable: false,
-            renderCell: (params) => <ProcessButton score={params.row} />
+            renderCell: (params) => <ProcessButton
+                score={params.row}
+                onProcessed={(scoreId: string) => {
+                    setScores(prevScores =>
+                        prevScores.map(score =>
+                            score.id === scoreId
+                                ? { ...score, processedAt: new Date().toISOString() }
+                                : score
+                        )
+                    );
+                }}
+            />
         },
     ]
 
@@ -317,17 +332,7 @@ export default function RecordsManagement({ scores }: { scores: Score[] }) {
             getRowHeight={() => 'auto'}
             initialState={{
                 pagination: { paginationModel: { pageSize: 10, page: 0 } },
-                filter: {
-                    filterModel: {
-                        items: [
-                            {
-                                field: 'processedAt',
-                                operator: 'isEmpty',
-                                id: 1,
-                            },
-                        ],
-                    },
-                },
+                filter: { filterModel: filterModel ?? { items: [] } },
             }}
             pageSizeOptions={[10, 25, 50]}
             disableRowSelectionOnClick
