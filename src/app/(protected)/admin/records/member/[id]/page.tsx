@@ -1,13 +1,28 @@
 import RecordsManagement from "../../../components/RecordsManagement";
 import prisma from "@/app/lib/prisma";
 import RecordsOverviewManagement from "../../../components/RecordsOverviewManagement";
+import { Metadata } from "next";
 
-const RecordProfile = async ({ params, searchParams }: { params: { id: string }; searchParams: { [key: string]: string | undefined } }) => {
+type props = {
+    params: { id: string }
+    searchParams: { [key: string]: string | undefined }
+}
+
+export async function generateMetadata(
+    { searchParams }: props
+): Promise<Metadata> {
+    const userName = searchParams.name ?? "Unknown User";
+    return {
+        title: userName,
+    }
+}
+
+const RecordProfile = async ({ params, searchParams }: props) => {
     const p = await params;
     const sp = await searchParams;
 
     const userId = p.id;
-    const userName = sp.name;
+    const userName = sp.name ?? "Unknown User";
 
     let scores: Array<any> = [];
     try {

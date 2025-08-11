@@ -1,3 +1,19 @@
+import { Metadata } from "next";
+
+type props = {
+    params: { id: string }
+    searchParams: { [key: string]: string | undefined }
+}
+
+export async function generateMetadata(
+    { searchParams }: props
+): Promise<Metadata> {
+    const userName = searchParams.name ?? "Unknown User";
+    return {
+        title: userName,
+    }
+}
+
 const MemberProfile = async ({ params }: { params: { id: string } }) => {
     const p = await params;
     const userId = p.id;

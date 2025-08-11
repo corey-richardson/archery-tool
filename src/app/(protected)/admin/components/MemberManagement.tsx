@@ -39,7 +39,7 @@ export default function MemberManagement({ club }: { club: Club }) {
             flex: 1,
             sortable: true,
             renderCell: (params) => (
-                <Link href={`/admin/members/member/${params.row.id}`}>
+                <Link href={`/admin/members/member/${params.row.id}?name=${encodeURIComponent(params.row.name)}`}>
                     {params.value || "Unknown"}
                 </Link>
             )

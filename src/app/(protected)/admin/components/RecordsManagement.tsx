@@ -380,9 +380,9 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
                 columns={columns}
                 getRowHeight={() => "auto"}
                 initialState={{
-                    pagination: { paginationModel: { pageSize: 10, page: 0 } },
+                    pagination: { paginationModel: { pageSize: 25, page: 0 } },
                 }}
-                pageSizeOptions={[10, 25, 50]}
+                pageSizeOptions={[10, 25, 50, 100]}
                 disableRowSelectionOnClick
             />
 

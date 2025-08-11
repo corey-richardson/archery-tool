@@ -25,7 +25,7 @@ const Club = ({ club, handleLeaveClub }: { club: ClubType, handleLeaveClub: () =
     return (
         <div className="clubcard">
             {isLink ? (
-                <Link href={`../admin/members/${club.id}`}><h3 className="left">{club.name}</h3></Link>
+                <Link href={`../admin/members/${club.id}?name=${encodeURIComponent(club.name)}`}><h3 className="left">{club.name}</h3></Link>
             ) : (
                 <h3 className="left">{club.name}</h3>
             )}

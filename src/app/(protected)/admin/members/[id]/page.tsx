@@ -5,10 +5,26 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
+import { Metadata } from "next";
 
-const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
+type props = {
+    params: { id: string }
+    searchParams: { [key: string]: string | undefined }
+}
+
+export async function generateMetadata(
+    { searchParams }: props
+): Promise<Metadata> {
+    const clubName = searchParams.name ?? "Unknown Club";
+    return {
+        title: clubName,
+    }
+}
+
+const MemberManagementPage = async ({ params, searchParams }: props) => {
     const p = await params;
     const clubId = p.id;
+    const clubName = searchParams.name ?? "Unknown Club";
 
     const session = await getServerSession(authOptions);
 
@@ -42,7 +58,7 @@ const MemberManagementPage = async ({ params }: { params: { id: string } }) => {
 
     return (
         <div className="content wider" style={{ margin: "0 auto", padding: "0 1rem" }}>
-            <h3>Manage Members for {club.club.name}.</h3>
+            <h3>Manage Members for {clubName}.</h3> {/** club.club.name */}
             <MemberManagementClient club={club} admin={admin} />
         </div>
     );
