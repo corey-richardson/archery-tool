@@ -444,6 +444,12 @@
     "body": "Unofficial"
   },
   {
+    "name": "252 10y",
+    "codename": "misc_252_10",
+    "location": "outdoor",
+    "body": "Unofficial"
+  },
+  {
     "name": "252 100y",
     "codename": "misc_252_100",
     "location": "outdoor",
