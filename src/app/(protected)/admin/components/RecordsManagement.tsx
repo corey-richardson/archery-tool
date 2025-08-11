@@ -215,9 +215,50 @@ const ProcessButton = ({ score, onProcessed }: { score: any; onProcessed: (score
 };
 
 
-export default function RecordsManagement({ initialScores, filterModel }: { initialScores: Score[], filterModel?: any }) {
+export default function RecordsManagement({ initialScores, initialFilterModel }: { initialScores: Score[], initialFilterModel?: any }) {
 
     const [ scores, setScores ] = useState(initialScores);
+    const [ filters, setFilters ] = useState({
+        processedStatus: initialFilterModel === 'unprocessed' ? 'unprocessed' : 'all',
+        roundType: 'all',
+        dateStart: '',
+        dateEnd: '',
+        searchTerm: ''
+    });
+
+    const filteredScores = scores.filter(score => {
+
+        if (filters.processedStatus === 'processed' && !score.processedAt) return false;
+        if (filters.processedStatus === 'unprocessed' && score.processedAt) return false;
+        
+        if (filters.roundType === 'indoor' && score.roundType !== 'INDOOR') return false;
+        if (filters.roundType === 'outdoor' && score.roundType !== 'OUTDOOR') return false;
+        
+        if (filters.dateStart && score.dateShot) {
+            const scoreDate = new Date(score.dateShot);
+            const startDate = new Date(filters.dateStart);
+            if (scoreDate < startDate) return false;
+        }
+        if (filters.dateEnd && score.dateShot) {
+            const scoreDate = new Date(score.dateShot);
+            const endDate = new Date(filters.dateEnd);
+            if (scoreDate > endDate) return false;
+        }
+        
+        if (filters.searchTerm) {
+            const searchLower = filters.searchTerm.toLowerCase();
+            const searchableText = [
+                score.user?.name,
+                score.roundName,
+                score.notes
+            ].join(' ').toLowerCase();
+            
+            if (!searchableText.includes(searchLower)) return false;
+        }
+        
+        return true;
+    });
+
 
     const columns: GridColDef[] = [
         {
@@ -245,7 +286,15 @@ export default function RecordsManagement({ initialScores, filterModel }: { init
 
         { field: 'sex', headerName: 'Sex', flex: 0.4, sortable: true },
 
-        { field: 'dateShot', headerName: 'Date Shot', flex: 0.8, sortable: true },
+        { 
+            field: 'dateShot',
+            headerName: 'Date Shot', 
+            flex: 0.8, 
+            sortable: true,
+            renderCell: (params) =>  new Date(params.value).toLocaleDateString()
+        },
+
+        { field: 'roundType', headerName: 'Round Type', flex: 0.6, sortable: true, filterable: true, renderCell: (params) => EnumMappings[params.value] },
         { field: 'roundName', headerName: 'Round Name', flex: 1, sortable: true },
 
         { field: 'score', headerName: 'Score', flex: 0.4, sortable: true },
@@ -300,14 +349,14 @@ export default function RecordsManagement({ initialScores, filterModel }: { init
         },
     ]
 
-    const rows = scores.map((score, idx) => ({
-        id: score.id ?? idx, // Ensure each row has a unique id
+    const rows = filteredScores.map((score, idx) => ({
+        id: score.id ?? idx,
         userId: score.user.id,
         name: score.user.name,
         bowstyle: EnumMappings[score.bowstyle] || score.bowstyle,
         ageCategory: score.ageCategory || "SENIOR",
         sex: score.sex !== undefined ? (EnumMappings[score.sex] || score.sex) : '',
-        dateShot: new Date(score.dateShot).toLocaleDateString(),
+        dateShot: score.dateShot,
         roundType: score.roundType,
         roundName: score.roundName,
         score: score.score,
@@ -322,20 +371,103 @@ export default function RecordsManagement({ initialScores, filterModel }: { init
         roundHandicap: score.roundHandicap,
         notes: score.notes,
         processedAt: score.processedAt,
-
     }));
 
     return (
-        <DataGrid
-            rows={rows}
-            columns={columns}
-            getRowHeight={() => 'auto'}
-            initialState={{
-                pagination: { paginationModel: { pageSize: 10, page: 0 } },
-                filter: { filterModel: filterModel ?? { items: [] } },
-            }}
-            pageSizeOptions={[10, 25, 50]}
-            disableRowSelectionOnClick
-        />
+        <>
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                getRowHeight={() => 'auto'}
+                initialState={{
+                    pagination: { paginationModel: { pageSize: 10, page: 0 } },
+                }}
+                pageSizeOptions={[10, 25, 50]}
+                disableRowSelectionOnClick
+            />
+
+            <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'right', alignItems: 'center' }}>
+                <div>
+                    <label style={{ fontWeight: 'bold', marginRight: '0.5rem' }}>Status:</label>
+                    <select
+                        value={filters.processedStatus}
+                        onChange={(e) => setFilters(prev => ({ ...prev, processedStatus: e.target.value }))}
+                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                    >
+                        <option value="all">All</option>
+                        <option value="processed">Processed</option>
+                        <option value="unprocessed">Unprocessed</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style={{ fontWeight: 'bold', marginRight: '0.5rem' }}>Venue:</label>
+                    <select
+                        value={filters.roundType}
+                        onChange={(e) => setFilters(prev => ({ ...prev, roundType: e.target.value }))}
+                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                    >
+                        <option value="all">All</option>
+                        <option value="indoor">Indoor</option>
+                        <option value="outdoor">Outdoor</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style={{ fontWeight: 'bold', marginRight: '0.5rem' }}>From:</label>
+                    <input
+                        type="date"
+                        value={filters.dateStart}
+                        onChange={(e) => setFilters(prev => ({ ...prev, dateStart: e.target.value }))}
+                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                    />
+                </div>
+
+                <div>
+                    <label style={{ fontWeight: 'bold', marginRight: '0.5rem' }}>To:</label>
+                    <input
+                        type="date"
+                        value={filters.dateEnd}
+                        onChange={(e) => setFilters(prev => ({ ...prev, dateEnd: e.target.value }))}
+                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                    />
+                </div>
+
+                <div>
+                    <label style={{ fontWeight: 'bold', marginRight: '0.5rem' }}>Search:</label>
+                    <input
+                        type="text"
+                        value={filters.searchTerm}
+                        onChange={(e) => setFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
+                        placeholder="Name, round, notes..."
+                        style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                    />
+                </div>
+
+                <button
+                    className='btn-secondary'
+                    onClick={() => setFilters({
+                        processedStatus: 'all',
+                        roundType: 'all', 
+                        dateStart: '',
+                        dateEnd: '',
+                        searchTerm: ''
+                    })}
+                    style={{ 
+                        padding: '0.5rem 1rem',
+                        borderRadius: '6px',
+                        border: '1px solid #ccc',
+                        backgroundColor: '#f5f5f5',
+                        cursor: 'pointer'
+                    }}
+                >
+                    Clear All
+                </button>
+
+                <span style={{ color: '#666', fontSize: '0.9em' }}>
+                    Showing {rows.length} of {scores.length} scores
+                </span>
+            </div>
+        </>
     );
 }

@@ -108,7 +108,7 @@ async function Records() {
                         name: score.user?.name,
                         email: score.user?.email,
                     },
-                }))} filterModel={filterModel} />
+                }))} />
             )}
         </div>
     );
