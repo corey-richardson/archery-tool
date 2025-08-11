@@ -3,6 +3,7 @@ import calculateAgeCategory from '@/app/lib/calculateAgeCategory';
 import { EnumMappings } from '@/app/lib/enumMappings';
 import { useState } from "react";
 import RolesCell from './RolesCell';
+import Link from 'next/link';
 
 interface Member {
   id: string;
@@ -32,7 +33,18 @@ export default function MemberManagement({ club }: { club: Club }) {
     const [ error, setError ] = useState<string | null>(null);
 
     const columns: GridColDef[] = [
-        { field: 'name', headerName: 'Name', flex: 1, sortable: true },
+        { 
+            field: 'name', 
+            headerName: 'Name', 
+            flex: 1, 
+            sortable: true,
+            renderCell: (params) => (
+                <Link href={`/admin/members/member/${params.row.id}`}>
+                    {params.value || 'Unknown'}
+                </Link>
+            ) 
+    },
+
         { field: 'email', headerName: 'Email', flex: 1, sortable: true },
         { field: 'archeryGBNumber', headerName: 'ArcheryGB Number', flex: 1, sortable: true },
         { field: 'sex', headerName: 'Sex (+ Pronouns)', flex: 0.8, sortable: true },
