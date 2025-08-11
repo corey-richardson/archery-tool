@@ -12,6 +12,10 @@ const outdoorClassifications = [
     'A3', 'A2', 'A1', 'B3', 'B2', 'B1', 'MB', 'GMB', 'EMB', 'UNCLASSIFIED'
 ];
 
+const ageCategories = [
+    "UNDER_12", "UNDER_14", "UNDER_15", "UNDER_16", "UNDER_18", "UNDER_21", "SENIOR", "OVER_FIFTY"
+];
+
 
 const HandicapInput = ({ scoreId, initialValue }: { scoreId: string, initialValue: number | '' }) => {
     const [handicap, setHandicap] = useState<number | ''>(initialValue);
@@ -89,6 +93,81 @@ const ClassificationSelect = ({ score }: { score: any }) => {
 };
 
 
+const AgeCategorySelect = ({ score }: { score: any }) => {
+    const [ currentAgeCategory, setCurrentAgeCategory ] = useState(score.ageCategory || "SENIOR");
+
+    const handleChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const newAgeCategory = event.target.value;
+        setCurrentAgeCategory(newAgeCategory);
+
+        try {
+            const response = await fetch(`/api/scores/${score.id}/age-category`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ageCategory: newAgeCategory }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update handicap');
+            }
+        } catch (error) {
+            setCurrentAgeCategory(score.ageCategory);
+            console.error(error);
+        }
+    }
+
+    return (
+        <select value={currentAgeCategory} onChange={handleChange} style={{ width: '100%', textAlign: 'center' }}>
+            <option value="" disabled>-</option>
+            {ageCategories.map(ageCat => (
+                <option key={ageCat} value={ageCat}>
+                    {EnumMappings[ageCat] || ageCat}
+                </option>
+            ))}
+        </select>
+    );
+}
+
+
+const NotesInput = ({ score }: { score: any }) => {
+    const [ currentNote, setCurrentNote ] = useState(score.notes || "");
+
+    const handleBlur = async () => {
+        if (currentNote === (score.notes || "")) return; // no change
+
+        try {
+            const response = await fetch(`/api/scores/${score.id}/note`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ note: currentNote }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update note');
+            }
+        } catch (error) {
+            setCurrentNote(score.notes || "");
+            console.error(error);
+        }
+    }
+
+    return (
+        <textarea
+            value={currentNote}
+            onChange={(e) => setCurrentNote(e.target.value)}
+            onBlur={handleBlur}
+            onKeyDown={(e) => e.stopPropagation()}
+            onKeyUp={(e) => e.stopPropagation()}
+            style={{
+                width: "100%",
+                maxHeight: "120px",
+                resize: "vertical"
+            }}
+        />
+    )
+}
+
+
 const ProcessButton = ({ score }: { score: any }) => {
     const [isProcessing, setIsProcessing] = useState(false);
 
@@ -138,7 +217,16 @@ export default function RecordsManagement({ scores }: { scores: Score[] }) {
     const columns: GridColDef[] = [
         { field: 'name', headerName: 'Name', flex: 0.8, sortable: true },
         { field: 'bowstyle', headerName: 'Bowstyle', flex: 0.8, sortable: true },
-        { field: 'ageCategory', headerName: 'Age Category', flex: 0.7, sortable: true },
+
+        {
+            field: 'ageCategory',
+            headerName: 'Age Category',
+            flex: 0.7,
+            sortable: true,
+
+            renderCell: (params) => <AgeCategorySelect score={params.row} />
+        },
+
         { field: 'sex', headerName: 'Sex', flex: 0.4, sortable: true },
 
         { field: 'dateShot', headerName: 'Date Shot', flex: 0.8, sortable: true },
@@ -168,7 +256,13 @@ export default function RecordsManagement({ scores }: { scores: Score[] }) {
             renderCell: (params) => <HandicapInput scoreId={params.row.id} initialValue={params.value ?? ''} />
         },
 
-        { field: 'notes', headerName: 'Notes', flex: 1, sortable: true },
+        {
+            field: 'notes',
+            headerName: 'Notes',
+            flex: 1,
+            sortable: true,
+            renderCell: (params) => <NotesInput score={params.row} />
+        },
 
         {
             field: 'processedAt',
@@ -183,7 +277,7 @@ export default function RecordsManagement({ scores }: { scores: Score[] }) {
         id: score.id ?? idx, // Ensure each row has a unique id
         name: score.user.name,
         bowstyle: EnumMappings[score.bowstyle] || score.bowstyle,
-        ageCategory: EnumMappings[score.ageCategory] || score.ageCategory,
+        ageCategory: score.ageCategory || "SENIOR",
         sex: score.sex !== undefined ? (EnumMappings[score.sex] || score.sex) : '',
         dateShot: new Date(score.dateShot).toLocaleDateString(),
         roundType: score.roundType,
