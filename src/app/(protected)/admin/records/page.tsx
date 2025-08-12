@@ -1,26 +1,14 @@
-import { authOptions } from "@/app/api/auth/authOptions";
 import { Metadata } from "next";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import prisma from "@/app/lib/prisma";
 import RecordsManagement from "../components/RecordsManagement";
+import { requireRecordsAccess } from "@/app/actions/requireAccess";
 
 export const metadata: Metadata = {
     title: "Records",
 };
 
 async function Records() {
-    const session = await getServerSession(authOptions);
-
-    const activeMembership = session?.user?.memberships?.find(
-        (m: any) => m.endedAt === null
-    );
-
-    const hasRecordsAccess = activeMembership && (activeMembership.roles.includes("ADMIN") || activeMembership.roles.includes("CAPTAIN") || activeMembership.roles.includes("RECORDS"));
-
-    if (!session || !hasRecordsAccess) {
-        redirect("/unauthorised?reason=not-authorised-for-records");
-    }
+    await requireRecordsAccess();
 
     const userId = session.user.id;
 

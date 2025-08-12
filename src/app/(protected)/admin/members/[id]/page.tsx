@@ -3,9 +3,8 @@ import MemberManagementClient from "../../components/MemberManagementClient";
 import { baseUrl } from "@/app/lib/constants";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/authOptions";
 import { Metadata } from "next";
+import { requireCaptainsAccess, checkAdminsAccess } from "@/app/actions/requireAccess";
 
 type props = {
     params: { id: string }
@@ -23,24 +22,13 @@ export async function generateMetadata(
 }
 
 const MemberManagementPage = async ({ params, searchParams }: props) => {
+    await requireCaptainsAccess();
+    const admin = await checkAdminsAccess();
+
     const p = await params;
     const sp = await searchParams;
     const clubId = p.id;
     const clubName = sp.name ?? "Unknown Club";
-
-    const session = await getServerSession(authOptions);
-
-    const admin = session?.user?.memberships?.some(
-        (m: any) => { return m.clubId === clubId && m.endedAt ===null && m.roles.includes("ADMIN");}
-    );
-    const captain = session?.user?.memberships?.some(
-        (m: any) => { return m.clubId === clubId && m.endedAt ===null && m.roles.includes("CAPTAIN"); }
-    );
-
-    if (!session || !(admin || captain) ) {
-        redirect("/unauthorised?reason=not-an-admin");
-        return;
-    }
 
     const cookieStore = await cookies();
     const cookieHeader = cookieStore.getAll().map(c => `${c.name}=${c.value}`).join("; ");

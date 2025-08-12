@@ -4,18 +4,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import MemberManagement from "./MemberManagement";
 import { InviteForm } from "./InviteForm";
 import OutgoingInvites from "./OutgoingInvites";
-
-type Invite = {
-    id: string;
-    archeryGBNumber?: string;
-    user?: {
-        archeryGBNumber?: string;
-        name?: string;
-    };
-    createdAt: string;
-};
+import { Invite } from "@prisma/client";
 
 export default function MemberManagementClient({ club, admin }: { club: any, admin: boolean }) {
+
     const [ deleting, setDeleting ] = useState(false);
     const [ showDialog, setShowDialog ] = useState(false);
     const [ error, setError ] = useState<string | null>(null);

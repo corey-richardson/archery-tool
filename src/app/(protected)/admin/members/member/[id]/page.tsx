@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import ProfileClient from "./ProfileClient";
+import { requireCaptainsAccess } from "@/app/actions/requireAccess";
 
 type props = {
     params: { id: string }
@@ -17,6 +18,8 @@ export async function generateMetadata(
 }
 
 const MemberProfile = async ({ params, searchParams }: props) => {
+    await requireCaptainsAccess();
+
     const p = await params;
     const userId = p.id;
     const sp = await searchParams;

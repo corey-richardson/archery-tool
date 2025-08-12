@@ -2,6 +2,7 @@ import RecordsManagement from "../../../components/RecordsManagement";
 import prisma from "@/app/lib/prisma";
 import RecordsOverviewManagement from "../../../components/RecordsOverviewManagement";
 import { Metadata } from "next";
+import { requireRecordsAccess } from "@/app/actions/requireAccess";
 
 type props = {
     params: { id: string }
@@ -19,6 +20,8 @@ export async function generateMetadata(
 }
 
 const RecordProfile = async ({ params, searchParams }: props) => {
+    await requireRecordsAccess();
+
     const p = await params;
     const sp = await searchParams;
 
