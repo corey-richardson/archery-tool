@@ -224,7 +224,14 @@ export default function ProfileDetailsForm({ user }: { user: User }) {
     };
 
     return (
-        <div style={{ padding: "0 1rem" }}>
+        <div
+            style={{
+                padding: "0 1rem",
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                gap: "1rem"
+            }}
+        >
             <div style={{ marginBottom: "1rem" }}>
                 <label style={{ fontWeight: "bold", display: "block", marginBottom: "4px" }}>
                     Name:
