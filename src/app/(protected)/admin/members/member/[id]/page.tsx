@@ -8,7 +8,8 @@ type props = {
 export async function generateMetadata(
     { searchParams }: props
 ): Promise<Metadata> {
-    const userName = searchParams.name ?? "Unknown User";
+    const sp = await searchParams;
+    const userName = sp.name ?? "Unknown User";
     return {
         title: userName,
     }

@@ -9,7 +9,8 @@ export async function GET(request: NextRequest) {
 
     try {
         const { searchParams } = new URL(request.url);
-        const type = searchParams.get("type");
+        const sp = await searchParams;
+        const type = sp.get("type");
 
         if (!type) {
             return NextResponse.json({ error: "Type parameter is required" }, { status: 400 });

@@ -6,7 +6,8 @@ export async function GET(request: Request) {
     await requireLoggedInUser();
 
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
+    const sp = await searchParams;
+    const userId = sp.get("userId");
 
     if (!userId) {
         return NextResponse.json({ error: "Missing userId" }, { status: 400 });

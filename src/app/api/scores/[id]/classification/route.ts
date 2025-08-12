@@ -10,7 +10,9 @@ export async function PUT(request: NextRequest, { params }: Params) {
     await requireRecordsUserOrHigher();
 
     try {
-        const scoreId = params.id;
+        const p = await params;
+        const scoreId = p.id
+        
         const body = await request.json();
         const { roundType, roundClassification } = body;
 

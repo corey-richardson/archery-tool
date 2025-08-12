@@ -15,7 +15,8 @@ type props = {
 export async function generateMetadata(
     { searchParams }: props
 ): Promise<Metadata> {
-    const clubName = searchParams.name ?? "Unknown Club";
+    const sp = await searchParams;
+    const clubName = sp.name ?? "Unknown Club";
     return {
         title: clubName,
     }
@@ -23,8 +24,9 @@ export async function generateMetadata(
 
 const MemberManagementPage = async ({ params, searchParams }: props) => {
     const p = await params;
+    const sp = await searchParams;
     const clubId = p.id;
-    const clubName = searchParams.name ?? "Unknown Club";
+    const clubName = sp.name ?? "Unknown Club";
 
     const session = await getServerSession(authOptions);
 
