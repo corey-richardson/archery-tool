@@ -16,9 +16,9 @@ export async function GET() {
 
         const currentUser = await prisma.user.findUnique({
             where: { id: session.user.id },
-            select: { 
+            select: {
                 id: true,
-                archeryGBNumber: true 
+                archeryGBNumber: true
             }
         });
 
@@ -30,7 +30,7 @@ export async function GET() {
             status: "PENDING" as const,
             OR: [
                 { userId: currentUser.id },
-                ...(currentUser.archeryGBNumber ? [{ archeryGBNumber: currentUser.archeryGBNumber }] : [])
+                ...(currentUser.archeryGBNumber ? [ { archeryGBNumber: currentUser.archeryGBNumber } ] : [])
             ]
         };
 
