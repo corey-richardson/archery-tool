@@ -4,7 +4,16 @@ import React, { useState, useEffect, useCallback } from "react";
 import MemberManagement from "./MemberManagement";
 import { InviteForm } from "./InviteForm";
 import OutgoingInvites from "./OutgoingInvites";
-import { Invite } from "@prisma/client";
+
+type Invite = {
+    id: string;
+    archeryGBNumber?: string;
+    user?: {
+        archeryGBNumber?: string;
+        name?: string;
+    };
+    createdAt: string;
+};
 
 export default function MemberManagementClient({ club, admin }: { club: any, admin: boolean }) {
 
