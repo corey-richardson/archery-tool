@@ -23,17 +23,17 @@ const EmergencyContactsForm = ({user} : any) => {
     const [ newContactPhone, setNewContactPhone ] = useState<string>("");
     const [ newContactEmail, setNewContactEmail ] = useState<string>("");
     const [ newContactRelationship, setNewContactRelationship ] = useState<string>("NOT_SET");
-    const [ pendingChanges, setPendingChanges] = useState<string[]>([]);
+    const [ pendingChanges, setPendingChanges ] = useState<string[]>([]);
 
     // Foldable contact state: only one open at a time
-    const [openContactIdx, setOpenContactIdx] = useState<number | null>(null);
+    const [ openContactIdx, setOpenContactIdx ] = useState<number | null>(null);
     const toggleContact = (idx: number) => setOpenContactIdx(openContactIdx === idx ? null : idx);
 
     const fetchContacts = useCallback(async () => {
         const res = await fetch(`/api/ice-details/${user.id}`);
         const data = await res.json();
         setContacts(data);
-    }, [user.id]);
+    }, [ user.id ]);
 
 
     const handleContactChange = (index: number, field: keyof Contact, value: string) => {
@@ -43,7 +43,7 @@ const EmergencyContactsForm = ({user} : any) => {
             )
         );
         const contactId = contacts[index].id;
-        setPendingChanges(prev => prev.includes(contactId) ? prev : [...prev, contactId]);
+        setPendingChanges(prev => prev.includes(contactId) ? prev : [ ...prev, contactId ]);
     };
 
 
@@ -105,7 +105,7 @@ const EmergencyContactsForm = ({user} : any) => {
 
     useEffect(() => {
         fetchContacts();
-    }, [fetchContacts]);
+    }, [ fetchContacts ]);
 
     return (
         <div>

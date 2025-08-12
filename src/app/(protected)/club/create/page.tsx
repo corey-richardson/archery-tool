@@ -9,7 +9,7 @@ function CreateClub() {
     const [ creatorId, setCreatorId ] = useState("");
     const [ clubName, setClubName ] = useState("");
     const [ changesPending, setChangesPending ] = useState(false);
-    const [ isPending, setIsPending] = useState(false);
+    const [ isPending, setIsPending ] = useState(false);
 
 
     // Session refresh function

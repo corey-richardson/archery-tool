@@ -11,7 +11,7 @@ type ClubcardProps = {
 export default function ClubCards( { userId } : ClubcardProps ) {
 
     const [ clubs, setClubs ] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [ isLoading, setIsLoading ] = useState(true);
 
     useEffect(() => {
         const fetchUsersClubs = async () => {
@@ -21,7 +21,7 @@ export default function ClubCards( { userId } : ClubcardProps ) {
             setIsLoading(false);
         }
         fetchUsersClubs();
-    }, [userId]);
+    }, [ userId ]);
 
     const handleLeaveClub = async (clubId: string) => {
         try {

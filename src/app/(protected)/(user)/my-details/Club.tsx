@@ -3,7 +3,7 @@ import Link from "next/link";
 import { EnumMappings } from "@/app/lib/enumMappings";
 import { useState } from "react";
 
-const rolePriority = ["ADMIN", "CAPTAIN", "RECORDS", "COACH", "MEMBER"];
+const rolePriority = [ "ADMIN", "CAPTAIN", "RECORDS", "COACH", "MEMBER" ];
 
 const Club = ({ club, handleLeaveClub }: { club: ClubType, handleLeaveClub: () => Promise<{success: boolean, error?: string}> }) => {
     const [ leaving, setLeaving ] = useState(false);
@@ -11,7 +11,7 @@ const Club = ({ club, handleLeaveClub }: { club: ClubType, handleLeaveClub: () =
     const [ showConfirm, setShowConfirm ] = useState(false);
 
     const userRole = rolePriority.find(role => club.membershipDetails.roles.includes(role));
-    const isLink = ["ADMIN", "CAPTAIN"].some(role => club.membershipDetails.roles.includes(role));
+    const isLink = [ "ADMIN", "CAPTAIN" ].some(role => club.membershipDetails.roles.includes(role));
 
     const onLeaveClub = async () => {
         setLeaving(true);

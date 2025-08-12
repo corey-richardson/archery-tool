@@ -27,7 +27,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
     const [ nines, setNines ] = useState("");
     const [ hits, setHits ] = useState("");
     const [ notes, setNotes ] = useState("");
-    const [ ageCategory, setAgeCategory] = useState("SENIOR");
+    const [ ageCategory, setAgeCategory ] = useState("SENIOR");
     const [ sex, setSex ] = useState("NOT_SET");
 
 
@@ -64,7 +64,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
         }
         fetchUser();
 
-    }, [userId]);
+    }, [ userId ]);
 
 
     // Fetch rounds when round type changes
@@ -114,7 +114,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
 
         fetchRounds(roundType);
         setRoundName("");
-    }, [roundType, fetchRounds]);
+    }, [ roundType, fetchRounds ]);
 
 
     const bowstyleOptions = useMemo(() => [

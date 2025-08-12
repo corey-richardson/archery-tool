@@ -38,7 +38,7 @@ export default function ProfileClient({ id }: { id: string }) {
         };
 
         fetchData();
-    }, [id]);
+    }, [ id ]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{ error }</p>

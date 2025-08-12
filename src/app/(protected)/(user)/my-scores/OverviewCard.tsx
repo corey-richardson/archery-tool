@@ -22,7 +22,7 @@ const OverviewCard = ({ userId }: { userId: string }) => {
             setIsLoading(false);
         }
         fetchUserOverview();
-    }, [userId]);
+    }, [ userId ]);
 
     if (isLoading) return (
         <div className="content">

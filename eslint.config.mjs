@@ -37,6 +37,7 @@ const eslintConfig = [
       "no-tabs": "error", // Disallow tabs
       "no-mixed-spaces-and-tabs": "error", // Disallow mixed spaces and tabs
       "no-trailing-spaces": "error", // Disallow trailing whitespace
+      "array-bracket-spacing": ["error", "always"],
     },
   },
 ];

@@ -28,7 +28,7 @@ async function Records() {
         where: {
             userId,
             roles: {
-                hasSome: ["ADMIN", "RECORDS"],
+                hasSome: [ "ADMIN", "RECORDS" ],
             },
             endedAt: null,
         },
@@ -49,7 +49,7 @@ async function Records() {
         },
     });
 
-    const memberIds = [...new Set(members.map(m => m.userId))];
+    const memberIds = [ ...new Set(members.map(m => m.userId)) ];
 
     const scores = await prisma.scores.findMany({
         where: {

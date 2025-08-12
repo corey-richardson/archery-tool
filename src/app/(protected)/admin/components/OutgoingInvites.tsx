@@ -19,8 +19,8 @@ interface OutgoingInvitesProps {
 }
 
 export default function OutgoingInvites({ invites, loading, handleRescind }: OutgoingInvitesProps) {
-    const [error] = useState<string | null>(null);
-    const [rescindingId] = useState<string | null>(null);
+    const [ error ] = useState<string | null>(null);
+    const [ rescindingId ] = useState<string | null>(null);
 
     return (
         <div>

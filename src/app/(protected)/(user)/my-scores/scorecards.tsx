@@ -10,13 +10,13 @@ type ScorecardsProps = {
 };
 
 export default function Scorecards({ userId, onDeletion }: ScorecardsProps) {
-    const [scores, setScores] = useState<Score[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [ scores, setScores ] = useState<Score[]>([]);
+    const [ isLoading, setIsLoading ] = useState(true);
 
-    const [page, setPage] = useState(1);
+    const [ page, setPage ] = useState(1);
     const pageSize = 12;
-    const [hasMore, setHasMore] = useState(false);
-    const [totalPages, setTotalPages] = useState(1);
+    const [ hasMore, setHasMore ] = useState(false);
+    const [ totalPages, setTotalPages ] = useState(1);
 
     const cacheRef = useRef<{ [page: number]: { scores: Score[]; hasMore: boolean; totalPages: number } }>({});
 
@@ -56,7 +56,7 @@ export default function Scorecards({ userId, onDeletion }: ScorecardsProps) {
             setIsLoading(false);
         };
         fetchUsersScores();
-    }, [userId, page]);
+    }, [ userId, page ]);
 
     const handlePrev = () => {
         if (page > 1) setPage(page - 1);

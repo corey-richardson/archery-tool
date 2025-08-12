@@ -7,18 +7,18 @@ import { EnumMappings } from "@/app/lib/enumMappings";
 // Component
 const DetailsForm = ({userId} : any) => {
     // State
-    const [ refreshFlag, setRefreshFlag] = useState(false);
+    const [ refreshFlag, setRefreshFlag ] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ changesPending, setChangesPending ] = useState(false);
 
     const [ name, setName ] = useState("");
     const [ email, setEmail ] = useState("");
     const [ archeryGBNumber, setArcheryGBNumber ] = useState("");
-    const [ sex, setSex] = useState("NOT_SET");
+    const [ sex, setSex ] = useState("NOT_SET");
     const [ gender, setGender ] = useState("");
     const [ yearOfBirth, setYearOfBirth ] = useState("")
     const [ ageCat, setAgeCat ] = useState("");
-    const [ defaultBowstyle, setDefaultBowstyle] = useState("NOT_SET");
+    const [ defaultBowstyle, setDefaultBowstyle ] = useState("NOT_SET");
     const [ lastUpdated, setLastUpdated ] = useState("");
     const [ createdAt, setCreatedAt ] = useState("");
 
@@ -45,12 +45,12 @@ const DetailsForm = ({userId} : any) => {
 
         fetchUser();
 
-    }, [userId, refreshFlag]);
+    }, [ userId, refreshFlag ]);
 
     useEffect(() => {
         const year = parseInt(yearOfBirth);
         setAgeCat(calculateAgeCategory(year, true));
-    }, [yearOfBirth]);
+    }, [ yearOfBirth ]);
 
     // Handlers
     const handleInputChange = useCallback(

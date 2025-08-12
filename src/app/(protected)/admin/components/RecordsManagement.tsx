@@ -19,7 +19,7 @@ const ageCategories = [
 
 
 const HandicapInput = ({ scoreId, initialValue }: { scoreId: string, initialValue: number | "" }) => {
-    const [handicap, setHandicap] = useState<number | "">(initialValue);
+    const [ handicap, setHandicap ] = useState<number | "">(initialValue);
 
     const handleBlur = async () => {
         if (handicap === initialValue) return; // no change
@@ -58,7 +58,7 @@ const ClassificationSelect = ({ score }: { score: any }) => {
         ? score.roundIndoorClassification
         : score.roundOutdoorClassification;
 
-    const [selected, setSelected] = useState(currentClassification || "");
+    const [ selected, setSelected ] = useState(currentClassification || "");
     const options = score.roundType === "INDOOR" ? indoorClassifications : outdoorClassifications;
 
     const handleChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -170,7 +170,7 @@ const NotesInput = ({ score }: { score: any }) => {
 
 
 const ProcessButton = ({ score, onProcessed }: { score: any; onProcessed: (scoreId: string) => void }) => {
-    const [isProcessing, setIsProcessing] = useState(false);
+    const [ isProcessing, setIsProcessing ] = useState(false);
 
     const handleProcess = async () => {
         setIsProcessing(true);
@@ -382,7 +382,7 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
                 initialState={{
                     pagination: { paginationModel: { pageSize: 25, page: 0 } },
                 }}
-                pageSizeOptions={[10, 25, 50, 100]}
+                pageSizeOptions={[ 10, 25, 50, 100 ]}
                 disableRowSelectionOnClick
             />
 

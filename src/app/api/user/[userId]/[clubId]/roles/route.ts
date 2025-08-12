@@ -10,7 +10,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const url = req.nextUrl.pathname;
-    const [, , , userId, clubId] = url.split("/"); // ['', 'api', 'user', userId, clubId, 'roles']
+    const [ , , , userId, clubId ] = url.split("/"); // ['', 'api', 'user', userId, clubId, 'roles']
 
     const { roles } = await req.json();
 

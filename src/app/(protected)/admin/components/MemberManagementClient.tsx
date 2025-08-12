@@ -16,12 +16,12 @@ type Invite = {
 };
 
 export default function MemberManagementClient({ club, admin }: { club: any, admin: boolean }) {
-    const [deleting, setDeleting] = useState(false);
-    const [showDialog, setShowDialog] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const [confirmDeletion, setConfirmDeletion] = useState("");
-    const [invites, setInvites] = useState<Invite[]>([]);
-    const [loadingInvites, setLoadingInvites] = useState(true);
+    const [ deleting, setDeleting ] = useState(false);
+    const [ showDialog, setShowDialog ] = useState(false);
+    const [ error, setError ] = useState<string | null>(null);
+    const [ confirmDeletion, setConfirmDeletion ] = useState("");
+    const [ invites, setInvites ] = useState<Invite[]>([]);
+    const [ loadingInvites, setLoadingInvites ] = useState(true);
 
     const fetchInvites = useCallback(async () => {
         setLoadingInvites(true);
@@ -35,11 +35,11 @@ export default function MemberManagementClient({ club, admin }: { club: any, adm
             setError("Failed to load invites: " + error);
         }
         setLoadingInvites(false);
-    }, [club.club.id]);
+    }, [ club.club.id ]);
 
     useEffect(() => {
         fetchInvites();
-    }, [fetchInvites]);
+    }, [ fetchInvites ]);
 
     const handleInviteSubmitted = () => {
         fetchInvites();

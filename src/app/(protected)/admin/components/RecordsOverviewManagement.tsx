@@ -177,7 +177,7 @@ export default function RecordsOverviewManagement({ userId }: { userId: string})
             setIsLoading(false);
         }
         fetchUserOverview();
-    }, [userId]);
+    }, [ userId ]);
 
     if (isLoading) return (
         <div className="content">
@@ -252,19 +252,19 @@ export default function RecordsOverviewManagement({ userId }: { userId: string})
         },
     ]
 
-    const indoorRow = [{
+    const indoorRow = [ {
         id: userId,
         indoorClassification: overview.indoorClassification,
         indoorBadgeGiven: overview.indoorBadgeGiven,
         indoorHandicap: overview.indoorHandicap,
-    }];
+    } ];
 
-    const outdoorRow = [{
+    const outdoorRow = [ {
         id: userId,
         outdoorClassification: overview.outdoorClassification,
         outdoorBadgeGiven: overview.outdoorBadgeGiven,
         outdoorHandicap: overview.outdoorHandicap,
-    }];
+    } ];
 
     return (
         <>

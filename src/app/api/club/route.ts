@@ -111,7 +111,7 @@ export async function POST (req: Request) {
         data: {
             userId: creatorId,
             clubId: createdClub.id,
-            roles: ["MEMBER", "ADMIN", ],
+            roles: [ "MEMBER", "ADMIN", ],
         }
     })
 

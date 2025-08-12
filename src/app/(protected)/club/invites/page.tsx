@@ -10,10 +10,10 @@ type Invite = {
 };
 
 const ClubInvites = () => {
-    const [invites, setInvites] = useState<Invite[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [actionLoading, setActionLoading] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [ invites, setInvites ] = useState<Invite[]>([]);
+    const [ loading, setLoading ] = useState(true);
+    const [ actionLoading, setActionLoading ] = useState<string | null>(null);
+    const [ error, setError ] = useState<string | null>(null);
 
     const fetchInvites = async () => {
         setLoading(true);

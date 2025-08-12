@@ -37,7 +37,7 @@ export async function POST(req: Request, { params }: { params: { inviteId: strin
         data: {
             userId: session.user.id,
             clubId: invite.clubId,
-            roles: ["MEMBER"],
+            roles: [ "MEMBER" ],
         },
     });
 

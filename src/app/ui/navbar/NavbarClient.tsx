@@ -8,7 +8,7 @@ import clsx from "clsx";
 
 import { APP_NAME } from "@/app/lib/constants";
 
-const roleHierarchy = ["MEMBER", "COACH", "RECORDS", "CAPTAIN", "ADMIN"];
+const roleHierarchy = [ "MEMBER", "COACH", "RECORDS", "CAPTAIN", "ADMIN" ];
 
 const navLinks = [
     { href: "/my-details", label: "My Details" },
@@ -26,7 +26,7 @@ function getHighestRole(roles: string[]): string {
 }
 
 export default function NavbarClient({ session }: { session: any }) {
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [ menuOpen, setMenuOpen ] = useState(false);
     const pathname = usePathname();
 
     const activeMembership = session?.user?.memberships?.find(

@@ -18,10 +18,10 @@ export async function GET(request: NextRequest, context: any) {
     const skip = (page - 1) * pageSize;
     const take = pageSize;
 
-    const [scores, total] = await Promise.all([
+    const [ scores, total ] = await Promise.all([
         prisma.scores.findMany({
             where: { userId },
-            orderBy: [{ dateShot: "desc" }, { submittedAt: "desc" }],
+            orderBy: [ { dateShot: "desc" }, { submittedAt: "desc" } ],
             skip,
             take,
         }),

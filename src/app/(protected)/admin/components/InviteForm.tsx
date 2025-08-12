@@ -4,12 +4,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { getSession } from "next-auth/react";
 
 export function InviteForm({ clubId, onInviteSubmitted }: { clubId: string; onInviteSubmitted?: () => void }) {
-    const [archeryGBNumber, setArcheryGBNumber] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [ archeryGBNumber, setArcheryGBNumber ] = useState("");
+    const [ loading, setLoading ] = useState(false);
+    const [ success, setSuccess ] = useState<string | null>(null);
+    const [ error, setError ] = useState<string | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-    const [userId, setUserId] = useState<string | undefined>(undefined);
+    const [ userId, setUserId ] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         getSession().then(session => {

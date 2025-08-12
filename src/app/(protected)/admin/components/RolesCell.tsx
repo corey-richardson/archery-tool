@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { EnumMappings } from "@/app/lib/enumMappings";
 
-const ALL_ROLES = ["ADMIN", "CAPTAIN", "RECORDS", "COACH", "MEMBER"];
+const ALL_ROLES = [ "ADMIN", "CAPTAIN", "RECORDS", "COACH", "MEMBER" ];
 
 export default function RolesCell({ value, row, clubId, setError }: { value: string[], row: any, clubId: string, setError: (err: string|null) => void }) {
 
-    const [localRoles, setLocalRoles] = useState<string[]>(value || []);
-    const [selectError, setSelectError] = useState(false);
+    const [ localRoles, setLocalRoles ] = useState<string[]>(value || []);
+    const [ selectError, setSelectError ] = useState(false);
 
     useEffect(() => {
         setLocalRoles(value || []);
-    }, [value]);
+    }, [ value ]);
 
     const handleChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedRoles = Array.from(event.target.selectedOptions).map(opt => opt.value);
