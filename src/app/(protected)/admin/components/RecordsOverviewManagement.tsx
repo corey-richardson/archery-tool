@@ -273,6 +273,7 @@ export default function RecordsOverviewManagement({ userId }: { userId: string})
                 rows={indoorRow}
                 columns={indoorColumns}
                 getRowHeight={() => "auto"}
+                hideFooter={true}
             />
 
             <h4 style={{ marginTop: "1rem", marginBottom: "0.5rem" }}>Outdoors:</h4>
@@ -280,6 +281,7 @@ export default function RecordsOverviewManagement({ userId }: { userId: string})
                 rows={outdoorRow}
                 columns={outdoorColumns}
                 getRowHeight={() => "auto"}
+                hideFooter={true}
             />
 
             <h4 style={{ marginTop: "1rem", marginBottom: "0.5rem" }}>Notes on user:</h4>
