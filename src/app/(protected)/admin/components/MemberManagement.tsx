@@ -4,6 +4,7 @@ import { EnumMappings } from "@/app/lib/enumMappings";
 import { useState } from "react";
 import RolesCell from "./RolesCell";
 import Link from "next/link";
+import { checkAdminsAccess } from "@/app/actions/requireAccess";
 
 interface Member {
   id: string;
@@ -73,6 +74,72 @@ export default function MemberManagement({ club }: { club: Club }) {
         },
 
         { field: "joinedAt", headerName: "Joined", flex: 0.8, sortable: true },
+
+        { 
+            field: "endedAt", 
+            headerName: "End Membership", 
+            flex: 0.8,
+            renderCell: (params) => {
+                const [ended, setEnded] = useState(!!params.row.endedAt);
+                console.log(params.row.endedAt);
+
+                const handleEndMembership = async () => {
+                    if (ended) return;
+
+                    const admin = await checkAdminsAccess();
+                    if (!admin) {
+                        setError("Only admins can remove people from the club.");
+                        return;
+                    }
+
+                    const confirmed = window.confirm(`Are you sure you want to end "${params.row.name}"'s membership?`);
+                    if (!confirmed) return;
+
+
+                    try {
+                        const response = await fetch("/api/club/leave", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                clubId: club.club.id,
+                                userId: params.row.userId
+                            }),
+                        });
+
+                        if (!response.ok) {
+                            const { error } = await response.json();
+                            throw new Error(error || "Failed to end membership");
+                        }
+
+                        setEnded(true);
+                    } catch (error) {
+                        setError(error.message || "Failed to end membership.");
+                    }
+                };
+
+                if (!params.row.endedAt || params.row.endedAt === "-") {
+                    return (
+                        <button
+                        className="btn"
+                            onClick={handleEndMembership}
+                            disabled={ended}
+                            style={{
+                                padding: "4px 8px",
+                                background: ended ? "#6c757d" : "#dc3545",
+                                color: "white",
+                                border: "none",
+                                borderRadius: "4px",
+                                cursor: ended ? "not-allowed" : "pointer",
+                            }}
+                        >
+                            {ended ? "Ended" : "End"}
+                        </button>
+                    );
+                }
+
+                return <span>{params.row.endedAt}</span>;
+            }
+        }
     ];
 
     const rows = club.members
@@ -92,7 +159,7 @@ export default function MemberManagement({ club }: { club: Club }) {
               : EnumMappings["SENIOR"],
                 roles: member.roles,
                 joinedAt: member.joinedAt ? new Date(member.joinedAt).toLocaleDateString() : "-",
-                endedAt: member.endedAt ? new Date(member.endedAt).toLocaleDateString() : "-",
+                endedAt: member.endedAt ? new Date(member.endedAt).toLocaleDateString() : null,
             };
         });
 
