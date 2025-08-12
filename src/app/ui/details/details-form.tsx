@@ -22,9 +22,6 @@ const DetailsForm = ({userId} : any) => {
     const [ lastUpdated, setLastUpdated ] = useState("");
     const [ createdAt, setCreatedAt ] = useState("");
 
-    // Placeholder
-    const maxYear = null;
-
     // Effects
     useEffect(() => {
         async function fetchUser() {
