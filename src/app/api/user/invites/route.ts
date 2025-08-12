@@ -14,11 +14,28 @@ export async function GET() {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
+        const currentUser = await prisma.user.findUnique({
+            where: { id: session.user.id },
+            select: { 
+                id: true,
+                archeryGBNumber: true 
+            }
+        });
+
+        if (!currentUser) {
+            return NextResponse.json({ error: "User not found" }, { status: 404 });
+        }
+
+        const whereConditions = {
+            status: "PENDING" as const,
+            OR: [
+                { userId: currentUser.id },
+                ...(currentUser.archeryGBNumber ? [{ archeryGBNumber: currentUser.archeryGBNumber }] : [])
+            ]
+        };
+
         const invites = await prisma.invite.findMany({
-            where: {
-                userId: session.user.id,
-                status: "PENDING",
-            },
+            where: whereConditions,
             include: {
                 club: {
                     select: {
