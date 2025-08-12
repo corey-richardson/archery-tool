@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { User, IceDetails } from "@prisma/client";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { EnumMappings } from "@/app/lib/enumMappings";
+import ProfileDetailsForm from "./ProfileDetailsForm";
 
 export default function ProfileClient({ id }: { id: string }) {
     const [ user, setUser ] = useState<User | null>(null);
@@ -99,17 +100,17 @@ export default function ProfileClient({ id }: { id: string }) {
 
     return (
         <>
-            <div style={{ margin: "0 auto", padding: "2rem 3rem" }}>
+            <div style={{ margin: "0 auto", padding: "0 2rem" }}>
                 {loading && <p className="centred small">Loading...</p>}
                 {error && <p className="centred small">{error}</p>}
                 {!loading && !user && <p className="centred small">No user found.</p>}
 
                 {!loading && user &&
                 <>
-                    <h4 style={{ marginBottom: "0.5rem" }}>Member Details:</h4>
-                    {/** TODO */}
+                    <h4 style={{ marginBottom: "1rem" }}>Member Details:</h4>
+                    <ProfileDetailsForm user={user} />
 
-                    <h4 style={{ marginTop: "1rem", marginBottom: "0.5rem" }}>Emergency Contact Details:</h4>
+                    <h4 style={{ marginTop: "1rem", marginBottom: "1rem" }}>Emergency Contact Details:</h4>
                     <DataGrid
                         rows={iceRows}
                         columns={iceColumns}

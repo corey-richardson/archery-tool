@@ -14,6 +14,7 @@ export const EnumMappings: Record<string, string> = {
     // Sex
     MALE: "Male",
     FEMALE: "Female",
+    NOT_SET: "Not Set",
     // Age Categories
     UNDER_12: "Under 12",
     UNDER_14: "Under 14",
