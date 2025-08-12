@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 async function Members() {
     await requireCaptainsAccess()
-    
+
     return (
         <></>
     );
