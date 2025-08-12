@@ -31,14 +31,15 @@ const MemberManagementPage = async ({ params, searchParams }: props) => {
     const session = await getServerSession(authOptions);
 
     const admin = session?.user?.memberships?.some(
-        (m: any) => m.clubId === clubId && m.roles.includes("ADMIN")
+        (m: any) => { return m.clubId === clubId && m.endedAt ===null && m.roles.includes("ADMIN");}
     );
     const captain = session?.user?.memberships?.some(
-        (m: any) => m.clubId === clubId && m.roles.includes("CAPTAIN")
+        (m: any) => { return m.clubId === clubId && m.endedAt ===null && m.roles.includes("CAPTAIN"); }
     );
 
     if (!session || !(admin || captain) ) {
         redirect("/unauthorised?reason=not-an-admin");
+        return;
     }
 
     const cookieStore = await cookies();
