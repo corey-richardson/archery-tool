@@ -11,11 +11,11 @@ export async function PATCH(req: Request) {
 
     const { id, name, email, archeryGBNumber, sex, gender, yearOfBirth, defaultBowstyle  } = await req.json();
 
-    const isRecordsOrAdmin = requestor.memberships.some((membership: Membership) =>
-        membership.roles.includes("ADMIN") || membership.roles.includes("RECORDS")
+    const isRecordsOrHigher = requestor.memberships.some((membership: Membership) =>
+        membership.roles.includes("ADMIN") || membership.roles.includes("CAPTAIN") || membership.roles.includes("RECORDS")
     );
 
-    if (!isRecordsOrAdmin && requestor.id !== id) {
+    if (!isRecordsOrHigher && requestor.id !== id) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 

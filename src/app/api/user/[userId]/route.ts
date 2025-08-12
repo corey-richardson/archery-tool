@@ -12,11 +12,11 @@ export async function GET(req: NextRequest, context: any) {
     const params = await context.params;
     const userId = params.userId;
 
-    const isRecordsOrAdmin = requestor.memberships.some((membership: Membership) =>
-        membership.roles.includes("ADMIN") || membership.roles.includes("RECORDS")
+    const isRecordsOrHigher = requestor.memberships.some((membership: Membership) =>
+        membership.roles.includes("ADMIN") || membership.roles.includes("CAPTAIN") || membership.roles.includes("RECORDS")
     );
 
-    if (!isRecordsOrAdmin && requestor.id !== userId) {
+    if (!isRecordsOrHigher && requestor.id !== userId) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 

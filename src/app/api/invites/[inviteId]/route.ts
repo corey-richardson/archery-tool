@@ -23,11 +23,11 @@ export async function DELETE(req: Request, { params }: { params: { inviteId: str
         where: { id: inviteId },
     });
 
-    const isRecordsOrAdmin = requestor.memberships.some((membership: Membership) =>
-        membership.roles.includes("ADMIN") || membership.roles.includes("RECORDS")
+    const isRecordsOrHigher = requestor.memberships.some((membership: Membership) =>
+        membership.roles.includes("ADMIN") || membership.roles.includes("CAPTAIN") || membership.roles.includes("RECORDS")
     );
 
-    if (!isRecordsOrAdmin) {
+    if (!isRecordsOrHigher) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 

@@ -4,8 +4,8 @@ import { requireAdminUser } from "@/app/lib/server-utils";
 
 export async function POST(req: NextRequest, context: any) {
     await requireAdminUser();
-
-    const clubId = context.params.id;
+    const p = await context.params;
+    const clubId = p.id;
     const { archeryGBNumber, invitedBy } = await req.json();
 
     if (!clubId || !archeryGBNumber || !invitedBy) {

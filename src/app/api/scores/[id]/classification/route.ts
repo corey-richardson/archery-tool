@@ -12,7 +12,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
     try {
         const p = await params;
         const scoreId = p.id
-        
+
         const body = await request.json();
         const { roundType, roundClassification } = body;
 

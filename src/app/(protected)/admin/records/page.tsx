@@ -16,7 +16,7 @@ async function Records() {
         (m: any) => m.endedAt === null
     );
 
-    const hasRecordsAccess = activeMembership && (activeMembership.roles.includes("ADMIN") || activeMembership.roles.includes("CAPTAIN"));
+    const hasRecordsAccess = activeMembership && (activeMembership.roles.includes("ADMIN") || activeMembership.roles.includes("CAPTAIN") || activeMembership.roles.includes("RECORDS"));
 
     if (!session || !hasRecordsAccess) {
         redirect("/unauthorised?reason=not-authorised-for-records");

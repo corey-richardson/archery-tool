@@ -12,11 +12,11 @@ export async function GET(request: NextRequest, context: any) {
     const params = await context.params;
     const userId = params.id;
 
-    const isRecordsOrAdmin = user.memberships.some((membership : Membership) =>
-        membership.roles.includes("ADMIN") || membership.roles.includes("RECORDS")
+    const isRecordsOrHigher = user.memberships.some((membership : Membership) =>
+        membership.roles.includes("ADMIN") || membership.roles.includes("CAPTAIN") || membership.roles.includes("RECORDS")
     );
 
-    if (!isRecordsOrAdmin && user.id !== userId) {
+    if (!isRecordsOrHigher && user.id !== userId) {
         return NextResponse.json({ error: "Unauthorised" }, { status: 403 });
     }
 
@@ -39,11 +39,11 @@ export async function PATCH(request: NextRequest, context: any) {
     const contactId = params.id;
     const body = await request.json();
 
-    const isRecordsOrAdmin = user.memberships.some((membership : Membership) =>
-        membership.roles.includes("ADMIN") || membership.roles.includes("RECORDS")
+    const isRecordsOrHigher = user.memberships.some((membership : Membership) =>
+        membership.roles.includes("ADMIN") || membership.roles.includes("CAPTAIN") || membership.roles.includes("RECORDS")
     );
 
-    if (!isRecordsOrAdmin && user.id !== body.userId) {
+    if (!isRecordsOrHigher && user.id !== body.userId) {
         return NextResponse.json({ error: "Unauthorised" }, { status: 403 });
     }
 
