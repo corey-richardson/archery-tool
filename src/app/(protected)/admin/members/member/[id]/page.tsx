@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import ProfileClient from "./ProfileClient";
 
 type props = {
     params: { id: string }
@@ -15,15 +16,17 @@ export async function generateMetadata(
     }
 }
 
-const MemberProfile = async ({ params }: { params: { id: string } }) => {
+const MemberProfile = async ({ params, searchParams }: props) => {
     const p = await params;
     const userId = p.id;
+    const sp = await searchParams;
+    const userName = sp.name ?? "Unknown User";
 
     return (
-        <>
-            <h1>GOOD MORNINGGGGG VIETNAM</h1>
-            <p>{ userId }</p>
-        </>
+        <div style={{ margin: "0 auto", padding: "2rem 3rem" }}>
+            <h2 style={{ marginBottom: "2rem" }}>Member Management for { userName }:</h2>
+            <ProfileClient id={userId} />
+        </div>
     );
 }
 

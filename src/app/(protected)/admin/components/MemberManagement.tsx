@@ -39,9 +39,13 @@ export default function MemberManagement({ club }: { club: Club }) {
             flex: 1,
             sortable: true,
             renderCell: (params) => (
-                <Link href={`/admin/members/member/${params.row.id}?name=${encodeURIComponent(params.row.name)}`}>
+                // An entire row *could* be passed via a client-side global store, requires a context to be set up
+                <Link href={`/admin/members/member/${params.row.userId}?name=${encodeURIComponent(params.row.name)}`}>
                     {params.value || "Unknown"}
+                    {/** onClick={() => setSelectedMember(params.row)} */}
                 </Link>
+                // Then on next page,
+                // const member = useSelectedMember();
             )
         },
 
