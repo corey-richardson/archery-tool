@@ -26,8 +26,8 @@ const MemberProfile = async ({ params, searchParams }: props) => {
     const userName = sp.name ?? "Unknown User";
 
     return (
-        <div style={{ margin: "0 auto", padding: "2rem 3rem" }}>
-            <h2 style={{ marginBottom: "2rem" }}>Member Management for { userName }:</h2>
+        <div className="content" style={{ margin: "0 auto", padding: "2rem 3rem" }}>
+            <h3 className="blue" style={{ marginBottom: "2rem" }}>Member Management for { userName }:</h3>
             <ProfileClient id={userId} />
         </div>
     );

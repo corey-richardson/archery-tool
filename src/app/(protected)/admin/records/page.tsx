@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import prisma from "@/app/lib/prisma";
 import RecordsManagement from "../components/RecordsManagement";
 import { requireRecordsAccess } from "@/app/actions/requireAccess";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/authOptions";
 
 export const metadata: Metadata = {
     title: "Records",
@@ -10,6 +12,7 @@ export const metadata: Metadata = {
 async function Records() {
     await requireRecordsAccess();
 
+    const session = await getServerSession(authOptions);
     const userId = session.user.id;
 
     const memberships = await prisma.clubMembership.findMany({
@@ -57,8 +60,8 @@ async function Records() {
     })
 
     return (
-        <div style={{ margin: "0 auto", padding: "2rem 3rem" }}>
-            <h2 style={{ marginBottom: "2rem" }}>Submitted Scores.</h2>
+        <div className="content" style={{ margin: "0 auto", padding: "2rem 3rem" }}>
+            <h3 style={{ marginBottom: "2rem" }}>Submitted Scores.</h3>
 
             {scores.length === 0 ? (
                 <p>No scores found.</p>
