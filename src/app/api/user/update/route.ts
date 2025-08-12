@@ -68,8 +68,24 @@ export async function PATCH(req: Request) {
                 NOT: { id },
             },
         });
+
         if (existingAGB) {
             return NextResponse.json({ error: "That ArcheryGB Number is already associated with a user." }, { status: 409 });
+        }
+
+        try {
+            await prisma.invite.updateMany({
+                where: {
+                    archeryGBNumber: dataToUpdate.archeryGBNumber,
+                    userId: null,
+                    status: "PENDING"
+                },
+                data: {
+                    userId: id
+                }
+            });
+        } catch (_error) {
+            console.error("Error linking invites to user:", _error);
         }
     }
 
