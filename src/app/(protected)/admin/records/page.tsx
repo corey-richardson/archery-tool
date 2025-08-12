@@ -13,7 +13,7 @@ async function Records() {
     await requireRecordsAccess();
 
     const session = await getServerSession(authOptions);
-    const userId = session.user.id;
+    const userId = session?.user.id;
 
     const memberships = await prisma.clubMembership.findMany({
         where: {

@@ -58,10 +58,10 @@ function CreateClub() {
                 const clubId = data.createdClub.id;
 
                 setIsPending(false);
-                setClubName("");
+                // setClubName("");
                 setChangesPending(false);
 
-                window.location.href = `/admin/members/${clubId}`;
+                window.location.href = `/admin/members/${clubId}?name=${encodeURIComponent(clubName)}`;
             } else {
                 throw new Error(`HTTP error! status: ${res.status}`);
             }
