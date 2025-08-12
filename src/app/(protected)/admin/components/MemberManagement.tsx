@@ -75,12 +75,12 @@ export default function MemberManagement({ club }: { club: Club }) {
 
         { field: "joinedAt", headerName: "Joined", flex: 0.8, sortable: true },
 
-        { 
-            field: "endedAt", 
-            headerName: "End Membership", 
+        {
+            field: "endedAt",
+            headerName: "End Membership",
             flex: 0.8,
             renderCell: (params) => {
-                const [ended, setEnded] = useState(!!params.row.endedAt);
+                const [ ended, setEnded ] = useState(!!params.row.endedAt);
                 console.log(params.row.endedAt);
 
                 const handleEndMembership = async () => {
@@ -120,7 +120,7 @@ export default function MemberManagement({ club }: { club: Club }) {
                 if (!params.row.endedAt || params.row.endedAt === "-") {
                     return (
                         <button
-                        className="btn"
+                            className="btn"
                             onClick={handleEndMembership}
                             disabled={ended}
                             style={{
