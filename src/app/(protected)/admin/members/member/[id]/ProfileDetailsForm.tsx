@@ -8,7 +8,8 @@ import { EnumMappings } from "@/app/lib/enumMappings";
 interface EditableFieldProps {
     value: string | number;
     onSave: (newValue: string) => void;
-    type?: "text" | "email" | "tel";
+    placeholder?: string;
+    type?: "text" | "number" | "email" | "tel";
     min?: string | number;
     max?: string | number;
     step?: string | number;
@@ -18,6 +19,7 @@ interface EditableSelectProps {
     value: string;
     onSave: (newValue: string) => void;
     options: string[];
+    placeholder?: string;
 }
 
 const EditIcon = () => (
@@ -41,7 +43,7 @@ const EditableField = ({ value, onSave, type = "text", min, max, step }: Editabl
     const [ tempValue, setTempValue ] = useState(value);
 
     const handleSave = () => {
-        onSave(tempValue);
+        onSave(String(tempValue));
         setIsEditing(false);
     };
 
@@ -101,7 +103,7 @@ const EditableField = ({ value, onSave, type = "text", min, max, step }: Editabl
     );
 };
 
-const EditableSelect = ({ value, onSave, options }: EditableSelectProps) => {
+const EditableSelect = ({ value, onSave, options, placeholder }: EditableSelectProps) => {
     const [ isEditing, setIsEditing ] = useState(false);
     const [ tempValue, setTempValue ] = useState(value);
 
@@ -140,7 +142,7 @@ const EditableSelect = ({ value, onSave, options }: EditableSelectProps) => {
                     minWidth: "150px"
                 }}
             >
-                <option value="">{"Select..."}</option>
+                <option value="">{placeholder || "Select..."}</option>
                 {options.map(option => (
                     <option key={option} value={option}>
                         { EnumMappings[option] }
@@ -180,7 +182,7 @@ export default function ProfileDetailsForm({ user }: { user: User }) {
         gender: user.gender || "",
         yearOfBirth: user.yearOfBirth || "",
         updatedAt: user.updatedAt || "",
-        ageCategory: calculateAgeCategory(user.yearOfBirth) || "SENIOR",
+        ageCategory: user.yearOfBirth ? calculateAgeCategory(user.yearOfBirth) : "SENIOR"
     });
 
     const [ error, setError ] = useState<string | null>(null);
@@ -217,7 +219,7 @@ export default function ProfileDetailsForm({ user }: { user: User }) {
 
             setProfileData(prev => ({ ...prev, [field]: newValue, updatedAt: new Date() }));
         } catch (error) {
-            setError(error.message);
+            setError((error as Error).message);
         }
     };
 
@@ -317,7 +319,7 @@ export default function ProfileDetailsForm({ user }: { user: User }) {
                     border: "1px solid transparent",
                     background: "transparent"
                 }}>
-                    { profileData.yearOfBirth ? EnumMappings[calculateAgeCategory(profileData.yearOfBirth)] || calculateAgeCategory(profileData.yearOfBirth) : EnumMappings["SENIOR"] }
+                    { profileData.yearOfBirth ? EnumMappings[calculateAgeCategory(Number(profileData.yearOfBirth))] || calculateAgeCategory(Number(profileData.yearOfBirth)) : EnumMappings["SENIOR"] }
                 </span>
             </div>
 
