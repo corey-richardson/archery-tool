@@ -3,7 +3,7 @@ import prisma from "@/app/lib/prisma";
 import { requireLoggedInUser, requireRecordsUserOrHigher } from "@/app/lib/server-utils";
 
 export async function PATCH(
-    request: NextRequest, 
+    request: NextRequest,
     { params }: { params: { scoreId: string } }
 ) {
     await requireRecordsUserOrHigher();
@@ -97,8 +97,8 @@ export async function PATCH(
 
     } catch (error) {
         console.error("Failed to update score:", error);
-        return NextResponse.json({ 
-            error: "Failed to update score", 
+        return NextResponse.json({
+            error: "Failed to update score",
             details: error instanceof Error ? error.message : "Unknown error"
         }, { status: 500 });
     }

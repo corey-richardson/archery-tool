@@ -5,8 +5,7 @@ import prisma from "@/app/lib/prisma";
 import { requireLoggedInUser } from "@/app/lib/server-utils";
 
 export async function GET() {
-    const user = await requireLoggedInUser();
-    const userId = user.id;
+    await requireLoggedInUser();
 
     try {
         const session = await getServerSession(authOptions);

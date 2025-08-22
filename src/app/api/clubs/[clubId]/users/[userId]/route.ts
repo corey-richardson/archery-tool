@@ -4,9 +4,9 @@ import { requireLoggedInUser } from "@/app/lib/server-utils";
 
 export async function DELETE(request: NextRequest, { params }: { params: { clubId: string; userId: string } } ) {
     const user = await requireLoggedInUser();
-    
+
     const { clubId, userId } = await params;
-    
+
     if (!clubId || !userId) {
         return NextResponse.json({ error: "Missing clubId or userId." }, { status: 400 });
     }
@@ -30,9 +30,9 @@ export async function DELETE(request: NextRequest, { params }: { params: { clubI
         }
 
         const userMembership = await prisma.clubMembership.findFirst({
-            where: { 
-                clubId, 
-                userId: user.id, 
+            where: {
+                clubId,
+                userId: user.id,
                 endedAt: null,
                 roles: { has: "ADMIN" }
             }
@@ -42,8 +42,8 @@ export async function DELETE(request: NextRequest, { params }: { params: { clubI
         const isAdmin = userMembership !== null;
 
         if (!isUserLeavingOwnMembership && !isAdmin) {
-            return NextResponse.json({ 
-                error: "You can only leave your own membership or you must be an admin to remove others." 
+            return NextResponse.json({
+                error: "You can only leave your own membership or you must be an admin to remove others."
             }, { status: 403 });
         }
 
@@ -58,8 +58,8 @@ export async function DELETE(request: NextRequest, { params }: { params: { clubI
             });
 
             if (adminCount === 0) {
-                return NextResponse.json({ 
-                    error: "You cannot leave as the only admin. Please assign another member to be an admin or delete the club." 
+                return NextResponse.json({
+                    error: "You cannot leave as the only admin. Please assign another member to be an admin or delete the club."
                 }, { status: 403 });
             }
         }
@@ -69,11 +69,11 @@ export async function DELETE(request: NextRequest, { params }: { params: { clubI
             data: { endedAt: new Date() },
         });
 
-        return NextResponse.json({ 
-            success: true, 
+        return NextResponse.json({
+            success: true,
             message: `Membership ended successfully.`
         }, { status: 200 });
-        
+
     } catch (error) {
         console.error("Error ending membership:", error);
         return NextResponse.json({ error: "Failed to end membership: " + error }, { status: 500 });

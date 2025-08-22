@@ -12,8 +12,8 @@ export async function POST(req: Request, { params }: { params: { inviteId: strin
 {
     await requireLoggedInUser();
 
-    const p = await params.inviteId;
-    const inviteId = params.inviteId;
+    const p = await params;
+    const inviteId = p.inviteId;
 
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -64,7 +64,7 @@ export async function DELETE(req: Request, { params }: { params: { inviteId: str
 
     const session = await getServerSession(authOptions);
     const sessionUserId = session?.user?.id;
-    
+
     if (!sessionUserId) {
         return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }

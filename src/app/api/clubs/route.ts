@@ -4,7 +4,7 @@ import { requireLoggedInUser } from "@/app/lib/server-utils";
 
 export async function POST (req: Request) {
     await requireLoggedInUser();
-    
+
     const { clubName, creatorId } = await req.json();
 
     if (!clubName) {
