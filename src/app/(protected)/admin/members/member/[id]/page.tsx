@@ -28,7 +28,7 @@ const MemberProfile = async ({ params, searchParams }: props) => {
     return (
         <div className="content" style={{ margin: "0 auto", padding: "2rem 3rem" }}>
             <h3 className="blue" style={{ marginBottom: "2rem" }}>Member Management for { userName }:</h3>
-            <ProfileClient id={userId} />
+            <ProfileClient userId={userId} />
         </div>
     );
 }

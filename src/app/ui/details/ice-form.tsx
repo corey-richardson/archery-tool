@@ -30,7 +30,7 @@ const EmergencyContactsForm = ({user} : any) => {
     const toggleContact = (idx: number) => setOpenContactIdx(openContactIdx === idx ? null : idx);
 
     const fetchContacts = useCallback(async () => {
-        const res = await fetch(`/api/ice-details/${user.id}`);
+        const res = await fetch(`/api/emergency-contacts/user/${user.id}`);
         const data = await res.json();
         setContacts(data);
     }, [ user.id ]);
@@ -49,7 +49,7 @@ const EmergencyContactsForm = ({user} : any) => {
 
     const handleUpdateExistingContact = async (contact: Contact) => {
         setIsLoading(true);
-        const response = await fetch(`/api/ice-details/${contact.id}`, {
+        const response = await fetch(`/api/emergency-contacts/contact/${contact.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(contact),
@@ -64,7 +64,7 @@ const EmergencyContactsForm = ({user} : any) => {
 
     const handleDeleteExistingContact = async (contactId: string) => {
         setIsLoading(true);
-        const response = await fetch(`/api/ice-details/${contactId}`, {
+        const response = await fetch(`/api/emergency-contacts/contact/${contactId}`, {
             method: "DELETE"
         });
 
@@ -79,11 +79,10 @@ const EmergencyContactsForm = ({user} : any) => {
         e.preventDefault();
         setIsLoading(true);
 
-        const response = await fetch("/api/ice-details", {
+        const response = await fetch(`/api/emergency-contacts/user/${user.id}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                userId: user.id,
                 contactName: newContactName,
                 contactPhone: newContactPhone,
                 contactEmail: newContactEmail,

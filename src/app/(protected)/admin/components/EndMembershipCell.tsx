@@ -19,8 +19,8 @@ export default function EndMembershipCell({ params, clubId, setError, }: { param
 
 
         try {
-            const response = await fetch("/api/club/leave", {
-                method: "POST",
+            const response = await fetch(`/api/clubs/${clubId}/users/${params.row.userId}`, {
+                method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     clubId,
@@ -33,6 +33,7 @@ export default function EndMembershipCell({ params, clubId, setError, }: { param
                 throw new Error(error || "Failed to end membership");
             }
 
+            setError(null);
             setEnded(true);
         } catch (error) {
             setError((error as Error).message || "Failed to end membership.");

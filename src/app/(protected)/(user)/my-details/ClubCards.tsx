@@ -15,7 +15,7 @@ export default function ClubCards( { userId } : ClubcardProps ) {
 
     useEffect(() => {
         const fetchUsersClubs = async () => {
-            const res = await fetch(`/api/club?userId=${userId}`);
+            const res = await fetch(`/api/users/${userId}/clubs`);
             const data = await res.json();
             setClubs(data.clubs);
             setIsLoading(false);
@@ -25,8 +25,8 @@ export default function ClubCards( { userId } : ClubcardProps ) {
 
     const handleLeaveClub = async (clubId: string) => {
         try {
-            const res = await fetch("/api/club/leave", {
-                method: "POST",
+            const res = await fetch(`/api/clubs/${clubId}/users/${userId}`, {
+                method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ clubId, userId }),
             });

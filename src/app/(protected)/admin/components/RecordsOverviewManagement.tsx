@@ -26,7 +26,7 @@ const changeHandler = async (
         : newValue;
 
     try {
-        const response = await fetch(`/api/scores/overview/${overview.userId}`, {
+        const response = await fetch(`/api/users/${overview.userId}/scores/overview`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ field: field, value: valueToSendToBackend }),
@@ -168,9 +168,9 @@ export default function RecordsOverviewManagement({ userId }: { userId: string})
     useEffect(() => {
         const fetchUserOverview = async () => {
             setIsLoading(true);
-            let res = await fetch(`/api/user/${userId}`);
+            let res = await fetch(`/api/users/${userId}`);
             let data = await res.json();
-            res = await fetch(`/api/scores/overview/${userId}`);
+            res = await fetch(`/api/users/${userId}/scores/overview`);
             data = await res.json();
             setOverview(data);
             setNotes(data?.notes || "");

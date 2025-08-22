@@ -10,7 +10,7 @@ const ScoreCard = ({ score, onDeletion } : { score: Score; onDeletion?: () => vo
 
     const handleDeleteScore = async (scoreId: string) => {
         setIsDeleting(true);
-        const response = await fetch(`/api/scores/score/${scoreId}`, {
+        const response = await fetch(`/api/scores/${scoreId}`, {
             method: "DELETE",
         });
 

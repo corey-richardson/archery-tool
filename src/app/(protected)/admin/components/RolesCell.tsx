@@ -19,7 +19,7 @@ export default function RolesCell({ value, row, clubId, setError }: { value: str
         setSelectError(false);
 
         try {
-            const response = await fetch(`/api/user/${row.userId}/${clubId}/roles`, {
+            const response = await fetch(`/api/users/${row.userId}/clubs/${clubId}/roles`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ roles: selectedRoles }),

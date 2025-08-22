@@ -6,7 +6,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { EnumMappings } from "@/app/lib/enumMappings";
 import ProfileDetailsForm from "./ProfileDetailsForm";
 
-export default function ProfileClient({ id }: { id: string }) {
+export default function ProfileClient({ userId }: { userId: string }) {
     const [ user, setUser ] = useState<User | null>(null);
     const [ emergencyContacts, setEmergencyContacts ] = useState<IceDetails[] | null>(null);
     const [ loading, setLoading ] = useState(true);
@@ -19,8 +19,8 @@ export default function ProfileClient({ id }: { id: string }) {
                 setError(null);
 
                 const [ userRes, emergencyContactsRes ] = await Promise.all([
-                    await fetch(`/api/user/${id}`),
-                    await fetch(`/api/ice-details/${id}`),
+                    await fetch(`/api/users/${userId}`),
+                    await fetch(`/api/emergency-contacts/user/${userId}`),
                 ]);
 
                 if (!userRes.ok) throw new Error("Failed to fetch user");
@@ -41,7 +41,7 @@ export default function ProfileClient({ id }: { id: string }) {
         };
 
         fetchData();
-    }, [ id ]);
+    }, [ userId ]);
 
     const iceColumns: GridColDef[] = [
         {

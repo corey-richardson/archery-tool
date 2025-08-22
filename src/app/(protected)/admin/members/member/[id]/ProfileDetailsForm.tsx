@@ -201,7 +201,7 @@ export default function ProfileDetailsForm({ user }: { user: User }) {
         try {
             const valueToSend = field === "yearOfBirth" ? Number(newValue) : newValue;
 
-            const response = await fetch(`/api/user/update`, {
+            const response = await fetch(`/api/users/${user.id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

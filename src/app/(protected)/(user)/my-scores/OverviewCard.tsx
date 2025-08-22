@@ -13,10 +13,10 @@ const OverviewCard = ({ userId }: { userId: string }) => {
     useEffect(() => {
         const fetchUserOverview = async () => {
             setIsLoading(true);
-            let res = await fetch(`/api/user/${userId}`);
+            let res = await fetch(`/api/users/${userId}`);
             let data = await res.json();
             setUser(data);
-            res = await fetch(`/api/scores/overview/${userId}`);
+            res = await fetch(`/api/users/${userId}/scores/overview`);
             data = await res.json();
             setOverview(data);
             setIsLoading(false);

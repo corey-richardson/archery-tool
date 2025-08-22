@@ -48,7 +48,7 @@ const ScoreSubmissionForm = ({userId} : any) => {
                 return;
             }
 
-            const res = await fetch(`/api/user/${userId}`);
+            const res = await fetch(`/api/users/${userId}`);
             const data = await res.json();
             const ageCategory = calculateAgeCategory(data.yearOfBirth);
 

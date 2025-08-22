@@ -23,7 +23,7 @@ export function InviteForm({ clubId, onInviteSubmitted }: { clubId: string; onIn
         setSuccess(null);
         setError(null);
         try {
-            const res = await fetch(`/api/club/${clubId}/invite`, {
+            const res = await fetch(`/api/clubs/${clubId}/invites`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ archeryGBNumber, invitedBy: userId }),

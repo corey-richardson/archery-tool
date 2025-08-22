@@ -28,7 +28,7 @@ export default function MemberManagementClient({ club, admin }: { club: any, adm
         setLoadingInvites(true);
         setError(null);
         try {
-            const res = await fetch(`/api/club/${club.club.id}/invites`);
+            const res = await fetch(`/api/clubs/${club.club.id}/invites`);
             const data = await res.json();
             if (res.ok) setInvites(data.invites);
             else setError(data.error || "Failed to load invites");
@@ -50,7 +50,7 @@ export default function MemberManagementClient({ club, admin }: { club: any, adm
         setDeleting(true);
         setError(null);
         try {
-            const res = await fetch(`/api/club/${club.club.id}`, {
+            const res = await fetch(`/api/clubs/${club.club.id}`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
             });

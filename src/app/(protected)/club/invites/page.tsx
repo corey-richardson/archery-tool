@@ -19,7 +19,7 @@ const ClubInvites = () => {
         setLoading(true);
         setError(null);
         try {
-            const res = await fetch("/api/user/invites");
+            const res = await fetch("/api/users/invites");
             const data = await res.json();
             if (res.ok) setInvites(data.invites);
             else setError(data.error || "Failed to load invites");
@@ -35,7 +35,7 @@ const ClubInvites = () => {
         setActionLoading(inviteId);
         setError(null);
         try {
-            const res = await fetch(`/api/invites/${inviteId}/accept`, { method: "POST" });
+            const res = await fetch(`/api/invites/${inviteId}`, { method: "POST" });
             if (!res.ok) {
                 const data = await res.json();
                 setError(data.error || "Failed to accept invite");

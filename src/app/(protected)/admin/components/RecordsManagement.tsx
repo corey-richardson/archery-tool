@@ -25,8 +25,8 @@ const HandicapInput = ({ scoreId, initialValue }: { scoreId: string, initialValu
         if (handicap === initialValue) return; // no change
 
         try {
-            const response = await fetch(`/api/scores/${scoreId}/handicap`, {
-                method: "PUT",
+            const response = await fetch(`/api/scores/${scoreId}`, {
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ roundHandicap: handicap }),
             });
@@ -66,10 +66,14 @@ const ClassificationSelect = ({ score }: { score: any }) => {
         setSelected(newClassification);
 
         try {
-            const response = await fetch(`/api/scores/${score.id}/classification`, {
-                method: "PUT",
+            const updateData = score.roundType === "INDOOR"
+                ? { roundIndoorClassification: newClassification }
+                : { roundOutdoorClassification: newClassification };
+
+            const response = await fetch(`/api/scores/${score.id}`, {
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ roundType: score.roundType, roundClassification: newClassification }),
+                body: JSON.stringify(updateData),
             });
 
             if (!response.ok) {
@@ -102,8 +106,8 @@ const AgeCategorySelect = ({ score }: { score: any }) => {
         setCurrentAgeCategory(newAgeCategory);
 
         try {
-            const response = await fetch(`/api/scores/${score.id}/age-category`, {
-                method: "PUT",
+            const response = await fetch(`/api/scores/${score.id}`, {
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ageCategory: newAgeCategory }),
             });
@@ -137,10 +141,10 @@ const NotesInput = ({ score }: { score: any }) => {
         if (currentNote === (score.notes || "")) return; // no change
 
         try {
-            const response = await fetch(`/api/scores/${score.id}/note`, {
-                method: "PUT",
+            const response = await fetch(`/api/scores/${score.id}`, {
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ note: currentNote }),
+                body: JSON.stringify({ notes: currentNote }),
             });
 
             if (!response.ok) {
@@ -176,8 +180,8 @@ const ProcessButton = ({ score, onProcessed }: { score: any; onProcessed: (score
         setIsProcessing(true);
 
         try {
-            const response = await fetch(`/api/scores/${score.id}/process`, {
-                method: "PUT",
+            const response = await fetch(`/api/scores/${score.id}`, {
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ processedAt: new Date().toISOString() }),
             });

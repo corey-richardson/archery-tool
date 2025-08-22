@@ -33,7 +33,7 @@ const MemberManagementPage = async ({ params, searchParams }: props) => {
     const cookieStore = await cookies();
     const cookieHeader = cookieStore.getAll().map(c => `${c.name}=${c.value}`).join("; ");
 
-    const res = await fetch(`${baseUrl}/api/club/${clubId}`, {
+    const res = await fetch(`${baseUrl}/api/clubs/${clubId}`, {
         headers: {
             "Content-Type": "application/json",
             "Cookie": cookieHeader,
