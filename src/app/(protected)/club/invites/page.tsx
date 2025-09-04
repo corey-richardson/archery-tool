@@ -34,34 +34,38 @@ const ClubInvites = () => {
     const handleAccept = async (inviteId: string) => {
         setActionLoading(inviteId);
         setError(null);
+
         try {
             const res = await fetch(`/api/invites/${inviteId}`, { method: "POST" });
             if (!res.ok) {
                 const data = await res.json();
                 setError(data.error || "Failed to accept invite");
             } else {
-                fetchInvites();
+                setInvites(prev => prev.filter(invite => invite.id !== inviteId));
             }
         } catch {
             setError("Failed to accept invite");
         }
+
         setActionLoading(null);
     };
 
     const handleDecline = async (inviteId: string) => {
         setActionLoading(inviteId);
         setError(null);
+
         try {
             const res = await fetch(`/api/invites/${inviteId}`, { method: "DELETE" });
             if (!res.ok) {
                 const data = await res.json();
                 setError(data.error || "Failed to decline invite");
             } else {
-                fetchInvites();
+                setInvites(prev => prev.filter(invite => invite.id !== inviteId));
             }
         } catch {
             setError("Failed to decline invite");
         }
+
         setActionLoading(null);
     };
 
@@ -72,33 +76,38 @@ const ClubInvites = () => {
             {error && <div style={{ color: "red" }}>{error}</div>}
 
             {loading ? (
-                <p>Loading invites...</p>
+                <p className="small centred">Loading invites...</p>
             ) : invites.length === 0 ? (
-                <p>No pending invites.</p>
+                <p className="small centred">No pending invites.</p>
             ) : (
-                <ul style={{ listStyle: "none", padding: 0 }}>
-                    {invites.map(invite => (
-                        <li key={invite.id} style={{ marginBottom: 24, border: "1px solid #ccc", borderRadius: 8, padding: 16 }}>
+                <ul className="centred" style={{ listStyle: "none", padding: 0 }}>
+                    {invites.map((invite, index) => (
+                        <li key={invite.id} style={{ padding: 16 }}>
+
                             <div><b>Club:</b> {invite.club.name}</div>
                             <div><b>Invited by:</b> {invite.inviter?.name || "Unknown"}</div>
                             <div><b>Invited on:</b> {new Date(invite.createdAt).toLocaleDateString()}</div>
-                            <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
+
+                            <div style={{ marginTop: 12, display: "flex", gap: 8, justifyContent: "center" }}>
                                 <button
                                     className="btn btn-primary"
                                     onClick={() => handleAccept(invite.id)}
-                                    disabled={actionLoading === invite.id}
+                                    disabled={!!actionLoading}
                                 >
                                     {actionLoading === invite.id ? "Processing..." : "Accept"}
                                 </button>
+
                                 <button
                                     className="btn btn-secondary"
                                     onClick={() => handleDecline(invite.id)}
-                                    disabled={actionLoading === invite.id}
+                                    disabled={!!actionLoading}
                                     style={{ color: "#a00" }}
                                 >
                                     {actionLoading === invite.id ? "Processing..." : "Decline"}
                                 </button>
                             </div>
+
+                            {index < invites.length - 1 && <hr style={{ margin: "1.5rem 0", backgroundColor: "var(--border-color)" }} />}
                         </li>
                     ))}
                 </ul>
