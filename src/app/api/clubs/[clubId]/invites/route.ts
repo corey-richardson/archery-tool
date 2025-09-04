@@ -60,11 +60,11 @@ export async function POST(req: NextRequest, context: any) {
     return NextResponse.json({ invite }, { status: 201 });
 }
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { clubId: string } }) {
     await requireLoggedInUser();
 
     const p = await params;
-    const clubId = p.id;
+    const clubId = p.clubId;
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.id) {
