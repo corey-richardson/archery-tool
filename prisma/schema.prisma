@@ -26,30 +26,30 @@ model User {
   updatedAt  DateTime?
   archivedAt DateTime?
 
-  accounts       Account[]
-  sessions       Session[]
-  memberOf       ClubMembership[]
-  adminOf        ClubMembership[] @relation("ClubAdmins")
-  iceDetails     IceDetails[]
-  RecordsSummary RecordsSummary?
-  Scores         Scores[]
-  invitesSent    Invite[] @relation("InvitesSent")
-  invitesReceived Invite[] @relation("InvitesReceived")
+  accounts        Account[]
+  sessions        Session[]
+  memberOf        ClubMembership[]
+  adminOf         ClubMembership[] @relation("ClubAdmins")
+  iceDetails      IceDetails[]
+  RecordsSummary  RecordsSummary?
+  Scores          Scores[]
+  invitesSent     Invite[]         @relation("InvitesSent")
+  invitesReceived Invite[]         @relation("InvitesReceived")
 }
 
 model Invite {
-  id         String   @id @default(cuid())
-  clubId     String
-  userId     String? // If user already exists
+  id              String       @id @default(cuid())
+  clubId          String
+  userId          String? // If user already exists
   archeryGBNumber String? // If inviting by number
-  invitedBy  String // User ID of inviter
-  status     InviteStatus @default(PENDING)
-  createdAt  DateTime @default(now())
-  acceptedAt DateTime?
-  declinedAt DateTime?
+  invitedBy       String // User ID of inviter
+  status          InviteStatus @default(PENDING)
+  createdAt       DateTime     @default(now())
+  acceptedAt      DateTime?
+  declinedAt      DateTime?
 
-  club   Club   @relation(fields: [clubId], references: [id], onDelete: Cascade)
-  user   User?  @relation("InvitesReceived", fields: [userId], references: [id])
+  club    Club  @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  user    User? @relation("InvitesReceived", fields: [userId], references: [id])
   inviter User  @relation("InvitesSent", fields: [invitedBy], references: [id])
 }
 
@@ -63,7 +63,7 @@ enum InviteStatus {
 model Club {
   id   String @id @default(cuid())
   name String @unique
-  
+
   createdAt DateTime @default(now())
 
   memberships ClubMembership[]
@@ -75,8 +75,8 @@ model ClubMembership {
   userId String
   clubId String
 
-  roles     MembershipRole[]
-  joinedAt DateTime       @default(now())
+  roles    MembershipRole[]
+  joinedAt DateTime         @default(now())
   endedAt  DateTime?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -123,22 +123,22 @@ model VerificationToken {
 }
 
 model IceDetails {
-  id               String           @id @default(cuid())
+  id               String            @id @default(cuid())
   userId           String
   contactName      String
   contactPhone     String
   contactEmail     String?
   relationshipType RelationshipType?
-  updatedAt        DateTime         @default(now())
+  updatedAt        DateTime          @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model RecordsSummary {
-  id                    String                  @id @default(cuid())
-  userId                String                  @unique
-  indoorClassification  IndoorClassification    @default(UNCLASSIFIED)
-  outdoorClassification OutdoorClassification   @default(UNCLASSIFIED)
+  id                    String                 @id @default(cuid())
+  userId                String                 @unique
+  indoorClassification  IndoorClassification   @default(UNCLASSIFIED)
+  outdoorClassification OutdoorClassification  @default(UNCLASSIFIED)
   indoorBadgeGiven      IndoorClassification?
   outdoorBadgeGiven     OutdoorClassification?
   indoorHandicap        Int?
@@ -157,7 +157,7 @@ model Scores {
 
   dateShot         DateTime
   roundName        String
-  roundType        RoundType @default(INDOOR) // Indoor or Outdoor
+  roundType        RoundType        @default(INDOOR) // Indoor or Outdoor
   bowstyle         Bowstyle
   score            Int
   xs               Int?
@@ -166,7 +166,7 @@ model Scores {
   hits             Int?
   competitionLevel CompetitionLevel
   sex              Sex?
-  ageCategory      AgeCategories @default(SENIOR)
+  ageCategory      AgeCategories    @default(SENIOR)
   notes            String?
 
   roundIndoorClassification  IndoorClassification?
@@ -259,9 +259,3 @@ enum CompetitionLevel {
 // npx prisma generate
 // npx prisma studio
 // npx prisma format
-
-/*
-if (score.roundType === 'INDOOR' && score.roundOutdoorClassification) {
-  throw new Error('Indoor rounds cannot have outdoor classifications');
-}
-*/
