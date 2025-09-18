@@ -1,5 +1,6 @@
 # Archery Tool (WIP)
 
+[![Run Tests](https://github.com/corey-richardson/archery-tool/actions/workflows/test.yaml/badge.svg)](https://github.com/corey-richardson/archery-tool/actions/workflows/test.yaml)
 ![Deployment](https://img.shields.io/github/deployments/corey-richardson/archery-tool/production?label=Deployment%20Status)
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Farchery-tool.vercel.app%2F&up_message=online&label=Vercel%20Site)
 [![wakatime](https://wakatime.com/badge/user/55c30436-1509-4eb9-9f18-fa9b7c6060c4/project/f284d99e-acc6-43a2-a5d0-bb6bfdf0f5c6.svg)](https://wakatime.com/@coreyrichardson/projects/hrzfhtnwcv?start=2025-07-01&end=2025-09-30)
@@ -12,13 +13,18 @@
 3. [Quick Start](#quick-start)
 4. [API Endpoints](#api-endpoints)
 5. [Database Schema](#database-schema)
-   - [Prisma Common Commands](#prisma-common-commands)
-   - [Models](#models)
-   - [Enums](#enums)
+    - [Prisma Common Commands](#prisma-common-commands)
+    - [Models](#models)
+    - [Enums](#enums)
 6. [lib Utilities](#lib-utilities)
-7. [Contributing](#contributing)
-8. [License](#license)
-9. [Support](#support)
+7. [Testing and Quality Validation](#testing-and-quality-validation)
+    - [Vitest](#vitest)
+    - [Husky](#husky)
+    - [GitHub Workflow](#github-workflow)
+    - [CI/CD Workflow](#continuous-integration--continuous-deployment-workflow)
+8. [Contributing](#contributing)
+9. [License](#license)
+10. [Support](#support)
 
 ## Overview
 
@@ -308,6 +314,69 @@ It takes an optional `displayFlag` parameter, which when set as true will displa
 If the `year` parameter is `null`, it will default to returning *"Senior"*.
 
 Age categories are calculated dynamically based on the current year, `new Date().getFullYear()`, so they remain valid without requiring manual yearly updates. 
+
+## Testing and Quality Validation
+
+### Vitest
+
+![Vitest](https://img.shields.io/badge/-Vitest-252529?style=for-the-badge&logo=vitest&logoColor=FCC72B)
+
+This project uses Vitest for unit and integration testing.
+
+```sh
+# Run all tests
+pnpm test
+```
+
+```sh
+# Run tests in watch mode
+pnpm test:watch
+```
+
+```sh
+# Run tests with coverage metrics
+pnpm test:coverage
+```
+
+### Husky
+
+Husky is used to ensure code quality by running Git hooks on commits and pushes.
+
+Husky is automatically set up via the `prepare` script in `package.json`. This ensures that after running `pnpm install`, all Git hooks are initialised for the repository.
+
+#### Pre-commit Hook
+
+Before a commit, Husky runs linting on the codebase to prevent committing code with formatting or lint errors.
+
+#### Pre-push Hook
+
+Before a push, Husky runs Vitest to prevent breaking changes from being pushed. If the test suite fails, the push is rejected.
+
+### GitHub Workflow
+
+In case there is a bypass of the local hooks, there is a GitHub workflow in place to ensure that broken or incorrectly formatted code cannot be merged. This workflow runs tests on every push or PR. Coverage metrics are collected here and the latest workflow run status is displayed using a Markdown badge:
+
+[![Run Tests](https://github.com/corey-richardson/archery-tool/actions/workflows/test.yaml/badge.svg)](https://github.com/corey-richardson/archery-tool/actions/workflows/test.yaml)
+
+### Continuous Integration / Continuous Deployment Workflow
+
+```mermaid
+flowchart TB
+    A[Developer makes a commit] --> B[Husky Pre-commit Hook]
+    B -->|Runs lint/staged files| C{Lint/Format pass?}
+    C -->|Yes| D[Commit succeeds]
+    C -->|No| E[Commit blocked]
+    
+    D --> F[Husky Pre-push Hook]
+    F -->|Runs tests/coverage| G{Tests pass?}
+    G -->|Yes| H[Push to remote]
+    G -->|No| I[Push blocked]
+    
+    H --> J[GitHub Actions CI]
+    J -->|Runs tests/coverage| K{Tests pass?}
+    K -->|Yes| L[Merge/Deploy allowed]
+    K -->|No| M[Merge blocked]
+```
 
 ---
 
