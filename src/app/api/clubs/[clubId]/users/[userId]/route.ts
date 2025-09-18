@@ -2,6 +2,75 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 import { requireLoggedInUser } from "@/app/lib/server-utils";
 
+/**
+ * @swagger
+ * /api/clubs/{clubId}/users/{userId}:
+ *   delete:
+ *     operationId: deleteClubMembership
+ *     tags:
+ *       - Club Memberships
+ *     summary: End a user's club membership
+ *     description: >
+ *       Ends a membership for the specified user in the given club.
+ *       - A user can leave their own membership.
+ *       - An admin can remove other members.
+ *       - Prevents the last admin from leaving the club.
+ *     parameters:
+ *       - in: path
+ *         name: clubId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the club
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the user whose membership should be ended
+ *     responses:
+ *       200:
+ *         description: Membership ended successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Membership ended successfully.
+ *       400:
+ *         description: Missing clubId or userId, membership invalid, or membership already ended
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Not authorised (must be admin or the membership owner; or trying to remove last admin)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Membership not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Server error when ending membership
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *     security:
+ *       - SessionAuth: []
+ */
+
+
 export async function DELETE(request: NextRequest, { params }: { params: { clubId: string; userId: string } } ) {
     const user = await requireLoggedInUser();
 

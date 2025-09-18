@@ -6,6 +6,129 @@ interface Membership {
     roles: string[];
 }
 
+/**
+ * @swagger
+ * /api/users/{userId}:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Get a user by ID
+ *     description: Retrieves the details of a specific user. Only the user themselves or a user with RECORDS or higher privileges can access this endpoint.
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user to retrieve
+ *     responses:
+ *       200:
+ *         description: User details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Missing required userId parameter
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Unauthorized access
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *
+ *   patch:
+ *     tags:
+ *       - Users
+ *     summary: Update a user
+ *     description: Updates the fields of a user. Only the user themselves or a user with RECORDS or higher privileges can update.
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The user's name
+ *               email:
+ *                 type: string
+ *                 description: The user's email address
+ *               archeryGBNumber:
+ *                 type: string
+ *                 nullable: true
+ *                 description: The user's ArcheryGB number
+ *               sex:
+ *                 type: string
+ *                 nullable: true
+ *               gender:
+ *                 type: string
+ *                 nullable: true
+ *               yearOfBirth:
+ *                 type: integer
+ *                 nullable: true
+ *               defaultBowstyle:
+ *                 type: string
+ *                 nullable: true
+ *             example:
+ *               name: "Jane Doe"
+ *               email: "jane@example.com"
+ *               archeryGBNumber: "123456"
+ *               sex: "F"
+ *               gender: "Female"
+ *               yearOfBirth: 1990
+ *               defaultBowstyle: "Recurve"
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 user:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Missing required fields
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       409:
+ *         description: Conflict with existing email or ArcheryGB number
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+
+
 export async function GET(req: NextRequest, context: any) {
     const requestor = await requireLoggedInUser();
 

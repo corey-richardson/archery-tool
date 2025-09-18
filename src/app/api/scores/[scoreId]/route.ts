@@ -2,6 +2,112 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 import { requireLoggedInUser, requireRecordsUserOrHigher } from "@/app/lib/server-utils";
 
+/**
+ * @swagger
+ * /api/scores/{scoreId}:
+ *   patch:
+ *     operationId: updateScore
+ *     tags:
+ *       - Scores
+ *     summary: Update a score
+ *     description: >
+ *       Updates a score with the provided fields.
+ *       Requires a user with RECORDS role or higher.
+ *     parameters:
+ *       - in: path
+ *         name: scoreId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the score
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ageCategory: { type: "string" }
+ *               roundIndoorClassification: { type: "string" }
+ *               roundOutdoorClassification: { type: "string" }
+ *               roundHandicap: { type: "number" }
+ *               notes: { type: "string" }
+ *               sex: { type: "string" }
+ *               dateShot: { type: "string", format: "date" }
+ *               roundName: { type: "string" }
+ *               roundType: { type: "string" }
+ *               bowstyle: { type: "string" }
+ *               score: { type: "integer" }
+ *               xs: { type: "integer" }
+ *               tens: { type: "integer" }
+ *               nines: { type: "integer" }
+ *               hits: { type: "integer" }
+ *               competitionLevel: { type: "string" }
+ *               processedAt: { type: "string", format: "date-time" }
+ *     responses:
+ *       200:
+ *         description: Score updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: "string" }
+ *                 score:
+ *                   $ref: '#/components/schemas/Score'
+ *       400:
+ *         description: Missing scoreId or no fields provided
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Score not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Failed to update score
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *     security:
+ *       - SessionAuth: []
+ *
+ *   delete:
+ *     operationId: deleteScore
+ *     tags:
+ *       - Scores
+ *     summary: Delete a score
+ *     description: Deletes the specified score
+ *     parameters:
+ *       - in: path
+ *         name: scoreId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the score
+ *     responses:
+ *       200:
+ *         description: Score deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: "string", example: "Score deleted." }
+ *       400:
+ *         description: Missing scoreId
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *     security:
+ *       - SessionAuth: []
+ */
+
 export async function PATCH(
     request: NextRequest,
     { params }: { params: { scoreId: string } }

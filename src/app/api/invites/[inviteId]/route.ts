@@ -8,6 +8,106 @@ interface Membership {
     roles: string[];
 }
 
+/**
+ * @swagger
+ * /api/invites/{inviteId}:
+ *   post:
+ *     operationId: acceptInvite
+ *     tags:
+ *       - Invites
+ *     summary: Accept an invite to a club
+ *     description: >
+ *       Accepts a pending invite for the logged-in user.
+ *       User must be the invitee.
+ *       If already a member, the invite is deleted and a 409 error is returned.
+ *     parameters:
+ *       - in: path
+ *         name: inviteId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the invite
+ *     responses:
+ *       200:
+ *         description: Invite accepted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       401:
+ *         description: Not authenticated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Invite not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       409:
+ *         description: Already a member
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *     security:
+ *       - SessionAuth: []
+ *
+ *   delete:
+ *     operationId: deleteInvite
+ *     tags:
+ *       - Invites
+ *     summary: Reject or rescind an invite to a club
+ *     description: >
+ *       Deletes the specified invite.
+ *       The user must be the invitee or have roles ADMIN, CAPTAIN, or RECORDS.
+ *     parameters:
+ *       - in: path
+ *         name: inviteId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the invite
+ *     responses:
+ *       200:
+ *         description: Invite deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       401:
+ *         description: Not authenticated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Invite not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *     security:
+ *       - SessionAuth: []
+ */
+
+
 export async function POST(req: Request, { params }: { params: { inviteId: string } })
 {
     await requireLoggedInUser();

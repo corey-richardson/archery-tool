@@ -4,6 +4,96 @@ import { requireLoggedInUser, requireAdminUser } from "@/app/lib/server-utils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
 
+/**
+ * @swagger
+ * /api/clubs/{clubId}/invites:
+ *   post:
+ *     operationId: createClubInvite
+ *     tags:
+ *       - Invites
+ *     summary: Create an invite to a club
+ *     description: Creates a pending invite for a user to join the specified club using their Archery GB number
+ *     parameters:
+ *       - in: path
+ *         name: clubId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the club
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - archeryGBNumber
+ *               - invitedBy
+ *             properties:
+ *               archeryGBNumber:
+ *                 type: string
+ *                 description: Archery GB number of the user to invite
+ *               invitedBy:
+ *                 type: string
+ *                 description: ID of the user sending the invite
+ *     responses:
+ *       201:
+ *         description: Invite created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Invite'
+ *       400:
+ *         description: Missing required fields
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       409:
+ *         description: Invite already exists or user is already a member
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *   get:
+ *     operationId: listClubInvites
+ *     tags:
+ *       - Invites
+ *     summary: Get pending invites for a club
+ *     description: Returns all pending invites for the specified club (admin only)
+ *     parameters:
+ *       - in: path
+ *         name: clubId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the club
+ *     responses:
+ *       200:
+ *         description: List of pending invites
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 invites:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Invite'
+ *       401:
+ *         description: Not authenticated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Not authorised (admin only)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+
 export async function POST(req: NextRequest, context: any) {
     await requireAdminUser();
 

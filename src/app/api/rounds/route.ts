@@ -3,6 +3,55 @@ import indoorRounds from "@/app/lib/IndoorRounds.json";
 import outdoorRounds from "@/app/lib/OutdoorRounds.json";
 import { requireLoggedInUser } from "@/app/lib/server-utils";
 
+/**
+ * @swagger
+ * /api/rounds:
+ *   get:
+ *     operationId: listRounds
+ *     tags:
+ *       - Rounds
+ *     summary: Retrieve a list of archery rounds
+ *     description: >
+ *       Returns all available archery rounds filtered by type.
+ *       Requires a logged-in user.
+ *       Type parameter must be either "INDOOR" or "OUTDOOR".
+ *     parameters:
+ *       - in: query
+ *         name: type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [INDOOR, OUTDOOR]
+ *         description: Filter rounds by type
+ *     responses:
+ *       200:
+ *         description: List of rounds retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 rounds:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Round'
+ *       400:
+ *         description: Missing or invalid type parameter
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *     security:
+ *       - SessionAuth: []
+ */
+
+
 export async function GET(request: NextRequest) {
     await requireLoggedInUser();
     // throw new Error("Simulated Error to test manual input");

@@ -2,6 +2,101 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 import { requireAdminUser, requireLoggedInUser } from "@/app/lib/server-utils";
 
+/**
+ * @swagger
+ * /api/clubs/{clubId}:
+ *   get:
+ *     operationId: getClubDetails
+ *     tags:
+ *       - Clubs
+ *     summary: Get club details and members
+ *     description: >
+ *       Fetches information about a club and its current memberships.
+ *       Requires a logged-in user.
+ *     parameters:
+ *       - in: path
+ *         name: clubId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the club
+ *     responses:
+ *       200:
+ *         description: Club and members retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 club:
+ *                   $ref: '#/components/schemas/Club'
+ *                 members:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/ClubMembership'
+ *       400:
+ *         description: Missing clubId
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Club or members not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Server error while fetching club
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *     security:
+ *       - SessionAuth: []
+ *
+ *   delete:
+ *     operationId: deleteClub
+ *     tags:
+ *       - Clubs
+ *     summary: Delete a club
+ *     description: >
+ *       Deletes a club and all its memberships.
+ *       Requires an admin user.
+ *     parameters:
+ *       - in: path
+ *         name: clubId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the club
+ *     responses:
+ *       200:
+ *         description: Club deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Club deleted
+ *       400:
+ *         description: Missing clubId
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Failed to delete club
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *     security:
+ *       - SessionAuth: []
+ */
+
 export async function GET(request: NextRequest, context: any) {
     await requireLoggedInUser();
 

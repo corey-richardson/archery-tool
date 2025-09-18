@@ -4,6 +4,47 @@ import { authOptions } from "@/app/api/auth/authOptions";
 import prisma from "@/app/lib/prisma";
 import { requireLoggedInUser } from "@/app/lib/server-utils";
 
+/**
+ * @swagger
+ * /api/users/invites:
+ *   get:
+ *     tags:
+ *       - Invites
+ *     summary: Get pending invites for the current user
+ *     description: Retrieves all pending invites for the currently authenticated user, matching either their user ID or ArcheryGB number.
+ *     responses:
+ *       200:
+ *         description: List of pending invites retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 invites:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Invite'
+ *       401:
+ *         description: Not authenticated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Current user not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Failed to fetch invites
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+
+
 export async function GET() {
     await requireLoggedInUser();
 

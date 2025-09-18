@@ -2,6 +2,78 @@ import { NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 import { requireLoggedInUser } from "@/app/lib/server-utils";
 
+/**
+ * @swagger
+ * /api/users/{userId}/clubs:
+ *   get:
+ *     operationId: listUserClubs
+ *     tags:
+ *       - Users
+ *     summary: List all active clubs for a user
+ *     description: >
+ *       Retrieves all clubs that the specified user is a member of, along with membership details
+ *       and a list of users in the club with ADMIN, CAPTAIN, or RECORDS roles.
+ *       Requires a logged-in user.
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The unique identifier of the user
+ *     responses:
+ *       200:
+ *         description: List of clubs with membership details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 clubs:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       name:
+ *                         type: string
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         format: date-time
+ *                       membershipDetails:
+ *                         $ref: '#/components/schemas/ClubMembership'
+ *                       adminOrRecordsUsers:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             id:
+ *                               type: string
+ *                             name:
+ *                               type: string
+ *                             highestRole:
+ *                               type: string
+ *                               enum: [ADMIN, CAPTAIN, RECORDS, ?]
+ *       400:
+ *         description: Missing userId
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Failed to fetch clubs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *     security:
+ *       - SessionAuth: []
+ */
+
 export async function GET(request: Request, context: any) {
     await requireLoggedInUser();
 
