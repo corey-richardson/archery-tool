@@ -49,7 +49,7 @@ const eslintConfig = [
                         {
                             comment: "JsdocBlock:has(JsdocTag[tag=swagger])",
                             context: "any",
-                            message: "@swagger documentation is required on each API. See https://github.com/jellydn/next-swagger-doc"
+                            message: "@swagger documentation is required on each API route for OpenAPI spec generation"
                         }
                     ]
                 }
