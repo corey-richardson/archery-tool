@@ -5,6 +5,23 @@
 [![wakatime](https://wakatime.com/badge/user/55c30436-1509-4eb9-9f18-fa9b7c6060c4/project/f284d99e-acc6-43a2-a5d0-bb6bfdf0f5c6.svg)](https://wakatime.com/@coreyrichardson/projects/hrzfhtnwcv?start=2025-07-01&end=2025-09-30)
 ![GitHub License](https://img.shields.io/github/license/corey-richardson/archery-tool)
 
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Tech Stack](#tech-stack)
+3. [Quick Start](#quick-start)
+4. [API Endpoints](#api-endpoints)
+5. [Database Schema](#database-schema)
+   - [Prisma Common Commands](#prisma-common-commands)
+   - [Models](#models)
+   - [Enums](#enums)
+6. [lib Utilities](#lib-utilities)
+7. [Contributing](#contributing)
+8. [License](#license)
+9. [Support](#support)
+
+## Overview
+
 Archery Tool is an open-source platform designed to help clubs manage memberships, track scores, and organize achievements with ease. The system supports multiple user roles, allowing administrators to oversee club operations, records officers to maintain score histories, and members to view their progress and participate in events. With a focus on security and accessibility, Archery Tool offers a modern, user-friendly alternative to paid solutions, ensuring clubs of all sizes can benefit from streamlined management and transparent record keeping.
 
 The tool is free to use and is covered by a [GNU General Public License v3.0](https://github.com/corey-richardson/archery-tool/blob/main/LICENSE). This means you are free to use, modify, and share the software, even for commercial purposes, as long as any distributed versions or derivatives remain open-source and are also licensed under the GPL v3.0. You must provide attribution and include the original license when redistributing or publishing changes. Proprietary use or relicensing is not permitted.
@@ -22,6 +39,7 @@ This links into the Role-Based Access permission levels, offering different acce
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
@@ -34,6 +52,7 @@ This links into the Role-Based Access permission levels, offering different acce
 - Backend: Next.js API Routes, Prisma ORM
 - Database: PostgreSQL
 - Authentication: NextAuth.js with OAuth (Google, Github) 
+- API Documentation: Swagger UI with enforced JSDoc `@swagger`
 - UI Components: Material-UI `DataGrid`
 - Deployment: Vercel
 
@@ -82,6 +101,16 @@ GITHUB_SECRET=""
 
 # Other OAuth providers
 ```
+
+## API Endpoints
+
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
+
+All API endpoints are documented using Swagger (OpenAPI), meaning you can view, explore and test the API from your browser. This documentation is found on the [`/api/docs`](https://archery-tool.vercel.app/api/docs) path of the webpage.
+
+Some endpoints require authentication so ensure you are logged in to access protected routes. Some protected routes require appropriate roles.
+
+Documentation is generated from JSDoc comments in the source code. Ensure each endpoint is properly documented with `@swagger` tags to keep documentation up to date! Endpoints without this documentation will trigger a linting error.
 
 ## Database Schema
 
