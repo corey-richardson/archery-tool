@@ -67,45 +67,52 @@ This links into the Role-Based Access permission levels, offering different acce
 ```sh
 # Clone repository
 git clone https://github.com/corey-richardson/archery-tool.git
+cd archery-tool
 
 # Install dependencies
 pnpm install
-
-# Setup environment variables
-
-# Run database migrations
-pnpm prisma migrate dev
-
-# Seed database
-pnpm prisma db seed
-
-# Start development server
-pnpm dev
 ```
 
 ```sh
-# .env example
+# Setup environment variables
+code .env
+```
 
-# Created by Vercel CLI
-DATABASE_URL=""
-POSTGRES_URL=""
-PRISMA_DATABASE_URL=""
-VERCEL_OIDC_TOKEN=""
+```sh
+# PostgreSQL Database
+DATABASE_URL="postgresql://username:password@localhost:5432/archerydb"
+POSTGRES_URL="postgresql://username:password@localhost:5432/postgres"
+PRISMA_DATABASE_URL="postgresql://username:password@localhost:5432/archerydb"
 
+# Vercel / Deployment
 NEXT_PUBLIC_SITE_URL="https://your-app.vercel.app"
+VERCEL_OIDC_TOKEN="your-vercel-token"
 
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=""
+# NextAuth
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="super-secret-random-string"
 
-SECRET=""
+# Google OAuth
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
 
-GOOGLE_CLIENT_ID=""
-GOOGLE_CLIENT_SECRET=""
+# GitHub OAuth
+GITHUB_ID="your-github-client-id"
+GITHUB_SECRET="your-github-client-secret"
 
-GITHUB_ID=""
-GITHUB_SECRET=""
+# Optional: other OAuth providers
+```
 
-# Other OAuth providers
+```sh
+# Apply schema changes
+pnpm prisma migrate dev
+# Browse db in prisma studio
+pnpm prisma studio
+```
+
+```sh
+# Run locally
+pnpm dev
 ```
 
 ## API Endpoints
@@ -171,7 +178,9 @@ npx prisma format      # format the schema, like linting
 
 ### Models
 
-`User`
+<details>
+<summary>User</summary>
+
 - Represents an individual member.
 - Authentication attributes: `email`, `hashedPassword`, linked `Account` and `Session` records
 - Personal Detail attributes: `archeryGBNumber`, `defaultBowstyle`, `sex`, `gender`, `yearOfBirth`
@@ -182,91 +191,208 @@ npx prisma format      # format the schema, like linting
     - Records summary and submitted scores
     - Invites Sent and Invites Received
 
-`Invite`
+</details>
+
+<details>
+<summary>Invite</summary>
+
 - Represents an invitation to join a club
-- Can be linked to an existing user through `userId` or an external invitee through `archeryGBNumber`. See [api/clubs/\[clubId\]/invites/route.ts](src\\app\\api\\clubs\\[clubId]\\invites\\route.ts).
+- Can be linked to an existing user through `userId` or an external invitee through `archeryGBNumber`. See [api/clubs/\[clubId\]/invites/route.ts](src\\app\\api\\clubs\\[clubId]\\invites\\route.ts)
 - Tracks the inviter via `invitedBy` and club via `clubId`
-- Status of type `enum InviteStatus` can be `PENDING`, `ACCEPTED`, `DECLINED` or `EXPIRED` (unused, no `expiresAt` attribute on `Invite`).
+- Status of type `enum InviteStatus` can be `PENDING`, `ACCEPTED`, `DECLINED` or `EXPIRED` (unused, no `expiresAt` attribute on `Invite`)
 - Status is updated by a `POST` (accept) or `DELETE` (decline or rescind) request to `api\invites\[inviteId]\route.ts`
 
-`Club`
+</details>
+
+<details>
+<summary>Club</summary>
+
 - Represents an archery club
 - `name` attribute must be unique
 - Links to `memberships` and pending `invites`
 - Supports multiple administrator users via the `ClubMembership` relationship
 
-`ClubMembership`
+</details>
+
+<details>
+<summary>ClubMembership</summary>
+
 - Link table joining a user to a club in a one-to-one relationship
-- There can be multiple ClubMemberships linking the same user to the same club to allowing rejoining of a club after `endedAt` is set.
+- There can be multiple ClubMemberships linking the same user to the same club to allowing rejoining of a club after `endedAt` is set
 - The `role` attribute is an array of `MembershipRole` values
 - Membership Lifecycle: `joinedAt` and `endedAt`
 
-`Account`
+</details>
+
+<details>
+<summary>Account</summary>
+
 - Used by NextAuth.js and OAuth to record login accounts (Google, GitHub)
 - Uniquely identified by a combination of `provider` and `providerAccountId`
 - Stores authentication tokens and metadata `access_token`, `refresh_token`, `expires_at`, etc.
 - *OAuth providers do not give direct access to the user's external account. The application stores a short-lived or refreshable **token** issued during authentication. **The database does not track the external account's profile, only the identifiers and tokens necessary for login sessions are stored.**
-- Flow: User logs in with OAuth provider -> provider issues tokens -> NextAuth stores the token in `Account` -> application uses the token for session validation.
+- Flow: User logs in with OAuth provider -> provider issues tokens -> NextAuth stores the token in `Account` -> application uses the token for session validation
 
-`Session`
+</details>
+
+<details>
+<summary>Session</summary>
+
 - Represents an active login session
 - `sessionToken` is unique
 - Linked to a `User`
 
-`VerificationToken`
+</details>
+
+<details>
+<summary>VerificationToken</summary>
+
 - Represents email verification and password reset tokens
 - Uniquely identified by a combination of `identifier` and `token`
 
-`IceDetails`
+</details>
+
+<details>
+<summary>IceDetails</summary>
+
 - Represents Emergency Contact information; formally referred to as 'In Case of Emergency' by the application
 - Linked to a user via `userId`
-- Includes `contactName`, `contactPhone`, `contactEmail` (optional) and `relationshipType` (optional, of type `enum RelationshipType`) of the contact.
+- Includes `contactName`, `contactPhone`, `contactEmail` (optional) and `relationshipType` (optional, of type `enum RelationshipType`) of the contact
 
-`RecordsSummary`
+</details>
+
+<details>
+<summary>RecordsSummary</summary>
+
 - Stores a summary of information regarding classifications and handicaps achieved by a user. Also stores custom `notes` which can be set by a Records Officer to track other achievements, such as 252 or Progress awards, WA Star/Rose awards etc.
 - `indoorClassification`, `outdoorClassification`
 - `indoorBadgeGiven`, `outdoorBadgeGiven`
 - `indoorHandicap`, `outdoorHandicap`
 
-`Scores`
+</details>
+
+<details>
+<summary>Scores</summary>
+
 - Individual score records submitted by a user
 - Round Details: `dateShot`, `roundName`, `roundType` (outdoor/indoor), `bowstyle`, `sex`, `ageCategory`, `competitionLevel`
 - Score Details: `score`, `xs`, `tens`, `nines`, `hits`
 - Status Details: `submittedAt`, `processedAt`
 - Derived Details: `roundIndoorClassification?`, `roundOutdoorClassification?`, `roundHandicap?`
-- `roundName` form field on `/submit-score` page uses an effect to fetch JSON data from `src\app\lib\IndoorRounds.json` and `src\app\lib\OutdoorRounds.json`. This data is then referenced using `useRef` to avoid unecessary re-fetches. See [src\app\(protected)\submit-score\form.tsx](src/app/(protected)/submit-score/form.tsx). The slightly more static `roundType`, `bowstyle` and `competitionLevel` fields are memoized to cache the options between re-renders avoiding unecessary calculations using the `EnumMappings` lib helper.
+- `roundName` form field on `/submit-score` page uses an effect to fetch JSON data from `src\app\lib\IndoorRounds.json` and `src\app\lib\OutdoorRounds.json`. This data is then referenced using `useRef` to avoid unecessary re-fetches. See [src\app\(protected)\submit-score\form.tsx](src/app/(protected)/submit-score/form.tsx)
+- The slightly more static `roundType`, `bowstyle` and `competitionLevel` fields are memoized to cache the options between re-renders avoiding unecessary calculations using the `EnumMappings` lib helper
+
+</details>
 
 ### Enums
 
-`MembershipRole`
-- `MEMBER`, `COACH`, `RECORD`, `CAPTAIN`, `ADMIN`
+#### Age Categories
 
-`Bowstyle`
-- `BAREBOW`, `RECURVE`, `COMPOUND`, `LONGBOW`, `TRADITIONAL`
+| Enum Value       | Display Name      |
+|-----------------|-----------------|
+| UNDER_12        | Under 12        |
+| UNDER_14        | Under 14        |
+| UNDER_15        | Under 15        |
+| UNDER_16        | Under 16        |
+| UNDER_18        | Under 18        |
+| UNDER_21        | Under 21        |
+| SENIOR          | Senior          |
+| OVER_FIFTY      | Over Fifty      |
 
-`Sex`
-- `MALE`, `FEMALE`, `NOT_SET`
+#### Bow Styles
 
-`AgeCategories`
-- `UNDER_12`, `UNDER_14`, `UNDER_15`, `UNDER_16`, `UNDER_18`, `UNDER_21`, `SENIOR`, `OVER_FIFTY`
+| Enum Value       | Display Name      |
+|-----------------|-----------------|
+| BAREBOW          | Barebow          |
+| RECURVE          | Recurve          |
+| COMPOUND         | Compound         |
+| LONGBOW          | Longbow          |
+| TRADITIONAL      | Traditional      |
 
-`RelationshipTypes`
-- `PARENT`, `GUARDIAN`, `SPOUSE`, `SIBLING`, `FRIEND`, `OTHER`
+#### Membership Roles
 
-`RoundType`
-- `INDOOR`, `OUTDOOR`
+| Enum Value       | Display Name      |
+|-----------------|-----------------|
+| MEMBER           | Member           |
+| COACH            | Coach            |
+| RECORD           | Records Officer  |
+| CAPTAIN          | Captain          |
+| ADMIN            | Admin            |
 
-`IndoorClassification`
-- From `IA3` up to `IGMB`, plus `UNCLASSIFIED`
+#### Round Types
 
-`OutdoorClassification`
-- From `A3` up to `EMB`, plus `UNCLASSIFIED`
+| Enum Value       | Display Name      |
+|-----------------|-----------------|
+| INDOOR           | Indoor           |
+| OUTDOOR          | Outdoor          |
 
-`CompetitionLevel`
-- `PRACTICE`, `CLUB_EVENT`, `OPEN_COMPETITION`, `RECORDSTATUS_COMPETITION`
+### Sex
 
-`InviteStatus`
-- `PENDING`, `ACCEPTED`, `DECLINED`, `EXPIRED`
+| Enum Value       | Display Name      |
+|-----------------|-----------------|
+| MALE             | Male             |
+| FEMALE           | Female           |
+| NOT_SET          | Not Set          |
+
+#### Relationship Types for Emergency Contact Details
+
+| Enum Value       | Display Name      |
+|-----------------|-----------------|
+| PARENT           | Parent           |
+| GUARDIAN         | Guardian         |
+| SPOUSE           | Spouse           |
+| SIBLING          | Sibling          |
+| FRIEND           | Friend           |
+| OTHER            | Other            |
+
+#### Indoor Classifications
+
+| Enum Value       | Display Name               |
+|-----------------|---------------------------|
+| IA3              | Indoor Archer 3rd Class   |
+| IA2              | Indoor Archer 2nd Class   |
+| IA1              | Indoor Archer 1st Class   |
+| IB3              | Indoor Bowman 3rd Class   |
+| IB2              | Indoor Bowman 2nd Class   |
+| IB1              | Indoor Bowman 1st Class   |
+| IMB              | Indoor Master Bowman      |
+| IGMB             | Indoor Grand Master Bowman|
+| UNCLASSIFIED     | Unclassified              |
+
+#### Outdoor Classifications
+
+| Enum Value       | Display Name               |
+|-----------------|---------------------------|
+| A3               | Archer 3rd Class           |
+| A2               | Archer 2nd Class           |
+| A1               | Archer 1st Class           |
+| B3               | Bowman 3rd Class           |
+| B2               | Bowman 2nd Class           |
+| B1               | Bowman 1st Class           |
+| MB               | Master Bowman              |
+| GMB              | Grand Master Bowman        |
+| EMB              | Elite Master Bowman        |
+| UNCLASSIFIED     | Unclassified               |
+
+
+#### Competition Levels
+
+| Enum Value                 | Display Name             |
+|----------------------------|-------------------------|
+| PRACTICE                   | Practice                |
+| CLUB_EVENT                 | Club Event              |
+| OPEN_COMPETITION           | Open Competition        |
+| RECORDSTATUS_COMPETITION   | Record Status Competition|
+
+#### Invite Status
+
+| Enum Value       | Display Name      |
+|-----------------|-----------------|
+| PENDING          | Pending          |
+| ACCEPTED         | Accepted         |
+| DECLINED         | Declined         |
+| EXPIRED          | Expired (Not used) |
+
 
 ## `lib` Utilities
 
