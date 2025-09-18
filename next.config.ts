@@ -6,8 +6,6 @@ const nextConfig: NextConfig = {
     // Skip type checking during build
     ignoreBuildErrors: true, // pnpm tsc --noEmit
   },
-  // Explicitly set output mode for Vercel
-  output: 'standalone',
 };
 
 export default nextConfig;
