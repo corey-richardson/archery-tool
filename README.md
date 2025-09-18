@@ -106,11 +106,31 @@ GITHUB_SECRET=""
 
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 
-All API endpoints are documented using Swagger (OpenAPI), meaning you can view, explore and test the API from your browser. This documentation is found on the [`/api-docs`](https://archery-tool.vercel.app/api-docs) path of the webpage.
+All API endpoints are documented using Swagger (OpenAPI .0), meaning you can view, explore and test the API from your browser. This documentation is found on the [`/api-docs`](https://archery-tool.vercel.app/api-docs) path of the webpage.
 
-Some endpoints require authentication so ensure you are logged in to access protected routes. Some protected routes require appropriate roles.
+Documentation is pre-generated during deployment from JSDoc comments in the source code. All endpoints must be properly documented with `@swagger` tags; endpoints without this documentation will trigger a ESLint errors and the deployment will be rejected.
 
-Documentation is generated from JSDoc comments in the source code. Ensure each endpoint is properly documented with `@swagger` tags to keep documentation up to date! Endpoints without this documentation will trigger a linting error.
+```ts
+/**
+ * @swagger
+ * /api/example:
+ *   get:
+ *     summary: Example endpoint
+ *     tags: [Example]
+ *     responses:
+ *       200:
+ *         description: Success response
+ */
+```
+
+The API documentation system uses:
+- `swagger-jsdoc` to parse JSDoc comments in API route source code
+- `swagger-ui-react` for the interactive browser interface
+- Build-time generation via `scripts/generate-swagger.js` to ensure Vercel compatibility (serverless and read-time limitations)
+
+> On Vercel, API routes and server components are deployed as serverless functions. In this environment, dynamic file-system access at runtime is limited. By generating the OpenAPI JSON spec at build-time, the Swagger spec is pre-compiled into a static JSON file. This avoids the need for `swagger-jsdoc` to scan your API routes at runtime, which could fail due to Vercel's file structure and serverless execution model.
+
+Ensure you are logged in when testing protected routes and that you have the permissions needed for any role-based-access endpoints.
 
 ## Database Schema
 
@@ -283,7 +303,7 @@ export default function calculateAgeCategory(year: number, displayFlag?: boolean
 
 This function determines the correct age category for a member based on their year of birth. Categories are aligned with the `AgeCategories` enum in the schema.
 
-It takes an optional `displayFlag` paremeter, which when set as true will display the display-friendly label using `EnumMapping` to map the enum type.
+It takes an optional `displayFlag` parameter, which when set as true will display the display-friendly label using `EnumMapping` to map the enum type.
 
 If the `year` parameter is `null`, it will default to returning *"Senior"*.
 
