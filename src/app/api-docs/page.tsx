@@ -1,7 +1,7 @@
 import { getApiDocs } from "@/app/lib/swagger";
 import SwaggerUIClient from "./swagger-ui-client";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function ApiDocsPage() {
     try {
