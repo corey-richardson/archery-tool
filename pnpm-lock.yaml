@@ -44,9 +44,6 @@ importers:
       next-auth:
         specifier: ^4.24.11
         version: 4.24.11(next@15.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      next-swagger-doc:
-        specifier: ^0.4.1
-        version: 0.4.1(next@15.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(openapi-types@12.1.3)
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -1321,9 +1318,6 @@ packages:
   classnames@2.5.1:
     resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
 
-  cleye@1.3.2:
-    resolution: {integrity: sha512-MngIC2izcCz07iRKr3Pe8Z6ZBv4zbKFl/YnQEN/aMHis6PpH+MxI2e6n0bMUAmSVlMoAyQkdBCSTbfDmtcSovQ==}
-
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
 
@@ -2186,13 +2180,6 @@ packages:
       nodemailer:
         optional: true
 
-  next-swagger-doc@0.4.1:
-    resolution: {integrity: sha512-pFmFUOwNlJh7mr9P6b2obAHa9JAwgPK3oNTIzE9g/Gs+h2OG1T3C5SanzrqGA3dDncagyf/DbO5U+ZzNxKadWg==}
-    engines: {node: '>=18'}
-    hasBin: true
-    peerDependencies:
-      next: '>=9'
-
   next@15.4.1:
     resolution: {integrity: sha512-eNKB1q8C7o9zXF8+jgJs2CzSLIU3T6bQtX6DcTnCq1sIR1CJ0GlSyRs1BubQi3/JgCnr9Vr+rS5mOMI38FFyQw==}
     engines: {node: ^18.18.0 || ^19.8.0 || >= 20.0.0}
@@ -2770,9 +2757,6 @@ packages:
       react: '>=16.8.0 <20'
       react-dom: '>=16.8.0 <20'
 
-  terminal-columns@1.4.1:
-    resolution: {integrity: sha512-IKVL/itiMy947XWVv4IHV7a0KQXvKjj4ptbi7Ew9MPMcOLzkiQeyx3Gyvh62hKrfJ0RZc4M1nbhzjNM39Kyujw==}
-
   tinyglobby@0.2.14:
     resolution: {integrity: sha512-tX5e7OM1HnYr2+a2C/4V0htOcSQcoSTH9KgJnVvNm5zm/cyEWKJ7j7YutsH9CxMdtOkkLFy2AHrMci9IM8IPZQ==}
     engines: {node: '>=12.0.0'}
@@ -2836,9 +2820,6 @@ packages:
   type-fest@4.2.0:
     resolution: {integrity: sha512-5zknd7Dss75pMSED270A1RQS3KloqRJA9XbXLe0eCxyw7xXFb3rd+9B0UQ/0E+LQT6lnrLviEolYORlRWamn4w==}
     engines: {node: '>=16'}
-
-  type-flag@3.0.0:
-    resolution: {integrity: sha512-3YaYwMseXCAhBB14RXW5cRQfJQlEknS6i4C8fCfeUdS3ihG9EdccdR9kt3vP73ZdeTGmPb4bZtkDn5XMIn1DLA==}
 
   typed-array-buffer@1.0.3:
     resolution: {integrity: sha512-nAYYwfY3qnzX30IkA6AQZjVbtK6duGontcQm1WSG1MD94YLqK0515GNApXkoxKOWMusVssAHWLh9SeaoefYFGw==}
@@ -4385,11 +4366,6 @@ snapshots:
 
   classnames@2.5.1: {}
 
-  cleye@1.3.2:
-    dependencies:
-      terminal-columns: 1.4.1
-      type-flag: 3.0.0
-
   client-only@0.0.1: {}
 
   clsx@2.1.1: {}
@@ -5396,16 +5372,6 @@ snapshots:
       react-dom: 19.1.0(react@19.1.0)
       uuid: 8.3.2
 
-  next-swagger-doc@0.4.1(next@15.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(openapi-types@12.1.3):
-    dependencies:
-      '@types/swagger-jsdoc': 6.0.4
-      cleye: 1.3.2
-      isarray: 2.0.5
-      next: 15.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      swagger-jsdoc: 6.2.8(openapi-types@12.1.3)
-    transitivePeerDependencies:
-      - openapi-types
-
   next@15.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       '@next/env': 15.4.1
@@ -6098,8 +6064,6 @@ snapshots:
       - '@types/react'
       - debug
 
-  terminal-columns@1.4.1: {}
-
   tinyglobby@0.2.14:
     dependencies:
       fdir: 6.4.6(picomatch@4.0.3)
@@ -6168,8 +6132,6 @@ snapshots:
   type-fest@0.20.2: {}
 
   type-fest@4.2.0: {}
-
-  type-flag@3.0.0: {}
 
   typed-array-buffer@1.0.3:
     dependencies:
