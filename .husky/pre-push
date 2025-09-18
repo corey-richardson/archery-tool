@@ -1,4 +1,3 @@
 #!/bin/sh
-if [ -z "$VERCEL" ] && [ -z "$CI" ]; then
-  pnpm run lint:fix
-fi
+
+pnpm test:coverage
