@@ -167,9 +167,13 @@ const options: swaggerJsdoc.Options = {
         ],
     },
     apis: [
-    // Use absolute paths that work in both dev and production
+        // Local development paths
         path.join(process.cwd(), "src/app/api/**/*.ts"),
+        // Vercel production paths (compiled)
+        path.join(process.cwd(), ".next/server/app/api/**/*.js"),
         path.join(process.cwd(), "src/app/api/**/*.js"),
+        // Alternative Vercel paths
+        path.join(process.cwd(), "app/api/**/*.js"),
     ],
 };
 
