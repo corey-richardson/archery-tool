@@ -1,0 +1,2361 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Archery Tool API",
+    "version": "1.0",
+    "description": "API for Archery Club and Records Management Tool"
+  },
+  "components": {
+    "securitySchemes": {
+      "SessionAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "next-auth.session-token",
+        "description": "NextAuth.js session cookie authentication"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "archeryGBNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "sex": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "yearOfBirth": {
+            "type": "integer",
+            "nullable": true
+          },
+          "defaultBowstyle": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Club": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ClubMembership": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "clubId": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "joinedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "EmergencyContact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "contactName": {
+            "type": "string"
+          },
+          "contactPhone": {
+            "type": "string"
+          },
+          "contactEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "relationshipType": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "contactName",
+          "contactPhone",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "Invite": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "clubId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          },
+          "archeryGBNumber": {
+            "type": "string"
+          },
+          "invitedBy": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACCEPTED",
+              "DECLINED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "club": {
+            "$ref": "#/components/schemas/Club"
+          }
+        }
+      },
+      "RecordsSummary": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "totalScores": {
+            "type": "integer",
+            "nullable": true
+          },
+          "averageScore": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "highestScore": {
+            "type": "integer",
+            "nullable": true
+          },
+          "lowestScore": {
+            "type": "integer",
+            "nullable": true
+          },
+          "handicap": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "totalCompetitions": {
+            "type": "integer",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "userId",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "Round": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "codename": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "codename",
+          "body"
+        ]
+      },
+      "Score": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ageCategory": {
+            "type": "string",
+            "nullable": true
+          },
+          "roundIndoorClassification": {
+            "type": "string",
+            "nullable": true
+          },
+          "roundOutdoorClassification": {
+            "type": "string",
+            "nullable": true
+          },
+          "roundHandicap": {
+            "type": "number",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "sex": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateShot": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "roundName": {
+            "type": "string",
+            "nullable": true
+          },
+          "roundType": {
+            "type": "string",
+            "nullable": true
+          },
+          "bowstyle": {
+            "type": "string",
+            "nullable": true
+          },
+          "score": {
+            "type": "integer",
+            "nullable": true
+          },
+          "xs": {
+            "type": "integer",
+            "nullable": true
+          },
+          "tens": {
+            "type": "integer",
+            "nullable": true
+          },
+          "nines": {
+            "type": "integer",
+            "nullable": true
+          },
+          "hits": {
+            "type": "integer",
+            "nullable": true
+          },
+          "competitionLevel": {
+            "type": "string",
+            "nullable": true
+          },
+          "processedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "SessionAuth": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development server"
+    },
+    {
+      "url": "https://archery-tool.vercel.app",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "0": {
+      "0": "i"
+    },
+    "1": {
+      "0": "g"
+    },
+    "2": {
+      "0": "n"
+    },
+    "3": {
+      "0": "o"
+    },
+    "4": {
+      "0": "r"
+    },
+    "5": {
+      "0": "e"
+    },
+    "/api/clubs/{clubId}/invites": {
+      "post": {
+        "operationId": "createClubInvite",
+        "tags": [
+          "Invites"
+        ],
+        "summary": "Create an invite to a club",
+        "description": "Creates a pending invite for a user to join the specified club using their Archery GB number",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clubId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the club"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "archeryGBNumber",
+                  "invitedBy"
+                ],
+                "properties": {
+                  "archeryGBNumber": {
+                    "type": "string",
+                    "description": "Archery GB number of the user to invite"
+                  },
+                  "invitedBy": {
+                    "type": "string",
+                    "description": "ID of the user sending the invite"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Invite created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Invite"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Invite already exists or user is already a member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listClubInvites",
+        "tags": [
+          "Invites"
+        ],
+        "summary": "Get pending invites for a club",
+        "description": "Returns all pending invites for the specified club (admin only)",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clubId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the club"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of pending invites",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "invites": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Invite"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorised (admin only)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clubs/{clubId}": {
+      "get": {
+        "operationId": "getClubDetails",
+        "tags": [
+          "Clubs"
+        ],
+        "summary": "Get club details and members",
+        "description": "Fetches information about a club and its current memberships. Requires a logged-in user.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clubId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the club"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Club and members retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "club": {
+                      "$ref": "#/components/schemas/Club"
+                    },
+                    "members": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ClubMembership"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing clubId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Club or members not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching club",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteClub",
+        "tags": [
+          "Clubs"
+        ],
+        "summary": "Delete a club",
+        "description": "Deletes a club and all its memberships. Requires an admin user.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clubId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the club"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Club deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Club deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing clubId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to delete club",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/clubs/{clubId}/users/{userId}": {
+      "delete": {
+        "operationId": "deleteClubMembership",
+        "tags": [
+          "Club Memberships"
+        ],
+        "summary": "End a user's club membership",
+        "description": "Ends a membership for the specified user in the given club. - A user can leave their own membership. - An admin can remove other members. - Prevents the last admin from leaving the club.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clubId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the club"
+          },
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the user whose membership should be ended"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Membership ended successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Membership ended successfully."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing clubId or userId, membership invalid, or membership already ended",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not authorised (must be admin or the membership owner; or trying to remove last admin)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Membership not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error when ending membership",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/clubs": {
+      "post": {
+        "operationId": "createClub",
+        "tags": [
+          "Clubs"
+        ],
+        "summary": "Create a new club",
+        "description": "Creates a new club and assigns the creator as both a MEMBER and ADMIN. Requires a logged-in user.\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "clubName",
+                  "creatorId"
+                ],
+                "properties": {
+                  "clubName": {
+                    "type": "string",
+                    "example": "My New Archery Club"
+                  },
+                  "creatorId": {
+                    "type": "string",
+                    "description": "ID of the user creating the club"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Club created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "createdClub": {
+                      "$ref": "#/components/schemas/Club"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing club name",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A club with that name already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to create club",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/emergency-contacts/contact/{contactId}": {
+      "patch": {
+        "operationId": "updateEmergencyContact",
+        "tags": [
+          "Emergency Contacts"
+        ],
+        "summary": "Update an emergency contact",
+        "description": "Updates the specified emergency contact. Requires the user to be ADMIN, CAPTAIN, or RECORDS, or the owner of the contact.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the emergency contact"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "userId",
+                  "contactName",
+                  "contactPhone",
+                  "contactEmail",
+                  "relationshipType"
+                ],
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "ID of the user this contact belongs to"
+                  },
+                  "contactName": {
+                    "type": "string"
+                  },
+                  "contactPhone": {
+                    "type": "string"
+                  },
+                  "contactEmail": {
+                    "type": "string"
+                  },
+                  "relationshipType": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Emergency contact updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmergencyContact"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing contactId or required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorised",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteEmergencyContact",
+        "tags": [
+          "Emergency Contacts"
+        ],
+        "summary": "Delete an emergency contact",
+        "description": "Deletes the specified emergency contact by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the emergency contact"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Emergency contact deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Contact deleted."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing contactId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to delete contact",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/emergency-contacts/user/{userId}": {
+      "post": {
+        "operationId": "createEmergencyContact",
+        "tags": [
+          "Emergency Contacts"
+        ],
+        "summary": "Create a new emergency contact for a user",
+        "description": "Adds a new emergency contact for the specified user. Requires a logged-in user.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the user"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "contactName",
+                  "contactPhone"
+                ],
+                "properties": {
+                  "contactName": {
+                    "type": "string"
+                  },
+                  "contactPhone": {
+                    "type": "string"
+                  },
+                  "contactEmail": {
+                    "type": "string"
+                  },
+                  "relationshipType": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Emergency contact created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmergencyContact"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "listEmergencyContacts",
+        "tags": [
+          "Emergency Contacts"
+        ],
+        "summary": "List emergency contacts for a user",
+        "description": "Returns all emergency contacts for the specified user. Requires the user to be ADMIN, CAPTAIN, RECORDS, or the owner of the contacts.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of emergency contacts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmergencyContact"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing userId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorised",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/invites/{inviteId}": {
+      "post": {
+        "operationId": "acceptInvite",
+        "tags": [
+          "Invites"
+        ],
+        "summary": "Accept an invite to a club",
+        "description": "Accepts a pending invite for the logged-in user. User must be the invitee. If already a member, the invite is deleted and a 409 error is returned.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "inviteId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the invite"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invite accepted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invite not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Already a member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteInvite",
+        "tags": [
+          "Invites"
+        ],
+        "summary": "Reject or rescind an invite to a club",
+        "description": "Deletes the specified invite. The user must be the invitee or have roles ADMIN, CAPTAIN, or RECORDS.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "inviteId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the invite"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invite deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invite not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/rounds": {
+      "get": {
+        "operationId": "listRounds",
+        "tags": [
+          "Rounds"
+        ],
+        "summary": "Retrieve a list of archery rounds",
+        "description": "Returns all available archery rounds filtered by type. Requires a logged-in user. Type parameter must be either \"INDOOR\" or \"OUTDOOR\".\n",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "INDOOR",
+                "OUTDOOR"
+              ]
+            },
+            "description": "Filter rounds by type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of rounds retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rounds": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Round"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid type parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/scores/{scoreId}": {
+      "patch": {
+        "operationId": "updateScore",
+        "tags": [
+          "Scores"
+        ],
+        "summary": "Update a score",
+        "description": "Updates a score with the provided fields. Requires a user with RECORDS role or higher.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scoreId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the score"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ageCategory": {
+                    "type": "string"
+                  },
+                  "roundIndoorClassification": {
+                    "type": "string"
+                  },
+                  "roundOutdoorClassification": {
+                    "type": "string"
+                  },
+                  "roundHandicap": {
+                    "type": "number"
+                  },
+                  "notes": {
+                    "type": "string"
+                  },
+                  "sex": {
+                    "type": "string"
+                  },
+                  "dateShot": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "roundName": {
+                    "type": "string"
+                  },
+                  "roundType": {
+                    "type": "string"
+                  },
+                  "bowstyle": {
+                    "type": "string"
+                  },
+                  "score": {
+                    "type": "integer"
+                  },
+                  "xs": {
+                    "type": "integer"
+                  },
+                  "tens": {
+                    "type": "integer"
+                  },
+                  "nines": {
+                    "type": "integer"
+                  },
+                  "hits": {
+                    "type": "integer"
+                  },
+                  "competitionLevel": {
+                    "type": "string"
+                  },
+                  "processedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Score updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "score": {
+                      "$ref": "#/components/schemas/Score"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing scoreId or no fields provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Score not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to update score",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deleteScore",
+        "tags": [
+          "Scores"
+        ],
+        "summary": "Delete a score",
+        "description": "Deletes the specified score",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scoreId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the score"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Score deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Score deleted."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing scoreId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/scores": {
+      "post": {
+        "operationId": "createScore",
+        "tags": [
+          "Scores"
+        ],
+        "summary": "Create a new score record",
+        "description": "Creates a new score for the logged-in user. The `userId` in the request body must match the authenticated user's ID.\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  },
+                  "sex": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "ageCategory": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "submittedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "dateShot": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "roundName": {
+                    "type": "string"
+                  },
+                  "roundType": {
+                    "type": "string"
+                  },
+                  "bowstyle": {
+                    "type": "string"
+                  },
+                  "score": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "xs": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "tens": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "nines": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "hits": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "competitionLevel": {
+                    "type": "string"
+                  },
+                  "notes": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "userId",
+                  "dateShot",
+                  "roundName",
+                  "roundType",
+                  "bowstyle",
+                  "competitionLevel"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Score created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Score"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User ID mismatch",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/scores/user/{userId}": {
+      "get": {
+        "operationId": "listUserScores",
+        "tags": [
+          "Scores"
+        ],
+        "summary": "List scores for a specific user",
+        "description": "Retrieves a paginated list of scores for the specified user. Requires a logged-in user.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the user"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number for pagination"
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Number of scores per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of scores",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "scores": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Score"
+                      }
+                    },
+                    "hasMore": {
+                      "type": "boolean",
+                      "description": "Indicates if there are more pages available"
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "description": "Total number of pages"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid userId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/users/{userId}/clubs/{clubId}/roles": {
+      "put": {
+        "operationId": "updateUserRoles",
+        "tags": [
+          "Club Memberships"
+        ],
+        "summary": "Update roles of a user in a club",
+        "description": "Updates the roles assigned to a specific user within a club. Only Admin users can perform this action. Cannot remove the last Admin from a club.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the user whose roles are being updated"
+          },
+          {
+            "in": "path",
+            "name": "clubId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the club"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "roles": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Array of roles to assign to the user"
+                  }
+                },
+                "required": [
+                  "roles"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Roles updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Attempted to remove last admin or invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User is not an Admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Membership not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to update roles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/users/{userId}/clubs": {
+      "get": {
+        "operationId": "listUserClubs",
+        "tags": [
+          "Users"
+        ],
+        "summary": "List all active clubs for a user",
+        "description": "Retrieves all clubs that the specified user is a member of, along with membership details and a list of users in the club with ADMIN, CAPTAIN, or RECORDS roles. Requires a logged-in user.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of clubs with membership details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "clubs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "membershipDetails": {
+                            "$ref": "#/components/schemas/ClubMembership"
+                          },
+                          "adminOrRecordsUsers": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "highestRole": {
+                                  "type": "string",
+                                  "enum": [
+                                    "ADMIN",
+                                    "CAPTAIN",
+                                    "RECORDS",
+                                    "?"
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing userId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to fetch clubs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/users/{userId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get a user by ID",
+        "description": "Retrieves the details of a specific user. Only the user themselves or a user with RECORDS or higher privileges can access this endpoint.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the user to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required userId parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update a user",
+        "description": "Updates the fields of a user. Only the user themselves or a user with RECORDS or higher privileges can update.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the user to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The user's name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "The user's email address"
+                  },
+                  "archeryGBNumber": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The user's ArcheryGB number"
+                  },
+                  "sex": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "gender": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "yearOfBirth": {
+                    "type": "integer",
+                    "nullable": true
+                  },
+                  "defaultBowstyle": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                },
+                "example": {
+                  "name": "Jane Doe",
+                  "email": "jane@example.com",
+                  "archeryGBNumber": "123456",
+                  "sex": "F",
+                  "gender": "Female",
+                  "yearOfBirth": 1990,
+                  "defaultBowstyle": "Recurve"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict with existing email or ArcheryGB number",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{userId}/scores/overview": {
+      "get": {
+        "operationId": "getUserScoresOverview",
+        "tags": [
+          "Records Summary"
+        ],
+        "summary": "Retrieve a user's score overview",
+        "description": "Retrieves the `recordsSummary` overview for a specific user. If no overview exists, a new one will be created. Requires the user to be logged in.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Existing overview retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordsSummary"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Overview created as it did not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordsSummary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid userId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateUserScoresOverview",
+        "tags": [
+          "Records Summary"
+        ],
+        "summary": "Update a field in a user's score overview",
+        "description": "Updates a specific field in the `recordsSummary` for a user. Requires a user with RECORDS or higher roles.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the user"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "field": {
+                    "type": "string",
+                    "description": "The field name to update"
+                  },
+                  "value": {
+                    "type": "string",
+                    "description": "The value to set for the field"
+                  }
+                },
+                "required": [
+                  "field"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Overview updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordsSummary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required field or invalid JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to update overview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "SessionAuth": []
+          }
+        ]
+      }
+    },
+    "/api/users/invites": {
+      "get": {
+        "tags": [
+          "Invites"
+        ],
+        "summary": "Get pending invites for the current user",
+        "description": "Retrieves all pending invites for the currently authenticated user, matching either their user ID or ArcheryGB number.",
+        "responses": {
+          "200": {
+            "description": "List of pending invites retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "invites": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Invite"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Current user not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to fetch invites",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}
