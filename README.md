@@ -106,7 +106,7 @@ GITHUB_SECRET=""
 
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 
-All API endpoints are documented using Swagger (OpenAPI), meaning you can view, explore and test the API from your browser. This documentation is found on the [`/api/docs`](https://archery-tool.vercel.app/api/docs) path of the webpage.
+All API endpoints are documented using Swagger (OpenAPI), meaning you can view, explore and test the API from your browser. This documentation is found on the [`/api-docs`](https://archery-tool.vercel.app/api-docs) path of the webpage.
 
 Some endpoints require authentication so ensure you are logged in to access protected routes. Some protected routes require appropriate roles.
 
