@@ -1,23 +1,31 @@
 import { createSwaggerSpec } from "next-swagger-doc";
+import path from "path";
 
 export const getApiDocs = async () => {
-    const spec = createSwaggerSpec({
-        apiFolder: "src/app/api",
-        definition: {
-            openapi: "3.0.0",
-            info: {
-                title: "Archery Tool API",
-                version: "1.0",
-                description: "API for Archery Club and Records Management Tool",
-            },
-            components: {
-                securitySchemes: {
-                    SessionAuth: {
-                        type: "apiKey",
-                        in: "cookie",
-                        name: "next-auth.session-token",
-                        description: "NextAuth.js session cookie authentication",
-                    },
+    // Use absolute path to ensure correct resolution on all platforms
+    const apiFolder = path.join(process.cwd(), "src/app/api");
+    
+    console.log("Swagger API folder path:", apiFolder);
+    console.log("Current working directory:", process.cwd());
+    
+    try {
+        const spec = createSwaggerSpec({
+            apiFolder: apiFolder,
+            definition: {
+                openapi: "3.0.0",
+                info: {
+                    title: "Archery Tool API",
+                    version: "1.0",
+                    description: "API for Archery Club and Records Management Tool",
+                },
+                components: {
+                    securitySchemes: {
+                        SessionAuth: {
+                            type: "apiKey",
+                            in: "cookie",
+                            name: "next-auth.session-token",
+                            description: "NextAuth.js session cookie authentication",
+                        },
                 },
                 schemas: {
                     User: {
@@ -165,5 +173,30 @@ export const getApiDocs = async () => {
         },
     });
 
+    console.log("Swagger spec generated successfully. Paths found:", Object.keys((spec as any).paths || {}).length);
     return spec;
+    
+    } catch (error) {
+        console.error("Error creating swagger spec:", error);
+        // Return a basic spec if generation fails
+        return {
+            openapi: "3.0.0",
+            info: {
+                title: "Archery Tool API",
+                version: "1.0",
+                description: "API for Archery Club and Records Management Tool (Error: Could not scan API routes)",
+            },
+            paths: {},
+            components: {
+                securitySchemes: {
+                    SessionAuth: {
+                        type: "apiKey",
+                        in: "cookie",
+                        name: "next-auth.session-token",
+                        description: "NextAuth.js session cookie authentication",
+                    },
+                },
+            },
+        };
+    }
 };
