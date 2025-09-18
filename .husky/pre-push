@@ -1,2 +1,4 @@
 #!/bin/sh
-pnpm run lint:fix
+if [ -z "$VERCEL" ] && [ -z "$CI" ]; then
+  pnpm run lint:fix
+fi
