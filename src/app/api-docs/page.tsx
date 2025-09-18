@@ -5,7 +5,6 @@ import "swagger-ui-react/swagger-ui.css";
 import { useEffect, useState } from "react";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 export default function ApiDocsPage() {
     const [ specs, setSpecs ] = useState<any>(null);
