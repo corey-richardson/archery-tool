@@ -45,7 +45,6 @@ This links into the Role-Based Access permission levels, offering different acce
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
-![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
@@ -54,10 +53,15 @@ This links into the Role-Based Access permission levels, offering different acce
 ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 
+![Vitest](https://img.shields.io/badge/-Vitest-252529?style=for-the-badge&logo=vitest&logoColor=FCC72B)
+![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
+
 - Frontend: Next.js 15, React 18, TypeScript, CSS3
 - Backend: Next.js API Routes, Prisma ORM
 - Database: PostgreSQL
-- Authentication: NextAuth.js with OAuth (Google, Github) 
+- Authentication: NextAuth.js with OAuth (Google, Github)
+- Testing and Code Quality: Vitest, Husky, GitHub Actions
 - API Documentation: Swagger UI with enforced JSDoc `@swagger`
 - UI Components: Material-UI `DataGrid`
 - Deployment: Vercel

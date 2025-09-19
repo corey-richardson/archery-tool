@@ -8,7 +8,6 @@ Thank you for your interest in contributing to the Archery Tool! This project is
 - [Development Setup](#development-setup)
 - [Code Standards](#code-standards)
 - [Contribution Workflow](#contribution-workflow)
-- [Areas for Contribution](#areas-for-contribution)
 - [Issue Guidelines](#issue-guidelines)
 - [Testing](#testing)
 - [Documentation](#documentation)
