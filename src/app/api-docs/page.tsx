@@ -70,5 +70,5 @@ export default function ApiDocsPage() {
         );
     }
 
-    return <SwaggerUI spec={specs} />;
+    return <SwaggerUI spec={specs} tryItOutEnabled={false} supportedSubmitMethods={[]} />;
 }
