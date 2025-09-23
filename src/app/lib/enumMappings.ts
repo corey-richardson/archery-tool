@@ -26,6 +26,7 @@ export const EnumMappings: Record<string, string> = {
     OVER_FIFTY: "50+",
     // Relationship Type
     PARENT: "Parent",
+    GRANDPARENT: "Grandparent",
     GUARDIAN: "Guardian",
     SPOUSE: "Spouse",
     SIBLING: "Sibling",

@@ -106,6 +106,10 @@ describe("EnumMappings", () => {
         });
 
         it("should map GUARDIAN correctly", () => {
+            expect(EnumMappings.GRANDPARENT).toBe("Grandparent");
+        });
+
+        it("should map GUARDIAN correctly", () => {
             expect(EnumMappings.GUARDIAN).toBe("Guardian");
         });
 
@@ -196,7 +200,7 @@ describe("EnumMappings", () => {
         });
 
         it("should contain be the expected number of mappings", () => {
-            const expectedMinimumMappings = 51;
+            const expectedMinimumMappings = 52;
             expect(Object.keys(EnumMappings).length).toBe(expectedMinimumMappings);
         });
     });

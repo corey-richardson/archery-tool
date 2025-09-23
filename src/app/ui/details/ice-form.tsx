@@ -140,6 +140,7 @@ const EmergencyContactsForm = ({user} : any) => {
                 }}>
                     <option value="NOT_SET" disabled>Please Select</option>
                     <option value="PARENT">{ EnumMappings["PARENT"] }</option>
+                    <option value="GRANDPARENT">{ EnumMappings["GRANDPARENT"] }</option>
                     <option value="GUARDIAN">{ EnumMappings["GUARDIAN"] }</option>
                     <option value="SPOUSE">{ EnumMappings["SPOUSE"] }</option>
                     <option value="SIBLING">{ EnumMappings["SIBLING"] }</option>
@@ -219,13 +220,14 @@ const EmergencyContactsForm = ({user} : any) => {
                                     value={contact.relationshipType || "NOT_SET"}
                                     onChange={e => handleContactChange(idx, "relationshipType", e.target.value)}
                                 >
-                                    <option disabled value="NOT_SET">Select Relationship</option>
-                                    <option value="PARENT">Parent</option>
-                                    <option value="GUARDIAN">Guardian</option>
-                                    <option value="SPOUSE">Spouse or Partner</option>
-                                    <option value="SIBLING">Sibling</option>
-                                    <option value="FRIEND">Friend</option>
-                                    <option value="OTHER">Other</option>
+                                    <option value="NOT_SET" disabled>Please Select</option>
+                                    <option value="PARENT">{ EnumMappings["PARENT"] }</option>
+                                    <option value="GRANDPARENT">{ EnumMappings["GRANDPARENT"] }</option>
+                                    <option value="GUARDIAN">{ EnumMappings["GUARDIAN"] }</option>
+                                    <option value="SPOUSE">{ EnumMappings["SPOUSE"] }</option>
+                                    <option value="SIBLING">{ EnumMappings["SIBLING"] }</option>
+                                    <option value="FRIEND">{ EnumMappings["FRIEND"] }</option>
+                                    <option value="OTHER">{ EnumMappings["OTHER"] }</option>
                                 </select>
 
                                 <div style={{ display: "flex", alignContent: "center", gap: "1.5rem" }}>

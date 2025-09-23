@@ -211,6 +211,7 @@ enum AgeCategories {
 
 enum RelationshipType {
   PARENT
+  GRANDPARENT
   GUARDIAN
   SPOUSE
   SIBLING

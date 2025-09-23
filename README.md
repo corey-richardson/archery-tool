@@ -343,6 +343,7 @@ npx prisma format      # format the schema, like linting
 | Enum Value       | Display Name      |
 |-----------------|-----------------|
 | PARENT           | Parent           |
+| GRANDPARENT      | Grandparent      |
 | GUARDIAN         | Guardian         |
 | SPOUSE           | Spouse           |
 | SIBLING          | Sibling          |
