@@ -18,6 +18,7 @@ const EmergencyContactsForm = ({user} : any) => {
 
     const [ isLoading, setIsLoading ] = useState(false);
     const [ changesPending, setChangesPending ] = useState(false);
+    const [ error, setError ] = useState<string | null>(null);
 
     const [ newContactName, setNewContactName ] = useState<string>("");
     const [ newContactPhone, setNewContactPhone ] = useState<string>("");
@@ -37,6 +38,8 @@ const EmergencyContactsForm = ({user} : any) => {
 
 
     const handleContactChange = (index: number, field: keyof Contact, value: string) => {
+        setError(null);
+
         setContacts(prev =>
             prev.map((contact, i) =>
                 i === index ? { ...contact, [field]: value } : contact
@@ -48,7 +51,15 @@ const EmergencyContactsForm = ({user} : any) => {
 
 
     const handleUpdateExistingContact = async (contact: Contact) => {
+        // Uses optimistic loading to improve UI responsiveness
         setIsLoading(true);
+
+        setContacts(prev =>
+            prev.map(c => c.id === contact.id ? { ...contact, updatedAt: new Date().toISOString() } : c)
+        );
+
+        setIsLoading(false);
+
         const response = await fetch(`/api/emergency-contacts/contact/${contact.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
@@ -56,28 +67,63 @@ const EmergencyContactsForm = ({user} : any) => {
         });
 
         if (response.ok) {
-            setIsLoading(false);
+            const updatedContact = await response.json();
+            setContacts(prev =>
+                prev.map(c => c.id === contact.id ? updatedContact : c)
+            );
+
             setPendingChanges(prev => prev.filter(id => id !== contact.id));
+        } else {
+            setError("Failed to update contact: " + (response.status ?? "unknown error") + ".");
+            fetchContacts();
         }
+
+        setIsLoading(false);
     }
 
 
     const handleDeleteExistingContact = async (contactId: string) => {
+        // Uses optimistic loading to improve UI responsiveness
         setIsLoading(true);
+
+        const prevContacts = contacts;
+        setContacts(prev => prev.filter(contact => contact.id !== contactId));
+
         const response = await fetch(`/api/emergency-contacts/contact/${contactId}`, {
             method: "DELETE"
         });
 
-        if (response.ok) {
-            setContacts(prev => prev.filter(contact => contact.id !== contactId));
-            setIsLoading(false);
+        if (!response.ok) {
+            setError("Failed to delete contact: " + (response.status ?? "unknown error") + ".");
+            setContacts(prevContacts);
         }
+
+        setIsLoading(false);
     }
 
 
     const handleCreateNewContact = async (e: React.FormEvent) => {
+        // Uses optimistic loading to improve UI responsiveness
         e.preventDefault();
         setIsLoading(true);
+
+        const tempId = "temp-" + Date.now();
+        const optimisticContact = {
+            id: tempId,
+            contactName: newContactName,
+            contactPhone: newContactPhone,
+            contactEmail: newContactEmail,
+            relationshipType: newContactRelationship,
+            updatedAt: new Date().toISOString(),
+        };
+        setContacts(prev => [ ...prev, optimisticContact ]);
+
+        setNewContactName("");
+        setNewContactPhone("");
+        setNewContactEmail("");
+        setNewContactRelationship("NOT_SET");
+
+        setIsLoading(false);
 
         const response = await fetch(`/api/emergency-contacts/user/${user.id}`, {
             method: "POST",
@@ -91,13 +137,13 @@ const EmergencyContactsForm = ({user} : any) => {
         });
 
         if (response.ok) {
-            fetchContacts().then(() => {
-                setNewContactName("");
-                setNewContactPhone("");
-                setNewContactEmail("");
-                setNewContactRelationship("NOT_SET");
-                setIsLoading(false);
-            });
+            const newContact = await response.json();
+            setContacts( prev =>
+                prev.map(c => c.id === tempId ? newContact : c)
+            );
+        } else {
+            setError("Failed to create contact: " + (response.status ?? "unknown error") + ".");
+            setContacts(prev => prev.filter(c => c.id !== tempId));
         }
     }
 
@@ -244,6 +290,8 @@ const EmergencyContactsForm = ({user} : any) => {
                                 <p style={{"marginTop": "12px"}} className="small centred">
                                     These details were last updated at { new Date(contact.updatedAt).toLocaleString() }. Are they still in date?
                                 </p>
+
+                                {error && <p className="small centred" style={{ color: "red" }}>{error}</p>}
                             </form>
                         )}
                     </div>
