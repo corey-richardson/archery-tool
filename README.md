@@ -1,5 +1,6 @@
 # Archery Tool (WIP)
 
+![GitHub Release](https://img.shields.io/github/v/release/corey-richardson/archery-tool)
 [![Run Tests](https://github.com/corey-richardson/archery-tool/actions/workflows/test.yaml/badge.svg)](https://github.com/corey-richardson/archery-tool/actions/workflows/test.yaml)
 ![Deployment](https://img.shields.io/github/deployments/corey-richardson/archery-tool/production?label=Deployment%20Status)
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Farchery-tool.vercel.app%2F&up_message=online&label=Vercel%20Site)
