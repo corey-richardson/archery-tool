@@ -1,4 +1,4 @@
-# Archery Tool (WIP)
+# Archery Tool
 
 ![GitHub Release](https://img.shields.io/github/v/release/corey-richardson/archery-tool)
 [![Run Tests](https://github.com/corey-richardson/archery-tool/actions/workflows/test.yaml/badge.svg)](https://github.com/corey-richardson/archery-tool/actions/workflows/test.yaml)
@@ -26,6 +26,7 @@
 8. [Contributing](#contributing)
 9. [License](#license)
 10. [Support](#support)
+11. [Privacy Policy](#privacy-policy)
 
 ## Overview
 
@@ -291,7 +292,8 @@ npx prisma format      # format the schema, like linting
 
 ### Enums
 
-#### Age Categories
+<details>
+<summary>Age Categories</summary>
 
 | Enum Value       | Display Name      |
 |-----------------|-----------------|
@@ -304,7 +306,10 @@ npx prisma format      # format the schema, like linting
 | SENIOR          | Senior          |
 | OVER_FIFTY      | Over Fifty      |
 
-#### Bow Styles
+</details>
+
+<details>
+<summary>Bow Styles</summary>
 
 | Enum Value       | Display Name      |
 |-----------------|-----------------|
@@ -314,7 +319,10 @@ npx prisma format      # format the schema, like linting
 | LONGBOW          | Longbow          |
 | TRADITIONAL      | Traditional      |
 
-#### Membership Roles
+</details>
+
+<details>
+<summary>Membership Roles</summary>
 
 | Enum Value       | Display Name      |
 |-----------------|-----------------|
@@ -324,6 +332,11 @@ npx prisma format      # format the schema, like linting
 | CAPTAIN          | Captain          |
 | ADMIN            | Admin            |
 
+</details>
+
+<details>
+<summary>Round Types</summary>
+
 #### Round Types
 
 | Enum Value       | Display Name      |
@@ -331,7 +344,10 @@ npx prisma format      # format the schema, like linting
 | INDOOR           | Indoor           |
 | OUTDOOR          | Outdoor          |
 
-### Sex
+</details>
+
+<details>
+<summary>Sex</summary>
 
 | Enum Value       | Display Name      |
 |-----------------|-----------------|
@@ -339,7 +355,10 @@ npx prisma format      # format the schema, like linting
 | FEMALE           | Female           |
 | NOT_SET          | Not Set          |
 
-#### Relationship Types for Emergency Contact Details
+</details>
+
+<details>
+<summary>Relationship Types for Emergency Contact Details</summary>
 
 | Enum Value       | Display Name      |
 |-----------------|-----------------|
@@ -351,7 +370,10 @@ npx prisma format      # format the schema, like linting
 | FRIEND           | Friend           |
 | OTHER            | Other            |
 
-#### Indoor Classifications
+</details>
+
+<details>
+<summary>Indoor Classifications</summary>
 
 | Enum Value       | Display Name               |
 |-----------------|---------------------------|
@@ -365,7 +387,10 @@ npx prisma format      # format the schema, like linting
 | IGMB             | Indoor Grand Master Bowman|
 | UNCLASSIFIED     | Unclassified              |
 
-#### Outdoor Classifications
+</details>
+
+<details>
+<summary>Outdoor Classifications</summary>
 
 | Enum Value       | Display Name               |
 |-----------------|---------------------------|
@@ -380,8 +405,10 @@ npx prisma format      # format the schema, like linting
 | EMB              | Elite Master Bowman        |
 | UNCLASSIFIED     | Unclassified               |
 
+</details>
 
-#### Competition Levels
+<details>
+<summary>Competition Levels</summary>
 
 | Enum Value                 | Display Name             |
 |----------------------------|-------------------------|
@@ -390,7 +417,10 @@ npx prisma format      # format the schema, like linting
 | OPEN_COMPETITION           | Open Competition        |
 | RECORDSTATUS_COMPETITION   | Record Status Competition|
 
-#### Invite Status
+</details>
+
+<details>
+<summary>Invite Status</summary>
 
 | Enum Value       | Display Name      |
 |-----------------|-----------------|
@@ -399,6 +429,7 @@ npx prisma format      # format the schema, like linting
 | DECLINED         | Declined         |
 | EXPIRED          | Expired (Not used) |
 
+</details>
 
 ## `lib` Utilities
 
@@ -540,3 +571,7 @@ To report a bug, please open a GitHub Issue or contact me directly; I have an ar
 [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?style=for-the-badge&logo=Instagram&logoColor=white)](https://www.instagram.com/corey.richardson.archery/) 
 
 [@corey.richardson.archery](https://www.instagram.com/corey.richardson.archery/)
+
+## Privacy Policy
+
+For the Privacy Policy, see [PRIVACY.md](./PRIVACY.md).
