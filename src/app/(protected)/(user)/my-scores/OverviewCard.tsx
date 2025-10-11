@@ -51,8 +51,8 @@ const OverviewCard = ({ userId }: { userId: string }) => {
 
                 <div>
                     <p><b>Outdoor Classification:</b> { overview.outdoorClassification ? EnumMappings[overview.outdoorClassification] : EnumMappings["UNCLASSIFIED"] }</p>
-                    { overview.outdoorBadgeGiven && <p><b>Indoor Badge Received:</b> { EnumMappings[overview.outdoorBadgeGiven] || overview.outdoorBadgeGiven }</p> }
-                    { overview.outdoorHandicap && <p><b>Indoor Handicap:</b> { overview.outdoorHandicap }</p> }
+                    { overview.outdoorBadgeGiven && <p><b>Outdoor Badge Received:</b> { EnumMappings[overview.outdoorBadgeGiven] || overview.outdoorBadgeGiven }</p> }
+                    { overview.outdoorHandicap && <p><b>Outdoor Handicap:</b> { overview.outdoorHandicap }</p> }
                 </div>
             </div>
         </div>
