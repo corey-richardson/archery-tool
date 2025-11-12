@@ -39,7 +39,7 @@ export default function ClubCards( { userId } : ClubcardProps ) {
                 }
 
                 if (inviteResponse.ok) {
-                    setInvites(invitesData.clubs.length);
+                    setInvites(invitesData.invites.length);
                 } else {
                     setError(invitesData.error || "Failed to load invites.");
                 }
