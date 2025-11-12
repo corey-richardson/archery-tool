@@ -1,5 +1,6 @@
 "use client";
 
+import { FormControl, Select, MenuItem } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { EnumMappings } from "@/app/lib/enumMappings";
 import { useState } from "react";
@@ -227,7 +228,8 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
         roundType: "all",
         dateStart: "",
         dateEnd: "",
-        searchTerm: ""
+        searchTerm: "",
+        competitionLevels: [] as string[],
     });
 
     const filteredScores = scores.filter(score => {
@@ -258,6 +260,10 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
             ].join(" ").toLowerCase();
 
             if (!searchableText.includes(searchLower)) return false;
+        }
+
+        if (filters.competitionLevels.length > 0) {
+            if (!filters.competitionLevels.includes(score.competitionLevel)) return false;
         }
 
         return true;
@@ -448,6 +454,38 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
                     />
                 </div>
 
+                <FormControl
+                    variant="outlined"
+                    size="small"
+                    style={{ minWidth: "180px" }}
+                >
+
+                    <Select
+                        multiple
+                        displayEmpty
+                        value={filters.competitionLevels}
+
+                        onChange={(e) => {
+                            const value = e.target.value as string[];
+                            setFilters(prev => ({ ...prev, competitionLevels: value }));
+                        }}
+
+                        renderValue={(selected) => {
+                            if (selected.length === 0) return "Competition Level";
+                            if (selected.length === 1) return EnumMappings[selected[0]] || selected[0];
+                            return selected.map(v => EnumMappings[v] || v).join(", ");
+                        }}
+
+                        style={{ backgroundColor: "white", margin: "0.1rem", borderRadius: "4px", height: "35px" }}
+                    >
+                        <MenuItem value="PRACTICE">Club Practice</MenuItem>
+                        <MenuItem value="CLUB_EVENT">Club Event</MenuItem>
+                        <MenuItem value="OPEN_COMPETITION">Open Competition</MenuItem>
+                        <MenuItem value="RECORDSTATUS_COMPETITION">Record Status Competition</MenuItem>
+
+                    </Select>
+                </FormControl>
+
                 <button
                     className='btn-secondary'
                     onClick={() => setFilters({
@@ -455,7 +493,8 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
                         roundType: "all",
                         dateStart: "",
                         dateEnd: "",
-                        searchTerm: ""
+                        searchTerm: "",
+                        competitionLevels: [],
                     })}
                     style={{
                         padding: "0.5rem 1rem",
