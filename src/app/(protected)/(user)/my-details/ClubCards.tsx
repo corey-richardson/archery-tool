@@ -13,14 +13,46 @@ export default function ClubCards( { userId } : ClubcardProps ) {
     const [ clubs, setClubs ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
 
+    const [ invites, setInvites ] = useState(0);
+    const [ error, setError ] = useState<string | null>(null);
+
     useEffect(() => {
-        const fetchUsersClubs = async () => {
-            const res = await fetch(`/api/users/${userId}/clubs`);
-            const data = await res.json();
-            setClubs(data.clubs);
-            setIsLoading(false);
+        const fetchData = async () => {
+            setIsLoading(true);
+            setError(null);
+
+            try {
+                const [ clubResponse, inviteResponse ] = await Promise.all([
+                    fetch(`/api/users/${userId}/clubs`),
+                    fetch(`/api/users/invites`)
+                ]);
+
+                const [ clubsData, invitesData ] = await Promise.all([
+                    clubResponse.json(),
+                    inviteResponse.json()
+                ]);
+
+                if (clubResponse.ok) {
+                    setClubs(clubsData.clubs);
+                } else {
+                    setError(clubsData.error || "Failed to load clubs.");
+                }
+
+                if (inviteResponse.ok) {
+                    setInvites(invitesData.clubs.length);
+                } else {
+                    setError(invitesData.error || "Failed to load invites.");
+                }
+            }
+            catch (error) {
+                setError("Failed to load data: " + error);
+            }
+            finally {
+                setIsLoading(false);
+            }
         }
-        fetchUsersClubs();
+
+        fetchData();
     }, [ userId ]);
 
     const handleLeaveClub = async (clubId: string) => {
@@ -78,7 +110,10 @@ export default function ClubCards( { userId } : ClubcardProps ) {
                 </>
             )}
 
-            <p className="centred">To join a club, ask one of your Club's Admins to send you an <Link className="blue bold" href="./club/invites">invite</Link> now. If you are a Committee member of a Club, you can <Link className="blue bold" href="./club/create">Create a New Club</Link> instead.</p>
+            <p className="centred">To join a club, ask one of your Club's Admins to send you an invite now. If you are a Committee member of a Club, you can <Link className="blue bold" href="./club/create">Create a New Club</Link> instead.</p>
+            <button className="btn-secondary"><Link className="blue bold" href="./club/invites">View Invites ({ invites })</Link></button>
+
+            {error && <div style={{ color: "red" }}>{error}</div>}
         </>
     )
 }
