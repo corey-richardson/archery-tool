@@ -19,7 +19,7 @@ async function Records() {
         where: {
             userId,
             roles: {
-                hasSome: [ "ADMIN", "RECORDS" ],
+                hasSome: [ "ADMIN", "CAPTAIN", "RECORDS" ],
             },
             endedAt: null,
         },
