@@ -319,7 +319,7 @@ export default function RecordsManagement({ initialScores, initialFilterModel }:
             field: "roundHandicap",
             headerName: "Handicap",
             flex: 0.6,
-            sortable: false,
+            sortable: true,
             renderCell: (params) => <HandicapInput scoreId={params.row.id} initialValue={params.value ?? ""} />
         },
 
